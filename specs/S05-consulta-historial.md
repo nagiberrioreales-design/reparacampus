@@ -71,4 +71,4 @@ Las consultas no modifican datos. Devuelven listados autorizados, historial y m�
 Cubrir permisos por rol, filtros, acceso directo no autorizado, historial completo, no edición/borrado, conteos, porcentaje normal y caso cero.
 
 ## Decisión de revisión
-**Pendiente. No implementar S05 hasta registrar una revisión humana aprobada de esta versión.**
+**Aprobada en el PR #6 antes de iniciar la implementación. La versión 0.1 se conserva como línea base de la SPEC.**
