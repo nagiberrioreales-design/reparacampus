@@ -8,7 +8,7 @@ El examen se trabajó con el mismo equipo del proyecto integrador. Para esta ent
 | Steven Reyes | Revisión previa de SPECS y revisión de las cinco implementaciones | Aprobaciones en PR #6, #7, #8, #9, #10 y #11 desde `stivenuwu670` | Revisó cambios realizados desde la cuenta principal | Verificable |
 | Juan González | Revisión del modelo de estados, permisos y secuencia de rechazo | Issue #12 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
 | Leyter López | Revisión del modelo de datos y consistencia estado/historial | Issue #13 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
-| Milton Ramírez | Revisión de límites y recorridos de integración | Issue #14 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
+| Milton Ramírez | Revisión de límites y recorridos de integración | Issue #14 comentado desde `Bellator07`; revisión `APPROVED` en PR #16 | Revisión personal registrada en GitHub | Verificable |
 | Santiago Hernández | Revisión de instalación, README y demostración | Issue #15 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
 
 ## Cómo cerrar las cuatro evidencias pendientes
