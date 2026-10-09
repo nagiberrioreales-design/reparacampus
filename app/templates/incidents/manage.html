@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Gestión de incidencias · ReparaCampus{% endblock %}
+{% block content %}
+<div class="heading-row">
+  <div>
+    <h1>Gestión de incidencias</h1>
+    <p>El coordinador puede asignar solamente reportes REGISTRADA a técnicos activos. La prioridad se calcula en el servidor.</p>
+  </div>
+</div>
+
+{% if incidents %}
+<table>
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Solicitante</th>
+      <th>Ubicación</th>
+      <th>Impacto / riesgo</th>
+      <th>Prioridad</th>
+      <th>Estado</th>
+      <th>Técnico</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for incident in incidents %}
+    <tr>
+      <td>{{ incident['code'] }}</td>
+      <td>{{ incident['requester_name'] }}</td>
+      <td>{{ incident['location'] }}</td>
+      <td>{{ incident['impact'] }} / {{ 'Sí' if incident['risk_people'] else 'No' }}</td>
+      <td>{{ incident['priority'] or 'Pendiente' }}</td>
+      <td>{{ incident['state'] }}</td>
+      <td>{{ incident['technician_name'] or 'Sin asignar' }}</td>
+      <td>
+        {% if incident['state'] == 'REGISTRADA' and not incident['assigned_technician_id'] %}
+          <form method="post" action="{{ url_for('incidents.assign', incident_id=incident['id']) }}">
+            <select name="technician_id" required>
+              <option value="">Técnico</option>
+              {% for technician in technicians %}
+                <option value="{{ technician['id'] }}">{{ technician['display_name'] }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit">Asignar</button>
+          </form>
+        {% else %}
+          <span>Sin acción disponible</span>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <div class="card"><p>No hay incidencias registradas.</p></div>
+{% endif %}
+{% endblock %}
