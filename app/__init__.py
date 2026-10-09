@@ -24,6 +24,9 @@ def create_app(test_config=None):
     from . import incidents
     app.register_blueprint(incidents.bp)
 
+    from . import reporting
+    app.register_blueprint(reporting.bp)
+
     @app.route("/")
     def index():
         if g.user is None:

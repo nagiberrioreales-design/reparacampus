@@ -14,6 +14,7 @@
     </div>
     {% if g.user %}
       <div class="session">
+        <a class="button secondary" href="{{ url_for('reporting.list_incidents') }}">Consultar</a>
         <span>{{ g.user['display_name'] }} · {{ g.user['role'] }}</span>
         <form method="post" action="{{ url_for('auth.logout') }}">
           <button class="secondary" type="submit">Cerrar sesión</button>
