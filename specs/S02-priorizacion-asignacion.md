@@ -68,4 +68,4 @@ Incluye cálculo de prioridad y asignación inicial de una incidencia `REGISTRAD
 Cubrir las tres prioridades, asignación válida, rol incorrecto, técnico inactivo, estado incompatible y reasignación rechazada.
 
 ## Decisión de revisión
-**Pendiente. No implementar S02 hasta registrar una revisión humana aprobada de esta versión.**
+**Aprobada en el PR #6 antes de iniciar la implementación. La versión 0.1 se conserva como línea base de la SPEC.**
