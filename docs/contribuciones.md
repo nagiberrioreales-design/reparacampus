@@ -9,11 +9,11 @@ El examen se trabajó con el mismo equipo del proyecto integrador. Para esta ent
 | Juan González | Revisión del modelo de estados, permisos y secuencia de rechazo | Issue #12 comentado desde `GM-Talent`; revisión `APPROVED` en PR #16 | Revisión personal registrada en GitHub | Verificable |
 | Leyter López | Revisión del modelo de datos y consistencia estado/historial | Issue #13 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
 | Milton Ramírez | Revisión de límites y recorridos de integración | Issue #14 comentado desde `Bellator07`; revisión `APPROVED` en PR #16 | Revisión personal registrada en GitHub | Verificable |
-| Santiago Hernández | Revisión de instalación, README y demostración | Issue #15 | Debe dejar comentario y revisar PR de cierre | Pendiente de evidencia personal |
+| Santiago Hernández | Revisión de instalación, README y arquitectura | Issue #15 comentado desde `snt-10`; comentario de revisión en PR #16 | Revisión personal registrada en GitHub | Verificable |
 
 ## Cómo cerrar las evidencias pendientes
 
-Leyter y Santiago deben entrar con sus propias cuentas de GitHub al issue que les corresponde, revisar los archivos indicados y dejar un comentario corto con lo que comprobaron. Después deben revisar el PR de cierre. Además, Henry debe revisar un cambio real realizado por otro integrante para cumplir literalmente el requisito de revisión cruzada.
+Leyter debe entrar con su propia cuenta de GitHub al Issue #13, revisar los archivos indicados y dejar un comentario corto con lo que comprobó. Después debe revisar el PR de cierre. Además, Henry debe revisar un cambio real realizado por otro integrante para cumplir literalmente el requisito de revisión cruzada.
 
 No se marcarán estas cuatro filas como verificables hasta que exista esa acción real. No queremos presentar como hecha una participación que GitHub todavía no demuestra.
 
@@ -23,7 +23,7 @@ La aceptación final se registrará después de:
 
 1. CI final en verde;
 2. revisión del PR de cierre;
-3. cierre de los issues #13 y #15; los #12 (Juan) y #14 (Milton) ya están completados;
+3. cierre del Issue #13; los #12 (Juan), #14 (Milton) y #15 (Santiago) ya están completados;
 4. revisión de Henry sobre un cambio real de otro integrante;
 5. creación del tag `release-examen`;
 6. comprobación del PDF y de los enlaces.
