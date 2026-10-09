@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar sesión · ReparaCampus{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Iniciar sesión</h1>
+  <p>Usa una de las cuentas ficticias preparadas para el examen.</p>
+  <form method="post">
+    <label>Usuario
+      <input name="username" required autocomplete="username">
+    </label>
+    <label>Contraseña
+      <input name="password" type="password" required autocomplete="current-password">
+    </label>
+    <button type="submit">Entrar</button>
+  </form>
+</section>
+{% endblock %}
