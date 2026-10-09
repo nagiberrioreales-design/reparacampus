@@ -74,3 +74,29 @@ def test_s01_ignores_forged_author_and_escapes_stored_text(app, client):
     assert page.status_code == 200
     assert b"<script>" not in page.data
     assert b"&lt;script&gt;" in page.data
+
+
+@pytest.mark.integration
+def test_persistence_survives_application_restart(app, client):
+    login(client)
+    response = client.post("/incidents/new", data=VALID_FORM)
+    assert response.status_code == 302
+
+    database_path = app.config["DATABASE"]
+
+    from app import create_app
+    restarted_app = create_app(
+        {
+            "TESTING": True,
+            "SECRET_KEY": "restart-test-secret",
+            "DATABASE": database_path,
+        }
+    )
+
+    with restarted_app.app_context():
+        db = get_db()
+        incident_count = db.execute("SELECT COUNT(*) FROM incidents").fetchone()[0]
+        event_count = db.execute("SELECT COUNT(*) FROM events").fetchone()[0]
+
+        assert incident_count == 1
+        assert event_count == 1
