@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Mis incidencias · ReparaCampus{% endblock %}
+{% block content %}
+<div class="heading-row">
+  <div>
+    <h1>Mis incidencias</h1>
+    <p>Solo se muestran reportes del solicitante que inició sesión.</p>
+  </div>
+  <a class="button" href="{{ url_for('incidents.create') }}">Registrar incidencia</a>
+</div>
+
+{% if incidents %}
+<table>
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Ubicación</th>
+      <th>Categoría</th>
+      <th>Descripción</th>
+      <th>Impacto</th>
+      <th>Riesgo</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for incident in incidents %}
+    <tr>
+      <td>{{ incident['code'] }}</td>
+      <td>{{ incident['location'] }}</td>
+      <td>{{ incident['category'] }}</td>
+      <td>{{ incident['description'] }}</td>
+      <td>{{ incident['impact'] }}</td>
+      <td>{{ 'Sí' if incident['risk_people'] else 'No' }}</td>
+      <td>{{ incident['state'] }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <div class="card"><p>Todavía no has registrado incidencias.</p></div>
+{% endif %}
+{% endblock %}
