@@ -38,7 +38,7 @@ En el equipo usamos ChatGPT como apoyo, pero no copiamos toda la conversación a
 - **Respuesta relevante:** pruebas por SPEC y `tests/test_integration_flows.py`.
 - **Decisión humana y justificación:** los esperados se escribieron desde las SPECS y no llamando a la misma función de producción para calcular la respuesta esperada.
 - **Error o limitación encontrada:** en la revisión de cobertura vimos que S03 todavía no tenía pruebas directas para iniciar desde un estado incompatible, proponer solución antes de iniciar y mostrar una solución parecida a script.
-- **Corrección y verificación:** se agregaron esas tres pruebas antes del cierre. La suite final llegó a 53 pruebas.
+- **Corrección y verificación:** se agregaron esas tres pruebas antes del cierre. La suite final llegó a 56 pruebas.
 - **Archivo / commit / prueba:** `tests/test_s03_attention_solution.py`, `tests/test_s04_validation_reopen.py`, `tests/test_s05_query_history.py`, `tests/test_integration_flows.py`.
 
 ## Intervención IA-04 — Revisión final de trazabilidad y documentación
@@ -51,5 +51,5 @@ En el equipo usamos ChatGPT como apoyo, pero no copiamos toda la conversación a
 - **Respuesta relevante:** matriz SPEC/código, cuatro riesgos, diagramas y lista de contribuciones verificables/pendientes.
 - **Decisión humana y justificación:** se decidió declarar de forma explícita las evidencias individuales que todavía deben dejar Juan, Leyter, Milton y Santiago, en vez de afirmar que ya existen.
 - **Error o limitación encontrada:** aunque el PR #6 había sido aprobado antes del código, los archivos S01–S05 todavía conservaban el texto “revisor pendiente”.
-- **Corrección y verificación:** se actualizó únicamente la metadata de revisión para registrar a Steven Reyes y la aprobación del PR #6, sin cambiar las reglas de las SPECS. GitHub Actions del cierre ejecutó 53 pruebas y terminó en success.
+- **Corrección y verificación:** se actualizó únicamente la metadata de revisión para registrar a Steven Reyes y la aprobación del PR #6, sin cambiar las reglas de las SPECS. GitHub Actions del cierre ejecutó 56 pruebas y terminó en success.
 - **Archivo / commit / prueba:** `docs/matriz-spec-codigo.md`, `docs/riesgos.md`, `docs/arquitectura.md`, `docs/contribuciones.md`; PR #16.
