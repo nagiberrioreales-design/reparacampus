@@ -66,4 +66,4 @@ Incluye la creación de una incidencia por un solicitante autenticado. No incluy
 Cubrir caso válido, 19/20/500/501 caracteres, catálogos inválidos, permisos, autor manipulado y texto no ejecutable.
 
 ## Decisión de revisión
-**Pendiente. No implementar S01 hasta registrar una revisión humana aprobada de esta versión.**
+**Aprobada en el PR #6 antes de iniciar la implementación. La versión 0.1 se conserva como línea base de la SPEC.**
