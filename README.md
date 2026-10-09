@@ -90,6 +90,10 @@ Son cuentas ficticias del prototipo. No se usan datos personales reales.
 7. En **Consultar** se puede revisar el historial según los permisos de cada rol.
 8. El coordinador puede ver filtros y métricas del tablero.
 
+### Verificación manual de permisos
+
+Durante la demostración se recomienda cerrar sesión antes de cambiar de rol. También se puede intentar acceder directamente a una ruta de otro rol para comprobar que los permisos se validan en el servidor y no solamente ocultando botones en la interfaz.
+
 ## Pruebas
 
 Ejecutar:
