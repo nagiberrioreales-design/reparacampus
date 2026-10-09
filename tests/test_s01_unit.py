@@ -46,3 +46,9 @@ def test_s01_trims_external_spaces_before_counting():
     cleaned, errors = validate_new_incident(valid_data(description="   " + ("z" * 20) + "   "))
     assert errors == {}
     assert cleaned["description"] == "z" * 20
+
+
+def test_s01_accepts_exactly_500_characters():
+    cleaned, errors = validate_new_incident(valid_data(description="x" * 500))
+    assert errors == {}
+    assert len(cleaned["description"]) == 500
