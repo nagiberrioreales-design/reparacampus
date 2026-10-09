@@ -1,0 +1,58 @@
+@startuml
+title ReparaCampus - Modelo de datos
+
+entity users {
+  * id : INTEGER <<PK>>
+  --
+  username : TEXT <<UNIQUE>>
+  display_name : TEXT
+  password_hash : TEXT
+  role : TEXT
+  active : INTEGER
+}
+
+entity incidents {
+  * id : INTEGER <<PK>>
+  --
+  code : TEXT <<UNIQUE>>
+  requester_id : INTEGER <<FK>>
+  location : TEXT
+  category : TEXT
+  description : TEXT
+  impact : TEXT
+  risk_people : INTEGER
+  priority : TEXT
+  state : TEXT
+  assigned_technician_id : INTEGER <<FK>>
+  created_at : TEXT
+  closed_at : TEXT
+}
+
+entity solutions {
+  * id : INTEGER <<PK>>
+  --
+  incident_id : INTEGER <<FK>>
+  technician_id : INTEGER <<FK>>
+  text : TEXT
+  created_at : TEXT
+}
+
+entity events {
+  * id : INTEGER <<PK>>
+  --
+  incident_id : INTEGER <<FK>>
+  actor_id : INTEGER <<FK>>
+  action : TEXT
+  from_state : TEXT
+  to_state : TEXT
+  detail : TEXT
+  created_at : TEXT
+}
+
+users ||--o{ incidents : "solicita"
+users ||--o{ incidents : "atiende"
+incidents ||--o{ solutions : "tiene"
+users ||--o{ solutions : "registra"
+incidents ||--o{ events : "historial"
+users ||--o{ events : "realiza"
+@enduml
