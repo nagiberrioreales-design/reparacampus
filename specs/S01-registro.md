@@ -3,7 +3,8 @@
 **Versión:** 0.1  
 **Fecha:** 08/10/2026  
 **Autor documental:** Equipo ReparaCampus  
-**Revisor:** Pendiente de revisión por otro integrante antes de implementar  
+**Revisor:** Steven Reyes  
+**Fecha de revisión:** 08/10/2026  
 **Requisito asociado:** RF01
 
 ## Historia
