@@ -74,4 +74,4 @@ Incluye confirmación de solución, rechazo con motivo y reapertura dentro del p
 Cubrir confirmación válida, propietario ajeno, rechazo válido/inválido, exactamente 48 h, >48 h, coordinador no autorizado y conservación de historial.
 
 ## Decisión de revisión
-**Pendiente. No implementar S04 hasta registrar una revisión humana aprobada de esta versión.**
+**Aprobada en el PR #6 antes de iniciar la implementación. La versión 0.1 se conserva como línea base de la SPEC.**
