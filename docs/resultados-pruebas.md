@@ -11,11 +11,11 @@ pytest -q
 Resultado observado en el cierre del PR #16:
 
 ```text
-..................................................... [100%]
-53 passed
+........................................................ [100%]
+56 passed
 ```
 
-En la ejecución registrada, las 53 pruebas terminaron correctamente y no hubo fallos.
+En la ejecución registrada, las 56 pruebas terminaron correctamente y no hubo fallos.
 
 ## Qué cubre la suite
 
@@ -38,7 +38,10 @@ La suite contiene pruebas de:
 - filtros y acceso por roles;
 - historial sin edición;
 - tablero y porcentaje de cierre;
-- caso con cero incidencias.
+- caso con cero incidencias;
+- persistencia después de reiniciar la aplicación;
+- límite máximo exacto de 500 caracteres;
+- disminución del porcentaje de cierre después de reabrir, conservando el cierre previo.
 
 ## Tres pruebas de integración pedidas por el examen
 
