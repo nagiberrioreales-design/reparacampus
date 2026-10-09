@@ -32,6 +32,8 @@ def create_app(test_config=None):
             return redirect(url_for("incidents.index"))
         if g.user["role"] == "COORDINADOR":
             return redirect(url_for("incidents.manage"))
+        if g.user["role"] == "TECNICO":
+            return redirect(url_for("incidents.assigned"))
         return render_template("home.html")
 
     return app
