@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Registrar incidencia · ReparaCampus{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Registrar incidencia</h1>
+  <p>Los campos se validan nuevamente en el servidor antes de guardar.</p>
+
+  <form method="post">
+    <label>Ubicación
+      <select name="location" required>
+        <option value="">Selecciona una ubicación</option>
+        {% for item in ['LAB-01', 'AULA-201', 'BIB-01'] %}
+          <option value="{{ item }}" {% if values.get('location') == item %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.get('location') %}<small class="error">{{ errors['location'] }}</small>{% endif %}
+    </label>
+
+    <label>Categoría
+      <select name="category" required>
+        <option value="">Selecciona una categoría</option>
+        {% for item in ['ELECTRICIDAD', 'HIDRAULICA', 'MOBILIARIO', 'TIC'] %}
+          <option value="{{ item }}" {% if values.get('category') == item %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.get('category') %}<small class="error">{{ errors['category'] }}</small>{% endif %}
+    </label>
+
+    <label>Descripción
+      <textarea name="description" minlength="20" maxlength="500" required>{{ values.get('description', '') }}</textarea>
+      {% if errors.get('description') %}<small class="error">{{ errors['description'] }}</small>{% endif %}
+    </label>
+
+    <label>Impacto
+      <select name="impact" required>
+        <option value="">Selecciona impacto</option>
+        {% for item in ['BAJO', 'ALTO'] %}
+          <option value="{{ item }}" {% if values.get('impact') == item %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.get('impact') %}<small class="error">{{ errors['impact'] }}</small>{% endif %}
+    </label>
+
+    <label>¿Hay riesgo para personas?
+      <select name="risk_people" required>
+        <option value="">Selecciona</option>
+        <option value="false" {% if values.get('risk_people') == 'false' %}selected{% endif %}>No</option>
+        <option value="true" {% if values.get('risk_people') == 'true' %}selected{% endif %}>Sí</option>
+      </select>
+      {% if errors.get('risk_people') %}<small class="error">{{ errors['risk_people'] }}</small>{% endif %}
+    </label>
+
+    <div class="actions">
+      <button type="submit">Registrar</button>
+      <a class="button secondary" href="{{ url_for('incidents.index') }}">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
