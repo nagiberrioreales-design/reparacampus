@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Consulta de incidencias · ReparaCampus{% endblock %}
+{% block content %}
+<div class="heading-row">
+  <div>
+    <h1>Consulta de incidencias</h1>
+    <p>La lista respeta los permisos del usuario que inició sesión.</p>
+  </div>
+</div>
+
+<form method="get" class="card">
+  <div class="filter-grid">
+    <label>Estado
+      <select name="state">
+        <option value="">Todos</option>
+        {% for state in states %}
+          <option value="{{ state }}" {% if selected_state == state %}selected{% endif %}>{{ state }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Prioridad
+      <select name="priority">
+        <option value="">Todas</option>
+        {% for priority in priorities %}
+          <option value="{{ priority }}" {% if selected_priority == priority %}selected{% endif %}>{{ priority }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="filter-actions">
+      <button type="submit">Filtrar</button>
+      <a class="button secondary" href="{{ url_for('reporting.list_incidents') }}">Limpiar</a>
+    </div>
+  </div>
+</form>
+
+{% if dashboard %}
+<section class="card">
+  <h2>Tablero del coordinador</h2>
+  <p><strong>Total:</strong> {{ dashboard.total }} · <strong>Cerradas:</strong> {{ dashboard.closed }} · <strong>Cierre:</strong> {{ dashboard.close_percentage }}</p>
+  <p><strong>Críticas no cerradas:</strong> {{ dashboard.open_critical }}</p>
+  <p><strong>Por estado:</strong>
+    {% for key, value in dashboard.by_state.items() %}
+      {{ key }}={{ value }}{% if not loop.last %}, {% endif %}
+    {% else %}
+      Sin registros
+    {% endfor %}
+  </p>
+  <p><strong>Por prioridad:</strong>
+    {% for key, value in dashboard.by_priority.items() %}
+      {{ key }}={{ value }}{% if not loop.last %}, {% endif %}
+    {% else %}
+      Sin prioridades calculadas
+    {% endfor %}
+  </p>
+</section>
+{% endif %}
+
+{% if incidents %}
+<table>
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Solicitante</th>
+      <th>Estado</th>
+      <th>Prioridad</th>
+      <th>Técnico</th>
+      <th>Historial</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for incident in incidents %}
+    <tr>
+      <td>{{ incident['code'] }}</td>
+      <td>{{ incident['requester_name'] }}</td>
+      <td>{{ incident['state'] }}</td>
+      <td>{{ incident['priority'] or 'Pendiente' }}</td>
+      <td>{{ incident['technician_name'] or 'Sin asignar' }}</td>
+      <td><a href="{{ url_for('reporting.history', incident_id=incident['id']) }}">Ver historial</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <div class="card"><p>No hay incidencias que coincidan con la consulta.</p></div>
+{% endif %}
+{% endblock %}
