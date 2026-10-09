@@ -27,3 +27,17 @@ La bitácora conserva intervenciones relevantes, no la conversación completa. L
 - **Error o limitación detectada:** al principio el workflow de GitHub Actions estaba solo en la rama de S01 y no se ejecutaba de forma estable en el PR porque el archivo no existía todavía en la rama base.
 - **Corrección y verificación:** se agregó el workflow también a `main`, se volvió a ejecutar el PR y GitHub Actions terminó en `success`.
 - **Archivo / commit / prueba:** PR #7; revisión aprobada por Steven Reyes; merge `55afad78c1fd66ff8618924a304a26f5f66cfc39`; workflow run `37881326197` en success.
+
+
+## Intervención IA-03 — Atención técnica y solución
+
+- **Fecha:** 08/10/2026
+- **Herramienta / modelo:** ChatGPT — GPT-5.6 Sol
+- **Historia y SPEC / versión:** S03 v0.1.
+- **Objetivo y contexto:** implementar únicamente el flujo del técnico asignado: iniciar atención y registrar una solución.
+- **Prompt o instrucción resumida:** respetar las transiciones `ASIGNADA → EN_ATENCION → PENDIENTE_VALIDACION`, comprobar que actúe el técnico asignado, validar la solución entre 20 y 800 caracteres y no generar cambios parciales.
+- **Respuesta relevante:** se propusieron rutas separadas para iniciar atención y registrar solución, una vista sencilla para el técnico y pruebas de permisos, estados y límites.
+- **Decisión humana y justificación:** se mantuvo la separación entre las dos acciones para que sea más fácil comprobar cada transición y relacionarla con los criterios de S03.
+- **Error o limitación detectada:** todavía no se implementa confirmación, rechazo ni reapertura porque pertenecen a S04.
+- **Corrección y verificación:** se añadieron pruebas que comprueban técnico correcto/incorrecto, persistencia de solución y que una solución inválida no cambia el estado.
+- **Archivo / commit / prueba:** rama `feature/S03-atender-solucion`; pruebas en `tests/test_s03_attention_solution.py`.
