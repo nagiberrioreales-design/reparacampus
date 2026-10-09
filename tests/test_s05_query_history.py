@@ -257,3 +257,74 @@ def test_s05_dashboard_counts_and_close_percentage(app, client):
     assert "25,0 %".encode() in response.data
     assert b"Cr" in response.data
     assert b"2" in response.data
+
+
+@pytest.mark.integration
+def test_s05_reopening_reduces_close_percentage_and_keeps_previous_closure(app, client):
+    from datetime import datetime, timedelta, timezone
+
+    user_ids = ids(app)
+    now = datetime(2026, 10, 9, 5, 30, tzinfo=timezone.utc)
+    closed_at = (now - timedelta(hours=1)).isoformat(timespec="seconds")
+    app.config["NOW_PROVIDER"] = lambda: now
+
+    with app.app_context():
+        db = get_db()
+        cursor = db.execute(
+            """
+            INSERT INTO incidents
+            (code, requester_id, location, category, description, impact,
+             risk_people, priority, state, assigned_technician_id, created_at, closed_at)
+            VALUES ('INC-REOPEN-METRIC', ?, 'LAB-01', 'TIC',
+                    'Incidencia cerrada usada para comprobar el porcentaje',
+                    'ALTO', 0, 'ALTA', 'CERRADA', ?,
+                    '2026-10-09T03:00:00+00:00', ?)
+            """,
+            (user_ids["solicitante1"], user_ids["tecnico1"], closed_at),
+        )
+        incident_id = cursor.lastrowid
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'CIERRE_CONFIRMADO', 'PENDIENTE_VALIDACION',
+                    'CERRADA', 'Cierre previo conservado', ?)
+            """,
+            (incident_id, user_ids["solicitante1"], closed_at),
+        )
+        db.commit()
+
+    login(client, username="coordinador")
+    before = client.get("/reports/incidents")
+    assert "100,0 %".encode() in before.data
+    client.post("/auth/logout")
+    login(client, username="solicitante1")
+    reopened = client.post(
+        f"/incidents/{incident_id}/reopen",
+        data={"reason": "La incidencia volvió a presentarse durante la prueba"},
+    )
+    assert reopened.status_code == 302
+    client.post("/auth/logout")
+    login(client, username="coordinador")
+    after = client.get("/reports/incidents")
+    assert "0,0 %".encode() in after.data
+
+    with app.app_context():
+        db = get_db()
+        prior_closures = db.execute(
+            """
+            SELECT COUNT(*) FROM events
+            WHERE incident_id = ? AND action = 'CIERRE_CONFIRMADO'
+            """,
+            (incident_id,),
+        ).fetchone()[0]
+        reopens = db.execute(
+            """
+            SELECT COUNT(*) FROM events
+            WHERE incident_id = ? AND action = 'REABIERTA'
+            """,
+            (incident_id,),
+        ).fetchone()[0]
+
+        assert prior_closures == 1
+        assert reopens == 1
