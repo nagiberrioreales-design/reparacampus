@@ -52,7 +52,6 @@ def validate_new_incident(data):
 
 
 def calculate_priority(risk_people, impact):
-    """RF02: la prioridad siempre se calcula en el servidor."""
     if bool(risk_people):
         return "CRITICA"
     if impact == "ALTO":
@@ -66,4 +65,11 @@ def validate_solution(text):
     cleaned = str(text or "").strip()
     if not 20 <= len(cleaned) <= 800:
         return cleaned, "La solución debe tener entre 20 y 800 caracteres."
+    return cleaned, None
+
+
+def validate_reason(text):
+    cleaned = str(text or "").strip()
+    if not 10 <= len(cleaned) <= 300:
+        return cleaned, "El motivo debe tener entre 10 y 300 caracteres."
     return cleaned, None

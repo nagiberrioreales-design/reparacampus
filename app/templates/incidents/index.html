@@ -20,6 +20,8 @@
       <th>Impacto</th>
       <th>Riesgo</th>
       <th>Estado</th>
+      <th>Última solución</th>
+      <th>Acción</th>
     </tr>
   </thead>
   <tbody>
@@ -32,6 +34,29 @@
       <td>{{ incident['impact'] }}</td>
       <td>{{ 'Sí' if incident['risk_people'] else 'No' }}</td>
       <td>{{ incident['state'] }}</td>
+      <td>{{ incident['latest_solution'] or 'Sin solución registrada' }}</td>
+      <td>
+        {% if incident['state'] == 'PENDIENTE_VALIDACION' %}
+          <form method="post" action="{{ url_for('incidents.confirm_solution', incident_id=incident['id']) }}">
+            <button type="submit">Confirmar solución</button>
+          </form>
+          <form method="post" action="{{ url_for('incidents.reject_solution', incident_id=incident['id']) }}">
+            <label>Motivo del rechazo
+              <input name="reason" minlength="10" maxlength="300" required>
+            </label>
+            <button class="secondary" type="submit">Rechazar solución</button>
+          </form>
+        {% elif incident['state'] == 'CERRADA' %}
+          <form method="post" action="{{ url_for('incidents.reopen_incident', incident_id=incident['id']) }}">
+            <label>Motivo de reapertura
+              <input name="reason" minlength="10" maxlength="300" required>
+            </label>
+            <button class="secondary" type="submit">Reabrir</button>
+          </form>
+        {% else %}
+          <span>Sin acción disponible</span>
+        {% endif %}
+      </td>
     </tr>
   {% endfor %}
   </tbody>

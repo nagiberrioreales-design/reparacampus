@@ -1,22 +1,57 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
-from flask import Blueprint, abort, flash, g, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from .auth import role_required
 from .db import get_db
-from .domain import calculate_priority, validate_new_incident, validate_solution
+from .domain import (
+    calculate_priority,
+    validate_new_incident,
+    validate_reason,
+    validate_solution,
+)
 
 
 bp = Blueprint("incidents", __name__, url_prefix="/incidents")
 
 
+def current_utc():
+    provider = current_app.config.get("NOW_PROVIDER")
+    now = provider() if provider else datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    return now.astimezone(timezone.utc)
+
+
 def utc_now_iso():
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return current_utc().isoformat(timespec="seconds")
 
 
 def generate_incident_code():
     return f"INC-{uuid4().hex[:8].upper()}"
+
+
+def get_owned_incident(incident_id):
+    incident = get_db().execute(
+        "SELECT * FROM incidents WHERE id = ?",
+        (incident_id,),
+    ).fetchone()
+    if incident is None:
+        abort(404)
+    if incident["requester_id"] != g.user["id"]:
+        abort(403)
+    return incident
 
 
 @bp.route("/")
@@ -24,10 +59,17 @@ def generate_incident_code():
 def index():
     incidents = get_db().execute(
         """
-        SELECT id, code, location, category, description, impact, risk_people, state, created_at
-        FROM incidents
-        WHERE requester_id = ?
-        ORDER BY id DESC
+        SELECT i.*,
+               (
+                   SELECT s.text
+                   FROM solutions s
+                   WHERE s.incident_id = i.id
+                   ORDER BY s.id DESC
+                   LIMIT 1
+               ) AS latest_solution
+        FROM incidents i
+        WHERE i.requester_id = ?
+        ORDER BY i.id DESC
         """,
         (g.user["id"],),
     ).fetchall()
@@ -304,3 +346,134 @@ def propose_solution(incident_id):
 
     flash(f"Solución registrada para {incident['code']}.", "success")
     return redirect(url_for("incidents.assigned"))
+
+
+@bp.post("/<int:incident_id>/confirm")
+@role_required("SOLICITANTE")
+def confirm_solution(incident_id):
+    db = get_db()
+    incident = get_owned_incident(incident_id)
+
+    if incident["state"] != "PENDIENTE_VALIDACION":
+        flash("La incidencia no está pendiente de validación.", "error")
+        return redirect(url_for("incidents.index"))
+
+    changed_at = utc_now_iso()
+
+    with db:
+        update = db.execute(
+            """
+            UPDATE incidents
+            SET state = 'CERRADA', closed_at = ?
+            WHERE id = ? AND state = 'PENDIENTE_VALIDACION' AND requester_id = ?
+            """,
+            (changed_at, incident_id, g.user["id"]),
+        )
+        if update.rowcount != 1:
+            raise RuntimeError("La incidencia cambió antes de confirmar la solución.")
+
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'CIERRE_CONFIRMADO', 'PENDIENTE_VALIDACION', 'CERRADA',
+                    'Solución confirmada por el solicitante', ?)
+            """,
+            (incident_id, g.user["id"], changed_at),
+        )
+
+    flash(f"{incident['code']} cerrada por confirmación del solicitante.", "success")
+    return redirect(url_for("incidents.index"))
+
+
+@bp.post("/<int:incident_id>/reject")
+@role_required("SOLICITANTE")
+def reject_solution(incident_id):
+    db = get_db()
+    incident = get_owned_incident(incident_id)
+
+    if incident["state"] != "PENDIENTE_VALIDACION":
+        flash("La incidencia no está pendiente de validación.", "error")
+        return redirect(url_for("incidents.index"))
+
+    reason, error = validate_reason(request.form.get("reason", ""))
+    if error:
+        flash(error, "error")
+        return redirect(url_for("incidents.index"))
+
+    changed_at = utc_now_iso()
+
+    with db:
+        update = db.execute(
+            """
+            UPDATE incidents
+            SET state = 'EN_ATENCION'
+            WHERE id = ? AND state = 'PENDIENTE_VALIDACION' AND requester_id = ?
+            """,
+            (incident_id, g.user["id"]),
+        )
+        if update.rowcount != 1:
+            raise RuntimeError("La incidencia cambió antes de rechazar la solución.")
+
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'SOLUCION_RECHAZADA', 'PENDIENTE_VALIDACION', 'EN_ATENCION', ?, ?)
+            """,
+            (incident_id, g.user["id"], reason, changed_at),
+        )
+
+    flash(f"La solución de {incident['code']} fue rechazada.", "success")
+    return redirect(url_for("incidents.index"))
+
+
+@bp.post("/<int:incident_id>/reopen")
+@role_required("SOLICITANTE")
+def reopen_incident(incident_id):
+    db = get_db()
+    incident = get_owned_incident(incident_id)
+
+    if incident["state"] != "CERRADA" or not incident["closed_at"]:
+        flash("La incidencia no está cerrada.", "error")
+        return redirect(url_for("incidents.index"))
+
+    reason, error = validate_reason(request.form.get("reason", ""))
+    if error:
+        flash(error, "error")
+        return redirect(url_for("incidents.index"))
+
+    closed_at = datetime.fromisoformat(incident["closed_at"])
+    if closed_at.tzinfo is None:
+        closed_at = closed_at.replace(tzinfo=timezone.utc)
+
+    elapsed = current_utc() - closed_at.astimezone(timezone.utc)
+    if elapsed < timedelta(0) or elapsed > timedelta(hours=48):
+        flash("La reapertura solo se permite hasta 48 horas después del último cierre.", "error")
+        return redirect(url_for("incidents.index"))
+
+    changed_at = utc_now_iso()
+
+    with db:
+        update = db.execute(
+            """
+            UPDATE incidents
+            SET state = 'EN_ATENCION'
+            WHERE id = ? AND state = 'CERRADA' AND requester_id = ?
+            """,
+            (incident_id, g.user["id"]),
+        )
+        if update.rowcount != 1:
+            raise RuntimeError("La incidencia cambió antes de reabrirla.")
+
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'REABIERTA', 'CERRADA', 'EN_ATENCION', ?, ?)
+            """,
+            (incident_id, g.user["id"], reason, changed_at),
+        )
+
+    flash(f"{incident['code']} reabierta y devuelta al mismo técnico.", "success")
+    return redirect(url_for("incidents.index"))

@@ -41,3 +41,17 @@ La bitácora conserva intervenciones relevantes, no la conversación completa. L
 - **Error o limitación detectada:** todavía no se implementa confirmación, rechazo ni reapertura porque pertenecen a S04.
 - **Corrección y verificación:** se añadieron pruebas que comprueban técnico correcto/incorrecto, persistencia de solución y que una solución inválida no cambia el estado.
 - **Archivo / commit / prueba:** rama `feature/S03-atender-solucion`; pruebas en `tests/test_s03_attention_solution.py`.
+
+
+## Intervención IA-04 — Validación, rechazo y reapertura
+
+- **Fecha:** 08/10/2026
+- **Herramienta / modelo:** ChatGPT — GPT-5.6 Sol
+- **Historia y SPEC / versión:** S04 v0.1.
+- **Objetivo y contexto:** implementar la parte donde el solicitante decide si la solución realmente resolvió la incidencia.
+- **Prompt o instrucción resumida:** permitir confirmar, rechazar o reabrir solo al dueño del reporte; mantener el mismo técnico al rechazar o reabrir; conservar soluciones e historial; comprobar el límite de 48 horas con fecha UTC controlada en pruebas.
+- **Respuesta relevante:** se propusieron tres acciones separadas y una forma de inyectar la hora en pruebas para no depender del reloj real.
+- **Decisión humana y justificación:** se aceptó usar un reloj controlado solo en pruebas porque permite comprobar exactamente 48 horas y un instante posterior, como pide el enunciado.
+- **Error o limitación detectada:** usar la hora del navegador habría permitido manipular el límite de reapertura.
+- **Corrección y verificación:** la hora efectiva se toma del servidor y las pruebas fijan un `NOW_PROVIDER` únicamente en el entorno de test.
+- **Archivo / commit / prueba:** rama `feature/S04-validar-reabrir`; pruebas en `tests/test_s04_validation_reopen.py`.
