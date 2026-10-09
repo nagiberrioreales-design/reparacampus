@@ -30,6 +30,8 @@ def create_app(test_config=None):
             return redirect(url_for("auth.login"))
         if g.user["role"] == "SOLICITANTE":
             return redirect(url_for("incidents.index"))
+        if g.user["role"] == "COORDINADOR":
+            return redirect(url_for("incidents.manage"))
         return render_template("home.html")
 
     return app
