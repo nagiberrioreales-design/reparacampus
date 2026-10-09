@@ -5,7 +5,7 @@ from flask import Blueprint, abort, flash, g, redirect, render_template, request
 
 from .auth import role_required
 from .db import get_db
-from .domain import calculate_priority, validate_new_incident
+from .domain import calculate_priority, validate_new_incident, validate_solution
 
 
 bp = Blueprint("incidents", __name__, url_prefix="/incidents")
@@ -183,3 +183,124 @@ def assign(incident_id):
         "success",
     )
     return redirect(url_for("incidents.manage"))
+
+
+@bp.route("/assigned")
+@role_required("TECNICO")
+def assigned():
+    incidents = get_db().execute(
+        """
+        SELECT i.*, u.display_name AS requester_name
+        FROM incidents i
+        JOIN users u ON u.id = i.requester_id
+        WHERE i.assigned_technician_id = ?
+        ORDER BY i.id DESC
+        """,
+        (g.user["id"],),
+    ).fetchall()
+    return render_template("incidents/assigned.html", incidents=incidents)
+
+
+@bp.post("/<int:incident_id>/start")
+@role_required("TECNICO")
+def start_attention(incident_id):
+    db = get_db()
+    incident = db.execute(
+        "SELECT * FROM incidents WHERE id = ?",
+        (incident_id,),
+    ).fetchone()
+
+    if incident is None:
+        abort(404)
+
+    if incident["assigned_technician_id"] != g.user["id"]:
+        abort(403)
+
+    if incident["state"] != "ASIGNADA":
+        flash("La incidencia no está en estado ASIGNADA.", "error")
+        return redirect(url_for("incidents.assigned"))
+
+    changed_at = utc_now_iso()
+
+    with db:
+        update = db.execute(
+            """
+            UPDATE incidents
+            SET state = 'EN_ATENCION'
+            WHERE id = ? AND state = 'ASIGNADA' AND assigned_technician_id = ?
+            """,
+            (incident_id, g.user["id"]),
+        )
+        if update.rowcount != 1:
+            raise RuntimeError("La incidencia cambió antes de iniciar la atención.")
+
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'INICIO_ATENCION', 'ASIGNADA', 'EN_ATENCION', NULL, ?)
+            """,
+            (incident_id, g.user["id"], changed_at),
+        )
+
+    flash(f"{incident['code']} ahora está EN_ATENCION.", "success")
+    return redirect(url_for("incidents.assigned"))
+
+
+@bp.post("/<int:incident_id>/solution")
+@role_required("TECNICO")
+def propose_solution(incident_id):
+    db = get_db()
+    incident = db.execute(
+        "SELECT * FROM incidents WHERE id = ?",
+        (incident_id,),
+    ).fetchone()
+
+    if incident is None:
+        abort(404)
+
+    if incident["assigned_technician_id"] != g.user["id"]:
+        abort(403)
+
+    if incident["state"] != "EN_ATENCION":
+        flash("La incidencia debe estar EN_ATENCION antes de registrar una solución.", "error")
+        return redirect(url_for("incidents.assigned"))
+
+    solution_text, error = validate_solution(request.form.get("solution", ""))
+    if error:
+        flash(error, "error")
+        return redirect(url_for("incidents.assigned"))
+
+    changed_at = utc_now_iso()
+
+    with db:
+        update = db.execute(
+            """
+            UPDATE incidents
+            SET state = 'PENDIENTE_VALIDACION'
+            WHERE id = ? AND state = 'EN_ATENCION' AND assigned_technician_id = ?
+            """,
+            (incident_id, g.user["id"]),
+        )
+        if update.rowcount != 1:
+            raise RuntimeError("La incidencia cambió antes de registrar la solución.")
+
+        db.execute(
+            """
+            INSERT INTO solutions (incident_id, technician_id, text, created_at)
+            VALUES (?, ?, ?, ?)
+            """,
+            (incident_id, g.user["id"], solution_text, changed_at),
+        )
+
+        db.execute(
+            """
+            INSERT INTO events
+            (incident_id, actor_id, action, from_state, to_state, detail, created_at)
+            VALUES (?, ?, 'SOLUCION_PROPUESTA', 'EN_ATENCION', 'PENDIENTE_VALIDACION', ?, ?)
+            """,
+            (incident_id, g.user["id"], solution_text, changed_at),
+        )
+
+    flash(f"Solución registrada para {incident['code']}.", "success")
+    return redirect(url_for("incidents.assigned"))

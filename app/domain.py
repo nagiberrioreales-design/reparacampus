@@ -60,3 +60,10 @@ def calculate_priority(risk_people, impact):
     if impact == "BAJO":
         return "NORMAL"
     raise ValueError("Impacto no válido para calcular prioridad.")
+
+
+def validate_solution(text):
+    cleaned = str(text or "").strip()
+    if not 20 <= len(cleaned) <= 800:
+        return cleaned, "La solución debe tener entre 20 y 800 caracteres."
+    return cleaned, None

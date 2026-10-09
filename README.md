@@ -6,8 +6,9 @@ Aplicación académica para gestionar incidencias de infraestructura de la Unive
 
 - S01–S05 fueron escritas y revisadas antes del código en el PR #6.
 - S01 / RF01 — registro de incidencias: implementada y revisada.
-- S02 / RF02 — priorización y asignación: en implementación.
-- S03–S05: todavía no se consideran implementadas.
+- S02 / RF02 — priorización y asignación: implementada y revisada.
+- S03 / RF03 — atención y registro de solución: en implementación.
+- S04–S05: todavía no se consideran implementadas.
 
 ## Tecnologías
 
