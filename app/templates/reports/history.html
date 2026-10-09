@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Historial {{ incident['code'] }} · ReparaCampus{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Historial de {{ incident['code'] }}</h1>
+  <p><strong>Solicitante:</strong> {{ incident['requester_name'] }}</p>
+  <p><strong>Estado actual:</strong> {{ incident['state'] }} · <strong>Prioridad:</strong> {{ incident['priority'] or 'Pendiente' }}</p>
+  <p><strong>Técnico:</strong> {{ incident['technician_name'] or 'Sin asignar' }}</p>
+</section>
+
+<section class="card">
+  <h2>Eventos</h2>
+  {% if events %}
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Autor</th>
+        <th>Acción</th>
+        <th>Estado anterior</th>
+        <th>Estado nuevo</th>
+        <th>Detalle</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+      <tr>
+        <td>{{ event['created_at'] }}</td>
+        <td>{{ event['actor_name'] }}</td>
+        <td>{{ event['action'] }}</td>
+        <td>{{ event['from_state'] or '—' }}</td>
+        <td>{{ event['to_state'] or '—' }}</td>
+        <td>{{ event['detail'] or '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>No hay eventos.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Soluciones registradas</h2>
+  {% if solutions %}
+    {% for solution in solutions %}
+      <p><strong>{{ solution['created_at'] }} · {{ solution['technician_name'] }}:</strong> {{ solution['text'] }}</p>
+    {% endfor %}
+  {% else %}
+    <p>No hay soluciones registradas.</p>
+  {% endif %}
+</section>
+{% endblock %}
