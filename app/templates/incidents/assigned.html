@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Mis asignaciones · ReparaCampus{% endblock %}
+{% block content %}
+<div class="heading-row">
+  <div>
+    <h1>Mis asignaciones</h1>
+    <p>Solo aparecen incidencias asignadas al técnico que inició sesión.</p>
+  </div>
+</div>
+
+{% if incidents %}
+<table>
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Solicitante</th>
+      <th>Ubicación</th>
+      <th>Prioridad</th>
+      <th>Estado</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for incident in incidents %}
+    <tr>
+      <td>{{ incident['code'] }}</td>
+      <td>{{ incident['requester_name'] }}</td>
+      <td>{{ incident['location'] }}</td>
+      <td>{{ incident['priority'] }}</td>
+      <td>{{ incident['state'] }}</td>
+      <td>
+        {% if incident['state'] == 'ASIGNADA' %}
+          <form method="post" action="{{ url_for('incidents.start_attention', incident_id=incident['id']) }}">
+            <button type="submit">Iniciar atención</button>
+          </form>
+        {% elif incident['state'] == 'EN_ATENCION' %}
+          <form method="post" action="{{ url_for('incidents.propose_solution', incident_id=incident['id']) }}">
+            <label>Solución
+              <textarea name="solution" minlength="20" maxlength="800" required></textarea>
+            </label>
+            <button type="submit">Registrar solución</button>
+          </form>
+        {% else %}
+          <span>Sin acción disponible</span>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <div class="card"><p>No tienes incidencias asignadas.</p></div>
+{% endif %}
+{% endblock %}
