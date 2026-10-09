@@ -49,3 +49,14 @@ def validate_new_incident(data):
         "risk_people": risk_people,
     }
     return cleaned, errors
+
+
+def calculate_priority(risk_people, impact):
+    """RF02: la prioridad siempre se calcula en el servidor."""
+    if bool(risk_people):
+        return "CRITICA"
+    if impact == "ALTO":
+        return "ALTA"
+    if impact == "BAJO":
+        return "NORMAL"
+    raise ValueError("Impacto no válido para calcular prioridad.")
