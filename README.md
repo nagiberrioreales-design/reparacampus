@@ -8,8 +8,8 @@ Aplicación académica para gestionar incidencias de infraestructura de la Unive
 - S01 / RF01 — registro de incidencias: implementada y revisada.
 - S02 / RF02 — priorización y asignación: implementada y revisada.
 - S03 / RF03 — atención y registro de solución: implementada y revisada.
-- S04 / RF04 — validación, rechazo y reapertura: en implementación.
-- S05: todavía no se considera implementada.
+- S04 / RF04 — validación, rechazo y reapertura: implementada y revisada.
+- S05 / RF05 — consulta, historial y tablero: en implementación.
 
 ## Tecnologías
 
