@@ -1,0 +1,22 @@
+@startuml
+title ReparaCampus - Estados de una incidencia
+
+[*] --> REGISTRADA : solicitante registra
+
+REGISTRADA --> ASIGNADA : coordinador asigna técnico activo
+ASIGNADA --> EN_ATENCION : técnico asignado inicia
+EN_ATENCION --> PENDIENTE_VALIDACION : técnico registra solución
+PENDIENTE_VALIDACION --> CERRADA : solicitante dueño confirma
+PENDIENTE_VALIDACION --> EN_ATENCION : solicitante dueño rechaza
+CERRADA --> EN_ATENCION : solicitante dueño reabre\n<= 48 h desde último cierre
+
+note right of CERRADA
+No hay cierre automático.
+La reapertura usa UTC del servidor.
+end note
+
+note bottom of ASIGNADA
+No se reasigna una incidencia
+que ya está ASIGNADA.
+end note
+@enduml

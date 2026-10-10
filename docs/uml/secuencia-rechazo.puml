@@ -1,0 +1,33 @@
+@startuml
+title ReparaCampus - Rechazo de una solución
+
+actor Solicitante
+boundary "Interfaz web" as UI
+control "Ruta Flask /reject" as Flask
+database "SQLite" as DB
+
+Solicitante -> UI : escribe motivo y rechaza
+UI -> Flask : POST /incidents/{id}/reject
+Flask -> Flask : obtiene identidad/rol de sesión
+Flask -> DB : busca incidencia
+DB --> Flask : incidencia + propietario + estado
+
+alt no es el propietario
+  Flask --> UI : 403
+else no está PENDIENTE_VALIDACION
+  Flask --> UI : operación rechazada
+else motivo fuera de 10..300
+  Flask --> UI : error de validación
+else operación válida
+  Flask -> DB : BEGIN
+  Flask -> DB : UPDATE estado = EN_ATENCION
+  Flask -> DB : INSERT evento SOLUCION_RECHAZADA
+  Flask -> DB : COMMIT
+  Flask --> UI : rechazo registrado
+end
+
+note over Flask,DB
+Se conserva el mismo técnico
+y la solución anterior.
+end note
+@enduml

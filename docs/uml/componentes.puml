@@ -1,0 +1,41 @@
+@startuml
+title ReparaCampus - Componentes principales
+left to right direction
+
+actor Solicitante
+actor Coordinador
+actor Tecnico
+
+rectangle "Navegador" {
+  component "HTML + CSS + Jinja" as UI
+}
+
+rectangle "Servidor Flask" {
+  component "Autenticación y sesión" as Auth
+  component "Rutas de incidencias" as Routes
+  component "Consulta e historial" as Reports
+  component "Reglas de dominio" as Domain
+}
+
+database "SQLite" as DB
+component "pytest" as Tests
+
+Solicitante --> UI
+Coordinador --> UI
+Tecnico --> UI
+
+UI --> Auth
+UI --> Routes
+UI --> Reports
+
+Routes --> Domain
+Reports --> Domain
+Auth --> DB
+Routes --> DB
+Reports --> DB
+
+Tests ..> Auth
+Tests ..> Routes
+Tests ..> Reports
+Tests ..> DB
+@enduml

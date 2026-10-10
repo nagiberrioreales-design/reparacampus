@@ -3,7 +3,8 @@
 **Versión:** 0.1  
 **Fecha:** 08/10/2026  
 **Autor documental:** Equipo ReparaCampus  
-**Revisor:** Pendiente de revisión por otro integrante antes de implementar  
+**Revisor:** Steven Reyes  
+**Fecha de revisión:** 08/10/2026  
 **Requisito asociado:** RF04
 
 ## Historia
@@ -73,4 +74,4 @@ Incluye confirmación de solución, rechazo con motivo y reapertura dentro del p
 Cubrir confirmación válida, propietario ajeno, rechazo válido/inválido, exactamente 48 h, >48 h, coordinador no autorizado y conservación de historial.
 
 ## Decisión de revisión
-**Pendiente. No implementar S04 hasta registrar una revisión humana aprobada de esta versión.**
+**Aprobada en el PR #6 antes de iniciar la implementación. La versión 0.1 se conserva como línea base de la SPEC.**
