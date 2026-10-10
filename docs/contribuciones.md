@@ -11,11 +11,9 @@ El examen se trabajó con el mismo equipo del proyecto integrador. Para esta ent
 | Milton Ramírez | Revisión de límites y recorridos de integración | Issue #14 comentado desde `Bellator07`; revisión `APPROVED` en PR #16 | Revisión personal registrada en GitHub | Verificable |
 | Santiago Hernández | Revisión de instalación, README y arquitectura | Issue #15 comentado desde `snt-10`; comentario de revisión en PR #16 | Revisión personal registrada en GitHub | Verificable |
 
-## Cómo cerrar las evidencias pendientes
+## Estado de las evidencias del equipo
 
-Las evidencias personales de Juan, Leyter, Milton y Santiago ya están registradas en GitHub. Henry también completó la revisión cruzada mediante el PR #18 de Steven Reyes.
-
-No se marcarán estas cuatro filas como verificables hasta que exista esa acción real. No queremos presentar como hecha una participación que GitHub todavía no demuestra.
+Las evidencias personales de Juan, Leyter, Milton y Santiago ya están registradas en GitHub. Henry también completó la revisión cruzada mediante el PR #18 de Steven Reyes. En este punto, los seis integrantes cuentan con evidencia verificable en el repositorio.
 
 ## Aceptación del equipo
 
