@@ -6,12 +6,17 @@ Este archivo sirve como base para armar el PDF final. Se mantiene un lenguaje cl
 
 - Universidad Simón Bolívar
 - Programa: Ingeniería de Sistemas
-- Asignatura: Ingeniería de Software I
+- Asignatura: BAQ INGENIERÍA DEL SOFTWARE I - 5906 - T04 - 2026 - 2
 - Título: Examen SDD — ReparaCampus
 - Equipo: Henry Berrio, Juan González, Leyter López, Milton Ramírez, Santiago Hernández, Steven Reyes
-- Códigos estudiantiles: **pendientes de completar**
-- Grupo: **pendiente**
-- Docente: **pendiente**
+- Henry Berrio: 202511271544
+- Juan González: 202511275006
+- Leyter López: 20221343876
+- Milton Ramírez: 202511274317
+- Santiago Hernández: 202511272788
+- Steven Reyes: 202511274612
+- Grupo: T04
+- Docente: IGLESIAS SOLANO ADRIANA MARIA
 - Fecha: 2026-10
 - Repositorio: https://github.com/nagiberrioreales-design/reparacampus
 
@@ -98,7 +103,7 @@ También resumir la implementación de RF01–RF05 y enlazar PR #7 a #11.
 Incluir:
 - matriz RF → SPEC → AC → código → prueba;
 - comando `pytest -q`;
-- resultado final: 53 pruebas aprobadas, 0 fallidas;
+- resultado final: 56 pruebas aprobadas, 0 fallidas;
 - los 3 recorridos de integración;
 - límites 19/20, 800/801, 48 h y 48 h + 1 s;
 - regresión completa de S01–S05.
@@ -140,12 +145,12 @@ Fuente: `README.md`.
 Explicar aportes verificables por integrante.
 
 Estado actual:
-- Henry Berrio: verificable.
+- Henry Berrio: verificable, incluida revisión cruzada en PR #18.
 - Steven Reyes: verificable.
+- Juan González: verificable desde `GM-Talent`.
+- Leyter López: verificable desde `leiter11447-crypto`.
 - Milton Ramírez: verificable desde `Bellator07`.
-- Juan González: pendiente de Issue #12 + revisión PR #16.
-- Leyter López: pendiente de Issue #13 + revisión PR #16.
-- Santiago Hernández: pendiente de Issue #15 + revisión PR #16.
+- Santiago Hernández: verificable desde `snt-10`.
 
 Fuente: `docs/contribuciones.md`.
 
@@ -165,14 +170,11 @@ Agregar como fuente principal:
 
 ## Pendientes antes de exportar el PDF
 
-1. Juan completa #12 + PR #16.
-2. Leyter completa #13 + PR #16.
-3. Santiago completa #15 + PR #16.
-4. Cerrar esos issues.
-5. Hacer merge del PR #16.
-6. Crear tag `release-examen`.
-7. Registrar SHA final.
-8. Completar códigos estudiantiles, grupo y docente.
-9. Generar Word y PDF.
-10. Abrir el PDF final y revisar índice, enlaces, nombres, diagramas y legibilidad.
-11. Cada integrante sube el mismo PDF al aula.
+1. Crear y dejar visible el GitHub Project con los cuatro estados pedidos por el examen.
+2. Comprobar el último CI del PR #16.
+3. Hacer merge del PR #16.
+4. Crear tag `release-examen`.
+5. Registrar SHA final.
+6. Generar Word y PDF definitivos.
+7. Abrir el PDF final y revisar índice, enlaces, nombres, diagramas y legibilidad.
+8. Cada integrante sube el mismo PDF al aula.
