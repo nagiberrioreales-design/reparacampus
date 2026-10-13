@@ -3,7 +3,7 @@
 Estas verificaciones fueron preparadas con asistencia de IA. La aprobación
 humana independiente y la revisión exhaustiva de la matriz son pasos separados.
 """
-
+import re
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -239,13 +239,31 @@ def test_ac_s05_06_dashboard_exact_state_priority_and_open_critical_counts(app, 
         "close_percentage": "28,6 %",
     }
 
+    
     login(client, username="coordinador")
     response = client.get("/reports/incidents")
     assert response.status_code == 200
+
     html = response.get_data(as_text=True)
     assert "28,6 %" in html
-    assert "Críticas no cerradas:</strong> 2" in html
+
+    # Comprobar las incidencias críticas no cerradas.
+    assert re.search(
+        r"<span>\s*Críticas no cerradas\s*</span>\s*<strong>\s*2\s*</strong>",
+        html,
+    )
+
+    # Comprobar los conteos por estado.
     for state, count in dashboard["by_state"].items():
-        assert f"{state}={count}" in html
+        label = state.replace("_", " ")
+        assert re.search(
+            rf"<p>\s*{re.escape(label)}:\s*{count}\s*</p>",
+            html,
+        )
+
+    # Comprobar los conteos por prioridad.
     for priority, count in dashboard["by_priority"].items():
-        assert f"{priority}={count}" in html
+        assert re.search(
+            rf"<p>\s*{re.escape(priority)}:\s*{count}\s*</p>",
+            html,
+        )
