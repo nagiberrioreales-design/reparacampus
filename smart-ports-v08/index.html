@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.28 · Neural Cockpit 2046</title>
+<title>Smart Ports v0.29 · Launch Platform</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.28 · Neural Cockpit 2046 */
+/* Smart Ports v0.29 · Launch Platform */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,13 +949,13 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.28 · Neural Cockpit 2046 */
+/* Smart Ports v0.29 · Launch Platform */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
 
-/* Smart Ports v0.28 · Neural Cockpit 2046 */
+/* Smart Ports v0.29 · Launch Platform */
 .controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
 .controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
 .towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
@@ -980,7 +980,7 @@ body.lowQuality #port3dCanvas:before{opacity:.62}
 @media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
 @media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
 
-/* Smart Ports v0.28 · Neural Cockpit 2046 */
+/* Smart Ports v0.29 · Launch Platform */
 .decisionLabPanel{margin-top:14px;padding:16px!important;border-color:rgba(102,196,255,.30)!important;background:radial-gradient(circle at 8% 0%,rgba(46,135,198,.12),transparent 32%),linear-gradient(180deg,rgba(5,24,36,.99),rgba(3,17,26,.99))!important}
 .decisionLabHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:13px}.decisionLabHead h3{margin:4px 0;font-size:19px}.decisionLabHead p{margin:0;font-size:11px}
 .scenarioBadge{padding:7px 10px;border:1px solid #23536a;border-radius:999px;background:#082431;color:#87cddd;font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.scenarioBadge.warning{color:#ffd177;border-color:#72582d;background:#352816}.scenarioBadge.danger{color:#ff9ca4;border-color:#773b43;background:#371d23}.scenarioBadge.stable{color:#83eabd;border-color:#28624d;background:#102b22}
@@ -1622,8 +1622,469 @@ input:focus,select:focus,textarea:focus{
 @media(prefers-reduced-motion:reduce){
   .neuralReticle i,.neuralReticle b,.neuralSignal i{animation:none!important}
 }
+
+/* =========================================================
+   Smart Ports v0.29 · LAUNCH PLATFORM
+   Production-grade product shell
+   ========================================================= */
+:root{
+  --prod-bg:#090d12;
+  --prod-sidebar:#0b1016;
+  --prod-surface:#111820;
+  --prod-surface-2:#151e27;
+  --prod-surface-3:#19232e;
+  --prod-border:rgba(255,255,255,.075);
+  --prod-border-strong:rgba(255,255,255,.12);
+  --prod-text:#f2f5f8;
+  --prod-text-2:#c0c8d2;
+  --prod-muted:#7d8997;
+  --prod-blue:#3787f5;
+  --prod-blue-hover:#4d95fa;
+  --prod-green:#42c98b;
+  --prod-amber:#e7ad4d;
+  --prod-red:#ec6672;
+  --prod-radius:12px;
+  --prod-shadow:0 12px 32px rgba(0,0,0,.16);
+}
+html,body{background:var(--prod-bg)!important}
+body{
+  font-family:"Segoe UI Variable","Inter","Segoe UI",system-ui,-apple-system,sans-serif!important;
+  font-feature-settings:"cv02","cv03","cv04","cv11";
+  color:var(--prod-text)!important;
+  letter-spacing:0!important;
+}
+body:before,body:after{display:none!important}
+*{scrollbar-color:#263442 #0b1118}
+::selection{background:rgba(55,135,245,.30);color:white}
+
+/* Product shell */
+@media(min-width:1051px){
+  #app{
+    grid-template-columns:228px minmax(0,1fr)!important;
+    background:var(--prod-bg)!important;
+  }
+  aside{
+    width:auto!important;padding:18px 12px 14px!important;
+    background:var(--prod-sidebar)!important;
+    border-right:1px solid var(--prod-border)!important;
+    box-shadow:none!important;backdrop-filter:none!important;
+  }
+  aside:before{display:none!important}
+  .brand{
+    height:auto!important;padding:0 10px 18px!important;margin:0!important;
+    display:flex!important;align-items:center!important;gap:10px!important;
+    border-bottom:1px solid var(--prod-border)!important;
+    color:var(--prod-text)!important;
+  }
+  .brandMark{
+    width:34px;height:34px;display:grid;place-items:center;flex:0 0 34px;
+    border-radius:9px;background:linear-gradient(145deg,#1b8f9f,#2877ce);
+    color:white;box-shadow:0 6px 16px rgba(30,130,174,.16);
+  }
+  .brandMark svg{width:17px;height:17px;stroke-width:2}
+  .brandCopy{display:block!important;min-width:0}
+  .brandCopy strong{display:block;font-size:13px;line-height:1.15;color:#fff;letter-spacing:-.01em}
+  .brandCopy small{display:block;margin-top:3px;color:var(--prod-muted);font-size:9px;font-weight:600;letter-spacing:.02em}
+  .version{
+    width:auto!important;height:auto!important;margin:12px 8px 10px!important;padding:5px 8px!important;
+    display:inline-flex!important;font-size:8px!important;color:#8d99a6!important;
+    border:1px solid var(--prod-border)!important;border-radius:6px!important;background:#0e151c!important;
+    letter-spacing:.03em!important;
+  }
+  .version:before,.version:after{display:none!important}
+  #sideNav{padding:2px 0!important;gap:2px!important;overflow:auto!important}
+  .navSectionLabel{
+    display:block!important;padding:14px 10px 6px;color:#566271;
+    font-size:8px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;
+  }
+  #sideNav button{
+    width:100%!important;height:38px!important;min-height:38px!important;margin:1px 0!important;
+    padding:0 10px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;
+    gap:9px!important;border-radius:8px!important;overflow:hidden!important;text-align:left!important;
+    color:#8f9baa!important;border:1px solid transparent!important;background:transparent!important;
+    font-size:11px!important;font-weight:650!important;letter-spacing:0!important;
+  }
+  #sideNav .railIcon{width:18px;height:18px;display:grid;place-items:center;flex:0 0 18px}
+  #sideNav .railIcon svg{width:16px;height:16px;stroke-width:1.8}
+  #sideNav .railText{display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #sideNav button:hover{
+    transform:none!important;color:#dce3ea!important;background:#121a22!important;border-color:var(--prod-border)!important;
+  }
+  #sideNav button.active{
+    color:#fff!important;background:#17212b!important;border-color:rgba(87,156,241,.16)!important;
+    box-shadow:inset 2px 0 var(--prod-blue)!important;
+  }
+  #sideNav button.active .railIcon{color:#79abf9!important;filter:none!important}
+  #sideNav button:after,#sideNav button.active:before{display:none!important}
+  #sideNotifCount,#pendingAccessNav{
+    position:static!important;margin-left:auto!important;width:auto!important;height:auto!important;min-width:17px!important;
+    padding:2px 5px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    border-radius:999px!important;background:#25303b!important;color:#bdc7d2!important;font-size:8px!important;
+  }
+  .userBox{
+    margin:10px 0 0!important;padding:12px 8px 0!important;border:0!important;border-top:1px solid var(--prod-border)!important;
+    background:transparent!important;display:block!important;
+  }
+  .userIdentity{display:flex!important;align-items:center!important;gap:9px!important}
+  .userIdentity>div:last-child{display:block!important;min-width:0}
+  .userIdentity strong{display:block;color:#e8edf2!important;font-size:10px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .userIdentity small{display:block;margin-top:2px;color:#6f7c8a!important;font-size:8px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .userAvatar{
+    width:32px!important;height:32px!important;flex:0 0 32px!important;border-radius:8px!important;
+    background:#17232e!important;border:1px solid var(--prod-border)!important;color:#b6d6ed!important;font-size:9px!important;
+  }
+  #logoutBtn{
+    width:100%!important;height:30px!important;margin:8px 0 0!important;padding:0 8px!important;
+    font-size:9px!important;text-align:left!important;border:0!important;border-radius:7px!important;
+    color:#7f8b98!important;background:transparent!important;
+  }
+  #logoutBtn:after{display:none!important}
+  #logoutBtn:hover{background:#151b22!important;color:#d0d7df!important}
+  .navScrollControl{display:none!important}
+}
+
+/* Main chrome */
+main.workspace{background:#0c1117!important}
+.topbar{
+  position:sticky!important;top:0!important;z-index:50!important;
+  min-height:72px!important;height:72px!important;margin:0!important;padding:0 24px!important;
+  display:flex!important;align-items:center!important;
+  background:rgba(12,17,23,.94)!important;border-bottom:1px solid var(--prod-border)!important;
+  box-shadow:none!important;backdrop-filter:blur(14px)!important;
+}
+.routeProgress{
+  position:absolute;left:0;bottom:-1px;height:2px;width:0;opacity:0;
+  background:linear-gradient(90deg,var(--prod-blue),#4fc7c1);
+  box-shadow:0 0 10px rgba(55,135,245,.28);
+  transition:width .28s ease,opacity .18s ease;
+}
+.routeProgress.active{width:72%;opacity:1}
+.routeProgress.done{width:100%;opacity:0;transition:width .18s ease,opacity .34s ease .16s}
+.topbarTitleWrap{display:flex!important;align-items:center!important;gap:11px!important;min-width:0}
+.topbarTitleWrap>div{min-width:0}
+.topbar .eyebrow{
+  color:#6d7885!important;font-size:8px!important;font-weight:750!important;letter-spacing:.105em!important;text-transform:uppercase;
+}
+.topbar h2{
+  margin:3px 0 0!important;color:#f5f7f9!important;font-size:21px!important;font-weight:720!important;letter-spacing:-.025em!important;line-height:1.1!important;
+}
+.pageSubtitle{
+  margin:3px 0 0;color:#778392;font-size:9px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.topActions{display:flex!important;align-items:center!important;gap:8px!important}
+.workspaceClock{
+  color:#64717e;font-size:9px;font-variant-numeric:tabular-nums;white-space:nowrap;margin-right:4px;
+}
+.environmentBadge{
+  height:32px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;
+  border:1px solid var(--prod-border);border-radius:8px;background:#10171e;
+  color:#98a4b0;font-size:9px;font-weight:650;white-space:nowrap;
+}
+.environmentDot{width:6px;height:6px;border-radius:50%;background:var(--prod-green);box-shadow:0 0 0 3px rgba(66,201,139,.08)}
+.globalSearchBtn{
+  height:32px!important;padding:0 9px!important;border:1px solid var(--prod-border)!important;border-radius:8px!important;
+  background:#10171e!important;color:#9da8b4!important;gap:7px!important;font-size:9px!important;
+}
+.globalSearchBtn:hover{background:#151d25!important;border-color:var(--prod-border-strong)!important;color:#e0e6ec!important}
+.globalSearchBtn svg{width:14px;height:14px}
+.globalSearchBtn kbd{
+  border:0!important;border-radius:5px!important;background:#1b242d!important;color:#727f8c!important;
+  box-shadow:none!important;font-size:7px!important;
+}
+.notificationButton{
+  width:32px!important;height:32px!important;display:grid!important;place-items:center!important;
+  border:1px solid var(--prod-border)!important;border-radius:8px!important;background:#10171e!important;color:#98a5b1!important;
+}
+.notificationButton svg{width:14px;height:14px}
+.notificationButton:hover{background:#151d25!important;color:white!important}
+.notificationBadge{right:-5px!important;top:-5px!important}
+#quickShipBtn{
+  height:32px!important;padding:0 11px!important;display:inline-flex!important;align-items:center!important;gap:6px!important;
+  border-radius:8px!important;background:var(--prod-blue)!important;border:1px solid rgba(255,255,255,.06)!important;
+  color:white!important;font-size:9px!important;font-weight:720!important;box-shadow:none!important;
+}
+#quickShipBtn:hover{background:var(--prod-blue-hover)!important;transform:none!important}
+#quickShipBtn svg{width:13px;height:13px}
+
+.commandStrip{
+  min-height:34px!important;height:34px!important;margin:0!important;padding:0 24px!important;
+  border-bottom:1px solid var(--prod-border)!important;background:#0d1319!important;color:#65717d!important;
+  box-shadow:none!important;backdrop-filter:none!important;font-size:8px!important;
+}
+.commandContext,.commandTelemetry,.commandTelemetry span{gap:6px!important}
+.commandContext strong,.commandTelemetry strong{color:#9ca8b5!important;font-size:8px!important;font-weight:650!important}
+.commandDot,.telemetryDot{width:5px!important;height:5px!important;box-shadow:none!important}
+.futureEraChip{
+  margin-left:5px!important;padding:3px 6px!important;border:1px solid rgba(66,201,139,.18)!important;border-radius:5px!important;
+  background:rgba(66,201,139,.06)!important;color:#6fc69a!important;font-size:7px!important;letter-spacing:.06em!important;
+}
+
+/* Content spacing + hierarchy */
+.view{padding:24px 26px 32px!important}
+.view:not(.hidden){animation:productViewIn .16s ease-out}
+@keyframes productViewIn{from{opacity:.6;transform:translateY(2px)}to{opacity:1;transform:none}}
+.pageToolbar,.panelHeader{
+  min-height:auto!important;margin:0 0 16px!important;padding:0!important;border:0!important;
+  display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:16px!important;
+}
+.pageToolbar>div:first-child:before,.panelHeader>div:first-child:before{display:none!important}
+.pageToolbar .eyebrow,.panelHeader .eyebrow{
+  color:#697582!important;font-size:8px!important;letter-spacing:.10em!important;font-weight:750!important;
+}
+.pageToolbar h3,.panelHeader h3{
+  margin:4px 0 0!important;color:#f1f4f7!important;font-size:23px!important;line-height:1.1!important;font-weight:710!important;letter-spacing:-.025em!important;
+}
+.muted{color:var(--prod-muted)!important}
+
+/* Surfaces */
+.panel,.resourceCard,.dockCard,.reportCard,.recommendation,.card,
+.opsIntelBlock,.towerBlock,.scenarioControls,.scenarioResult,.trendBlock,.hudCard{
+  background:var(--prod-surface)!important;
+  border:1px solid var(--prod-border)!important;
+  border-radius:var(--prod-radius)!important;
+  box-shadow:none!important;backdrop-filter:none!important;
+}
+.panel{padding:18px!important;overflow:hidden!important}
+.panel:before,.panel:after,.resourceCard:before,.dockCard:before,.card:before{display:none!important}
+.panel:hover{border-color:var(--prod-border-strong)!important}
+.resourceCard,.dockCard,.reportCard,.recommendation,.card{padding:16px!important}
+.cardsGrid,.reportGrid,.docksGrid{gap:12px!important}
+.resourceTop{margin-bottom:12px!important}
+.resourceKind{color:#687482!important;font-size:8px!important;letter-spacing:.08em!important}
+.resourceCode{color:#f0f4f7!important;font-size:15px!important;letter-spacing:-.01em!important}
+.resourceMetrics{gap:8px!important}
+.resourceMetric{
+  border:0!important;border-radius:8px!important;background:#0e151c!important;padding:9px!important;
+}
+.resourceMetric span{color:#687482!important}.resourceMetric strong{color:#dce3e9!important}
+
+/* Buttons */
+button{transition:background .14s ease,border-color .14s ease,color .14s ease,transform .14s ease!important}
+button:hover:not(:disabled){transform:none!important}
+.primary{
+  border:1px solid rgba(255,255,255,.06)!important;border-radius:8px!important;
+  background:var(--prod-blue)!important;color:white!important;font-weight:700!important;
+  box-shadow:none!important;
+}
+.primary:hover{background:var(--prod-blue-hover)!important;filter:none!important;box-shadow:none!important}
+.ghost{
+  border:1px solid var(--prod-border)!important;border-radius:8px!important;
+  background:#121a22!important;color:#9ca8b4!important;box-shadow:none!important;
+}
+.ghost:hover{background:#17212a!important;border-color:var(--prod-border-strong)!important;color:#e0e6ec!important}
+.dangerBtn{border-radius:8px!important;background:rgba(236,102,114,.08)!important;border-color:rgba(236,102,114,.18)!important;color:#e8919a!important}
+
+/* Forms */
+label{
+  color:#75818e!important;font-size:8px!important;font-weight:700!important;letter-spacing:.055em!important;text-transform:uppercase!important;
+}
+input,select,textarea{
+  min-height:38px!important;border:1px solid var(--prod-border-strong)!important;border-radius:8px!important;
+  background:#0c131a!important;color:#e7ecf1!important;box-shadow:none!important;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(55,135,245,.70)!important;background:#0f171f!important;
+  box-shadow:0 0 0 3px rgba(55,135,245,.10)!important;
+}
+.inlineForm,.formGrid{
+  padding:14px!important;margin-bottom:16px!important;border:1px solid var(--prod-border)!important;
+  border-radius:10px!important;background:#0e151c!important;
+}
+
+/* Tables */
+.tableWrap{
+  border:1px solid var(--prod-border)!important;border-radius:10px!important;background:#0d141b!important;overflow:auto!important;
+}
+table{border-collapse:collapse!important;border-spacing:0!important;font-size:10px!important}
+thead th{
+  position:sticky;top:0;z-index:2;padding:10px 12px!important;
+  background:#111922!important;color:#6f7c89!important;border-bottom:1px solid var(--prod-border)!important;
+  font-size:8px!important;font-weight:750!important;letter-spacing:.07em!important;text-transform:uppercase!important;
+}
+tbody tr{background:transparent!important;box-shadow:none!important}
+tbody tr:hover{background:#121a22!important;box-shadow:none!important}
+tbody td{
+  padding:12px!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.045)!important;
+  color:#aab4bf!important;
+}
+tbody tr:last-child td{border-bottom:0!important}
+tbody td:first-child,tbody td:last-child{border-left:0!important;border-right:0!important;border-radius:0!important}
+td strong{color:#e8edf2!important;font-weight:650!important}
+.tablePrimary:before{width:4px!important;height:4px!important;background:#56b9d0!important;box-shadow:none!important}
+
+/* Semantic states */
+.badge{
+  padding:4px 7px!important;border-radius:6px!important;font-size:8px!important;font-weight:700!important;
+  border:1px solid var(--prod-border)!important;background:#17212a!important;color:#9ba8b4!important;box-shadow:none!important;
+}
+.status-ok,.status-active{background:rgba(66,201,139,.08)!important;border-color:rgba(66,201,139,.16)!important;color:#70cb9d!important}
+.status-warning,.status-maint{background:rgba(231,173,77,.08)!important;border-color:rgba(231,173,77,.16)!important;color:#d8b06c!important}
+.status-critical,.status-danger{background:rgba(236,102,114,.08)!important;border-color:rgba(236,102,114,.16)!important;color:#df8a93!important}
+.status-info{background:rgba(55,135,245,.09)!important;border-color:rgba(55,135,245,.16)!important;color:#79a8ed!important}
+
+/* Dashboard: product-first composition */
+#dashboardView{
+  display:flex!important;flex-direction:column!important;gap:14px!important;
+}
+#dashboardView.hidden{display:none!important}
+.dashboardHud{
+  order:-1!important;position:static!important;z-index:auto!important;
+  display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:10px!important;margin:0!important;pointer-events:auto!important;
+}
+.dashboardHud .hudCard{
+  min-height:118px!important;padding:14px!important;
+  background:var(--prod-surface)!important;border:1px solid var(--prod-border)!important;
+}
+.dashboardHud .hudCard:after{display:none!important}
+.dashboardHud .hudCard .eyebrow{margin-bottom:8px!important;color:#687482!important;font-size:8px!important;letter-spacing:.07em!important}
+.dashboardHud .hudBig{font-size:29px!important;font-weight:720!important;color:#f3f6f8!important;text-shadow:none!important;letter-spacing:-.035em!important}
+.dashboardHud .hudSub{font-size:8px!important;color:#6f7c89!important}
+.dashboardHud .hudList{gap:5px!important;margin-top:8px!important}
+.dashboardHud .hudList>div{font-size:8px!important;color:#8894a0!important}
+.dashboardHud .hudList strong{color:#d7dee5!important;font-weight:650!important}
+.dashboardHud .hudBar{height:4px!important;background:#202a34!important;border:0!important}
+.dashboardHud .hudBar i{background:#4a8ce8!important;box-shadow:none!important}
+.dashboardHud .hudEquip{gap:6px!important}
+.dashboardHud .hudEquip div{border:0!important;background:#0e151c!important;padding:6px!important}
+.dashboardHud .hudEquip strong{font-size:15px!important;color:#e9edf1!important}
+.dashboardHud .hudDonut{
+  width:62px!important;height:62px!important;background:conic-gradient(#48bfa8 var(--p),#202a34 0)!important;
+}
+.dashboardHud .sparkline polyline{stroke:#4b9dde!important;filter:none!important}
+
+#dashboardView>.dashboardMapPanel{
+  order:0!important;height:auto!important;min-height:0!important;
+  padding:16px!important;margin:0!important;border:1px solid var(--prod-border)!important;
+  background:var(--prod-surface)!important;box-shadow:none!important;
+}
+#dashboardView>.dashboardMapPanel>.panelHeader{display:flex!important}
+.interactivePortLayout{position:relative!important}
+#port3dCanvas{height:62vh!important;min-height:560px!important;border-radius:10px!important;clip-path:none!important}
+.interactivePortToolbar{
+  position:static!important;display:flex!important;right:auto!important;left:auto!important;top:auto!important;
+  margin:0 0 12px!important;padding:0!important;border:0!important;background:transparent!important;
+  backdrop-filter:none!important;box-shadow:none!important;
+}
+.interactivePortToolbar .ghost{font-size:8px!important;min-height:29px!important;padding:5px 8px!important}
+.port3dInfo{
+  right:14px!important;top:14px!important;bottom:14px!important;width:286px!important;
+  border-radius:10px!important;background:rgba(10,17,24,.91)!important;border:1px solid rgba(255,255,255,.09)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;backdrop-filter:blur(12px)!important;
+}
+.port3dInfo:before{color:#7d8997!important;letter-spacing:.08em!important}
+.neuralHud,.neuralReticle,.neuralSignal{display:none!important}
+.futureMapBadge{font-size:7px!important;border-color:rgba(255,255,255,.10)!important;color:#8995a2!important;background:rgba(10,16,23,.72)!important;box-shadow:none!important}
+#port3dCanvas:after{display:none!important}
+
+/* Operational intelligence sections */
+.opsIntelPanel,.controlTowerPanel,.decisionLabPanel{
+  order:2!important;margin:0!important;padding:18px!important;
+  background:var(--prod-surface)!important;border:1px solid var(--prod-border)!important;
+}
+.opsIntelPanel:after,.controlTowerPanel:after,.decisionLabPanel:after{display:none!important}
+.opsIntelHead h3,.controlTowerHead h3,.decisionLabHead h3{font-size:17px!important;color:#eef2f5!important}
+.opsIntelHead p,.controlTowerHead p,.decisionLabHead p{font-size:9px!important}
+.opsSync,.towerStatus span,.scenarioBadge{
+  border-radius:6px!important;border-color:var(--prod-border)!important;background:#0e151c!important;
+  color:#82909d!important;box-shadow:none!important;
+}
+.opsIntelGrid,.towerGrid,.decisionLabGrid{gap:10px!important}
+.opsIntelBlock,.towerBlock,.scenarioControls,.scenarioResult,.trendBlock{padding:13px!important;background:#0e151c!important}
+.opsHeadline{font-size:17px!important;color:#edf1f4!important}
+.opsMetricMini,.opsArrivalItem,.opsPriorityItem,.berthShip,.predictiveItem,.scenarioMetric,.playbookItem,.trendCard{
+  border:1px solid rgba(255,255,255,.055)!important;background:#111922!important;border-radius:8px!important;box-shadow:none!important;
+}
+.riskDial,.scenarioDial{filter:none!important}
+.shipProgress i,.chartTrack i,.storageGauge i{box-shadow:none!important}
+
+/* Reports / analytics / optimization */
+.reportCard{min-height:150px!important;display:flex!important;flex-direction:column!important}
+.reportCard h4{margin:0 0 7px!important;font-size:14px!important;color:#edf1f4!important}
+.reportCard p{margin:0 0 16px!important;color:#7d8997!important;font-size:9px!important;line-height:1.5!important}
+.reportCard .primary{margin-top:auto!important;align-self:flex-start!important}
+.analyticsSummary{gap:10px!important;margin-bottom:12px!important}
+.analyticsSummary .card strong{font-size:24px!important;color:#f1f5f8!important}
+.chartPanel h3{font-size:14px!important}
+.optimizationLayout{gap:12px!important}
+.recommendation{background:#0e151c!important}
+
+/* Alerts and notifications */
+.alertRow,.notificationItem{
+  margin-bottom:7px!important;border:1px solid var(--prod-border)!important;border-radius:9px!important;background:#0e151c!important;
+}
+.alertRow:hover,.notificationItem:hover{background:#121a22!important;border-color:var(--prod-border-strong)!important}
+.notice,.connectionError{
+  border-radius:8px!important;box-shadow:var(--prod-shadow)!important;backdrop-filter:blur(14px)!important;
+}
+
+/* Modal/auth */
+#modal{background:rgba(3,6,10,.72)!important;backdrop-filter:blur(8px)!important}
+.modalCard,.loginCard,.requestCard,.commandPaletteCard{
+  background:#10171e!important;border:1px solid var(--prod-border-strong)!important;
+  border-radius:12px!important;box-shadow:0 26px 70px rgba(0,0,0,.38)!important;backdrop-filter:none!important;
+}
+.commandPaletteHead,.commandPaletteFoot{border-color:var(--prod-border)!important}
+.commandInputWrap{background:#0c1319!important;border-color:var(--prod-border-strong)!important}
+.searchResult:hover,.searchResult.selected{background:#17212a!important;border-color:var(--prod-border)!important}
+.searchResultIcon{background:#121b24!important;border-color:var(--prod-border)!important;color:#8ea2b3!important}
+
+/* Landing: polished, not sci-fi gimmick */
+#landing{
+  background:
+    radial-gradient(circle at 72% 22%,rgba(55,135,245,.14),transparent 30%),
+    linear-gradient(135deg,#080d13,#0c131a 58%,#080d13)!important;
+}
+#landing:before{
+  display:block!important;content:"";position:absolute;inset:0;
+  background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px)!important;
+  background-size:54px 54px!important;mask-image:linear-gradient(to bottom,black,transparent 78%)!important;
+  transform:none!important;animation:none!important;opacity:1!important;
+}
+#landing:after{display:none!important}
+.hero{
+  max-width:820px!important;border:1px solid var(--prod-border)!important;border-radius:16px!important;
+  background:rgba(13,20,28,.84)!important;box-shadow:0 30px 80px rgba(0,0,0,.30)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.hero:before,.hero:after{display:none!important}
+.hero h1{color:#f5f7fa!important;background:none!important;-webkit-text-fill-color:initial!important;text-shadow:none!important}
+.hero .motto{color:#798694!important;letter-spacing:.04em!important}
+.logoBox{
+  background:#17232e!important;border:1px solid var(--prod-border-strong)!important;
+  box-shadow:none!important;animation:none!important;
+}
+.heroCapabilities span{
+  background:#111922!important;border:1px solid var(--prod-border)!important;color:#8794a1!important;box-shadow:none!important;
+}
+
+/* Responsive */
+@media(max-width:1180px){
+  .workspaceClock{display:none!important}
+  .dashboardHud{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .dashboardHud .hudCard:last-child{grid-column:1/-1}
+}
+@media(max-width:1050px){
+  #app{grid-template-columns:1fr!important}
+  aside{background:var(--prod-sidebar)!important}
+  .brandCopy{display:block!important}
+  .navSectionLabel{display:block!important}
+  .railText{display:inline!important}
+  .view{padding:16px!important}
+  .dashboardHud{grid-template-columns:1fr 1fr!important}
+  #port3dCanvas{height:60vh!important;min-height:430px!important}
+}
+@media(max-width:700px){
+  .environmentBadge,.commandTelemetry{display:none!important}
+  .pageSubtitle{display:none!important}
+  .dashboardHud{grid-template-columns:1fr!important}
+  .dashboardHud .hudCard:last-child{grid-column:auto}
+  .topbar{padding:0 12px!important}
+  .view{padding:12px!important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
 </script>
@@ -1701,23 +2162,26 @@ window.SP_GLTFLoader = GLTFLoader;
 
 <section id="app" class="hidden">
   <aside>
-    <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.28 · Neural Cockpit</div>
+    <div class="brand"><span class="brandMark"><i data-lucide="anchor"></i></span><span class="brandCopy"><strong>Smart Ports</strong><small>Operations Platform</small></span></div>
+    <div class="version">v0.29 · Launch Platform</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
-      <button class="active" data-section="dashboard" data-label="Vista general" aria-label="Vista general"><span class="railIcon">⌂</span><span class="railText">Vista general</span></button>
-      <button data-section="ships" data-label="Buques" aria-label="Buques"><span class="railIcon">⚓</span><span class="railText">Buques</span></button>
-      <button data-section="containers" data-label="Contenedores" aria-label="Contenedores"><span class="railIcon">▣</span><span class="railText">Contenedores</span></button>
-      <button data-section="cranes" data-label="Grúas" aria-label="Grúas"><span class="railIcon">⌁</span><span class="railText">Grúas</span></button>
-      <button data-section="yards" data-label="Patios" aria-label="Patios"><span class="railIcon">▦</span><span class="railText">Patios</span></button>
-      <button data-section="docks" data-label="Muelles" aria-label="Muelles"><span class="railIcon">▥</span><span class="railText">Muelles</span></button>
-      <button data-section="alerts" data-label="Alertas" aria-label="Alertas"><span class="railIcon">⚠</span><span class="railText">Alertas</span></button>
-      <button data-section="analytics" data-label="Analítica" aria-label="Analítica"><span class="railIcon">◫</span><span class="railText">Analítica</span></button>
-      <button data-section="reports" data-label="Reportes" aria-label="Reportes"><span class="railIcon">▤</span><span class="railText">Reportes</span></button>
-      <button data-section="optimization" data-label="Optimización" aria-label="Optimización"><span class="railIcon">✦</span><span class="railText">Optimización</span></button>
-      <button data-section="notifications" data-label="Notificaciones" aria-label="Notificaciones"><span class="railIcon">◆</span><span class="railText">Notificaciones</span> <span id="sideNotifCount"></span></button>
-      <button class="adminOnly" data-section="users" data-label="Usuarios y accesos" aria-label="Usuarios y accesos"><span class="railIcon">◉</span><span class="railText">Usuarios y accesos</span> <span id="pendingAccessNav"></span></button>
-      <button class="adminOnly" data-section="audit" data-label="Auditoría" aria-label="Auditoría"><span class="railIcon">⌕</span><span class="railText">Auditoría</span></button>
+      <div class="navSectionLabel">Operate</div>
+      <button class="active" data-section="dashboard" data-label="Vista general" aria-label="Vista general"><span class="railIcon"><i data-lucide="layout-dashboard"></i></span><span class="railText">Vista general</span></button>
+      <button data-section="ships" data-label="Buques" aria-label="Buques"><span class="railIcon"><i data-lucide="ship"></i></span><span class="railText">Buques</span></button>
+      <button data-section="containers" data-label="Contenedores" aria-label="Contenedores"><span class="railIcon"><i data-lucide="package"></i></span><span class="railText">Contenedores</span></button>
+      <button data-section="cranes" data-label="Grúas" aria-label="Grúas"><span class="railIcon"><i data-lucide="construction"></i></span><span class="railText">Grúas</span></button>
+      <button data-section="yards" data-label="Patios" aria-label="Patios"><span class="railIcon"><i data-lucide="warehouse"></i></span><span class="railText">Patios</span></button>
+      <button data-section="docks" data-label="Muelles" aria-label="Muelles"><span class="railIcon"><i data-lucide="columns-3"></i></span><span class="railText">Muelles</span></button>
+      <button data-section="alerts" data-label="Alertas" aria-label="Alertas"><span class="railIcon"><i data-lucide="triangle-alert"></i></span><span class="railText">Alertas</span></button>
+      <div class="navSectionLabel">Insights</div>
+      <button data-section="analytics" data-label="Analítica" aria-label="Analítica"><span class="railIcon"><i data-lucide="chart-no-axes-combined"></i></span><span class="railText">Analítica</span></button>
+      <button data-section="reports" data-label="Reportes" aria-label="Reportes"><span class="railIcon"><i data-lucide="file-chart-column"></i></span><span class="railText">Reportes</span></button>
+      <button data-section="optimization" data-label="Optimización" aria-label="Optimización"><span class="railIcon"><i data-lucide="sparkles"></i></span><span class="railText">Optimización</span></button>
+      <div class="navSectionLabel">System</div>
+      <button data-section="notifications" data-label="Notificaciones" aria-label="Notificaciones"><span class="railIcon"><i data-lucide="bell"></i></span><span class="railText">Notificaciones</span> <span id="sideNotifCount"></span></button>
+      <button class="adminOnly" data-section="users" data-label="Usuarios y accesos" aria-label="Usuarios y accesos"><span class="railIcon"><i data-lucide="users"></i></span><span class="railText">Usuarios y accesos</span> <span id="pendingAccessNav"></span></button>
+      <button class="adminOnly" data-section="audit" data-label="Auditoría" aria-label="Auditoría"><span class="railIcon"><i data-lucide="history"></i></span><span class="railText">Auditoría</span></button>
     </nav>
     <button class="navScrollControl" id="navScrollDown" type="button" title="Bajar menú">▼</button>
     <div class="userBox">
@@ -1732,12 +2196,21 @@ window.SP_GLTFLoader = GLTFLoader;
 
   <main class="workspace">
     <header class="topbar">
-      <div class="topbarTitleWrap"><button class="mobileMenuBtn" id="mobileMenuBtn" type="button" aria-label="Abrir menú">☰</button><div><div class="eyebrow">AUTONOMOUS PORT OS · VISION 2046</div><h2 id="pageTitle">Vista general</h2></div></div>
+      <div class="routeProgress" id="routeProgress"></div>
+      <div class="topbarTitleWrap">
+        <button class="mobileMenuBtn" id="mobileMenuBtn" type="button" aria-label="Abrir menú"><i data-lucide="menu"></i></button>
+        <div>
+          <div class="eyebrow">PORT OPERATIONS PLATFORM</div>
+          <h2 id="pageTitle">Vista general</h2>
+          <p class="pageSubtitle" id="pageSubtitle">Estado operativo, capacidad y gemelo digital.</p>
+        </div>
+      </div>
       <div class="topActions">
-        <button class="globalSearchBtn" id="globalSearchBtn" type="button"><span>⌕</span><span>Buscar</span><kbd>Ctrl K</kbd></button>
-        <button class="notificationButton" id="notificationButton">🔔<span id="notificationBadge" class="notificationBadge hidden">0</span></button>
-        <span class="live">● Sistema en línea</span>
-        <button class="primary small" id="quickShipBtn">+ Registrar buque</button>
+        <span class="workspaceClock" id="workspaceClock"></span>
+        <button class="globalSearchBtn" id="globalSearchBtn" type="button"><i data-lucide="search"></i><span>Buscar</span><kbd>Ctrl K</kbd></button>
+        <button class="notificationButton" id="notificationButton" aria-label="Notificaciones"><i data-lucide="bell"></i><span id="notificationBadge" class="notificationBadge hidden">0</span></button>
+        <span class="environmentBadge"><i class="environmentDot"></i>Producción</span>
+        <button class="primary small" id="quickShipBtn"><i data-lucide="plus"></i><span>Registrar buque</span></button>
       </div>
     </header>
 
@@ -1746,12 +2219,12 @@ window.SP_GLTFLoader = GLTFLoader;
         <span class="commandDot"></span>
         <span>OPERACIÓN</span>
         <strong id="commandModule">Vista general</strong>
-        <span class="futureEraChip">VISION 2046</span>
+        <span class="futureEraChip">PRODUCTION</span>
       </div>
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
         <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
-        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>2046</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>READY</strong></span>
         <span>PERFIL <strong id="commandRole">—</strong></span>
       </div>
     </div>
@@ -2210,7 +2683,7 @@ $("loginForm").addEventListener("submit",async e=>{
     const result=await api("/auth/login",{method:"POST",body:JSON.stringify({email:$("userInput").value.trim(),password:$("passInput").value})});
     token=result.token;currentUser=result.user;
     localStorage.setItem("smartPortsToken",token);localStorage.setItem("smartPortsUser",JSON.stringify(currentUser));
-    hide("login");show("app");await loadMyPermissions();applyUser();openDefaultSection();await loadAll();
+    hide("login");show("app");await loadMyPermissions();applyUser();openDefaultSection();setRouteLoading(true);await loadAll();setRouteLoading(false);if(window.lucide)window.lucide.createIcons({attrs:{"stroke-width":1.8}});
   }catch(error){$("loginError").textContent=error.message;show("loginError")}
 });
 
@@ -2230,6 +2703,8 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
     };
     $("pageTitle").textContent=titles[section]||"Smart Ports";
     if($("commandModule"))$("commandModule").textContent=(titles[section]||"Smart Ports").toUpperCase();
+    updateProductChrome(section);
+    setRouteLoading(true);
     try{
       if(section==="dashboard")await loadDashboard();
       if(section==="ships")await loadShips();
@@ -2244,6 +2719,7 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
       if(section==="users")await Promise.all([loadUsers(),loadAccessRequests(),loadPermissionRows()]);
       if(section==="audit")await loadAudit();
     }catch(error){showConnectionError(error.message)}
+    finally{setRouteLoading(false)}
   });
 });
 
@@ -2318,6 +2794,46 @@ $("userForm").addEventListener("submit",async e=>{
   }catch(error){showConnectionError(error.message)}
 });
 
+
+const PAGE_META={
+  dashboard:"Estado operativo, capacidad y gemelo digital.",
+  ships:"Tráfico marítimo, arribos y asignaciones de muelle.",
+  containers:"Inventario de carga y trazabilidad por buque.",
+  cranes:"Disponibilidad y estado del equipo portuario.",
+  yards:"Capacidad, ocupación y utilización de patios.",
+  docks:"Disponibilidad y asignaciones de atraque.",
+  alerts:"Incidentes, advertencias y condiciones críticas.",
+  analytics:"Indicadores operativos y distribución de capacidad.",
+  reports:"Exportación de datos operativos para análisis.",
+  optimization:"Riesgo de congestión y acciones recomendadas.",
+  notifications:"Actividad y avisos relevantes de la plataforma.",
+  users:"Usuarios, roles, permisos y solicitudes de acceso.",
+  audit:"Trazabilidad de cambios y acciones del sistema."
+};
+function updateProductChrome(section){
+  if($("pageSubtitle"))$("pageSubtitle").textContent=PAGE_META[section]||"Smart Ports Operations Platform";
+  document.title=( $("pageTitle")?.textContent || "Smart Ports")+" · Smart Ports";
+}
+function setRouteLoading(active){
+  const bar=$("routeProgress");if(!bar)return;
+  bar.classList.remove("done");
+  if(active){bar.classList.add("active");}
+  else{
+    bar.classList.remove("active");bar.classList.add("done");
+    setTimeout(()=>bar.classList.remove("done"),520);
+  }
+}
+function updateWorkspaceClock(){
+  const el=$("workspaceClock");if(!el)return;
+  const now=new Date();
+  el.textContent=now.toLocaleDateString("es-CO",{weekday:"short",day:"2-digit",month:"short"})+" · "+now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"});
+}
+function initProductUI(){
+  updateWorkspaceClock();
+  setInterval(updateWorkspaceClock,60000);
+  if(window.lucide)window.lucide.createIcons({attrs:{"stroke-width":1.8}});
+}
+
 function openSection(section){
   if(!canAccess(section)){notify("No tienes permiso para abrir este módulo.");return}
   document.body.classList.remove("sidebarOpen");
@@ -2332,6 +2848,7 @@ function openSection(section){
   };
   $("pageTitle").textContent=titles[section]||"Smart Ports";
   if($("commandModule"))$("commandModule").textContent=(titles[section]||"Smart Ports").toUpperCase();
+  updateProductChrome(section);
 }
 
 function canAccess(section){
@@ -4351,6 +4868,7 @@ function formatDate(value){
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
+initProductUI();
 if(token&&currentUser){hide("landing");hide("login");show("app");loadMyPermissions().then(()=>{applyUser();openDefaultSection();return loadAll()}).catch(e=>showConnectionError(e.message))}
 setInterval(()=>{if(token&&!document.hidden&&canAccess("notifications"))loadNotifications().catch(()=>{})},20000);
 setInterval(()=>{if(!document.hidden)refreshPortRealtime()},15000);
