@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.22 · Interface Pro</title>
+<title>Smart Ports v0.23 · Operations Intelligence</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,6 +918,37 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
+/* Smart Ports v0.23 · Operations Intelligence */
+.opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
+.opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
+.opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
+.opsIntelActions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.opsSync{display:inline-flex;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(66,226,223,.16);border-radius:8px;background:rgba(8,39,49,.62);color:#7fb7c4;font-size:10px;white-space:nowrap}
+.opsIntelGrid{display:grid;grid-template-columns:1.05fr 1fr 1.15fr;gap:10px}
+.opsIntelBlock{min-width:0;border:1px solid rgba(61,143,163,.28);border-radius:11px;background:linear-gradient(180deg,rgba(7,31,42,.90),rgba(5,23,32,.90));padding:12px;box-shadow:inset 0 1px rgba(91,228,235,.025)}
+.opsHealthBlock{background:radial-gradient(circle at 100% 0%,rgba(67,226,223,.07),transparent 42%),linear-gradient(180deg,rgba(7,32,43,.94),rgba(5,23,32,.94))}
+.opsBlockTitle{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;color:#b9d4dd;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.opsBlockTitle small{color:#638b9a;font-size:9px;letter-spacing:.08em}
+.opsState{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:900;letter-spacing:.08em;border:1px solid}
+.opsState.stable{color:#7ff0bd;background:#10382c;border-color:#246c52}.opsState.attention{color:#ffd47c;background:#3a2b17;border-color:#73582d}.opsState.critical{color:#ff9ba2;background:#391d22;border-color:#773942}
+.opsHeadline{display:block;font-size:20px;letter-spacing:-.025em;color:#efffff;margin-bottom:5px}.opsHealthBlock>p{margin:0 0 11px;font-size:11px;line-height:1.45}
+.opsMetricsMini{display:grid;grid-template-columns:1fr 1fr;gap:7px}.opsMetricMini{border:1px solid #173e4e;background:#061b26;border-radius:8px;padding:8px}
+.opsMetricMini span{display:block;color:#7296a5;font-size:9px;text-transform:uppercase;letter-spacing:.05em}.opsMetricMini strong{display:block;margin-top:3px;color:#e9ffff;font-size:16px}
+.opsArrivalList,.opsPriorityList{display:grid;gap:7px}
+.opsArrivalItem{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:9px;align-items:center;padding:8px;border:1px solid #153c4b;border-radius:8px;background:#061b25}
+.opsArrivalMain{min-width:0}.opsArrivalMain strong,.opsArrivalMain small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.opsArrivalMain strong{font-size:11px;color:#eaffff}.opsArrivalMain small{margin-top:2px;color:#7499a8;font-size:9px}
+.opsArrivalEta{text-align:right}.opsArrivalEta strong,.opsArrivalEta small{display:block}.opsArrivalEta strong{font-size:11px;color:#89e7f2}.opsArrivalEta small{font-size:9px;color:#6f94a3}
+.opsArrivalAction{border:1px solid #205467;background:#092431;color:#7edce9;border-radius:7px;padding:6px 7px;font-size:10px}
+.opsArrivalAction:hover{border-color:#35ced2;color:#eaffff}
+.opsPriorityItem{display:grid;grid-template-columns:8px minmax(0,1fr) auto;gap:8px;align-items:start;padding:8px;border:1px solid #173d4b;border-radius:8px;background:#061b25}
+.opsPriorityItem:before{content:"";width:7px;height:7px;border-radius:50%;margin-top:4px;background:#56dca5;box-shadow:0 0 8px rgba(86,220,165,.34)}
+.opsPriorityItem.warning:before{background:#ffc45d;box-shadow:0 0 8px rgba(255,196,93,.34)}.opsPriorityItem.danger:before{background:#ff707a;box-shadow:0 0 8px rgba(255,112,122,.38)}
+.opsPriorityItem strong,.opsPriorityItem small{display:block}.opsPriorityItem strong{font-size:10px;color:#e9fbff}.opsPriorityItem small{margin-top:2px;color:#7696a3;font-size:9px;line-height:1.35}
+.opsPriorityTag{font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 6px;border:1px solid #245365;border-radius:999px;color:#8db8c5;white-space:nowrap}
+.opsEmpty{padding:13px;border:1px dashed #214656;border-radius:8px;color:#718f9c;font-size:10px;text-align:center}
+@media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
+@media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script type="importmap">
@@ -998,7 +1029,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.22 · Interface Pro</div>
+    <div class="version">v0.23 · Operations Intelligence</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -1046,7 +1077,7 @@ window.SP_GLTFLoader = GLTFLoader;
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
         <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
-        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.22</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.23</strong></span>
         <span>PERFIL <strong id="commandRole">—</strong></span>
       </div>
     </div>
@@ -1131,6 +1162,37 @@ window.SP_GLTFLoader = GLTFLoader;
           <div class="hudList" id="hudFlowStats"></div>
         </article>
       </div>
+
+      <article class="panel opsIntelPanel">
+        <div class="opsIntelHead">
+          <div>
+            <div class="eyebrow">OPERATIONS INTELLIGENCE</div>
+            <h3>Centro de decisiones portuarias</h3>
+            <p class="muted">Prioriza arribos, capacidad y alertas con los datos actuales de la operación.</p>
+          </div>
+          <div class="opsIntelActions">
+            <span class="opsSync" id="opsLastSync">Sincronizando…</span>
+            <button class="ghost" id="opsRefreshBtn" type="button">↻ Actualizar</button>
+            <button class="primary small" id="opsOptimizeBtn" type="button">✦ Optimizar muelles</button>
+          </div>
+        </div>
+        <div class="opsIntelGrid">
+          <section class="opsIntelBlock opsHealthBlock">
+            <div class="opsBlockTitle"><span>Salud operativa</span><span id="opsOverallBadge" class="opsState stable">ESTABLE</span></div>
+            <strong class="opsHeadline" id="opsOverallTitle">Operación estable</strong>
+            <p class="muted" id="opsOverallText">Analizando capacidad y recursos disponibles.</p>
+            <div class="opsMetricsMini" id="opsOverallMetrics"></div>
+          </section>
+          <section class="opsIntelBlock">
+            <div class="opsBlockTitle"><span>Próximos arribos</span><small>ETA</small></div>
+            <div class="opsArrivalList" id="opsArrivalList"></div>
+          </section>
+          <section class="opsIntelBlock">
+            <div class="opsBlockTitle"><span>Prioridades</span><small>Acción recomendada</small></div>
+            <div class="opsPriorityList" id="opsPriorityList"></div>
+          </section>
+        </div>
+      </article>
     </section>
 
     <section id="shipsView" class="view hidden">
@@ -2684,8 +2746,9 @@ window.openMapModule=openMapModule;
 async function refreshPortRealtime(){
   if(!token||!canAccess("dashboard")||$("dashboardView").classList.contains("hidden"))return;
   try{
-    await Promise.all([loadYards(),loadDocks(),loadShips(),loadCranes()]);
-    buildPort3D();
+    const results=await Promise.all([api("/dashboard"),loadYards(),loadDocks(),loadShips(),loadCranes()]);
+    dashboard=results[0];
+    renderDashboard();
     if(port3D.selected)showPort3DInfo(port3D.selected.kind,port3D.selected.id);
   }catch{}
 }
@@ -2744,8 +2807,100 @@ function renderDashboard(){
     <div><span>Contenedores registrados</span><strong>${totalContainers}</strong></div>
     <div><span>Buques activos</span><strong>${activeShips}</strong></div>
   `;
+  renderOpsIntelligence();
 }
 
+
+function etaMinutes(value){
+  const match=String(value||'').match(/(\d{1,2}):(\d{2})/);
+  if(!match)return 99999;
+  const now=new Date();
+  const target=new Date(now);
+  target.setHours(Number(match[1]),Number(match[2]),0,0);
+  if(target.getTime()<now.getTime()-5*60000)target.setDate(target.getDate()+1);
+  return Math.max(0,Math.round((target-now)/60000));
+}
+function formatEtaDelta(minutes){
+  if(!Number.isFinite(minutes)||minutes>=99999)return 'Sin ETA';
+  if(minutes<=5)return 'Ahora';
+  const hours=Math.floor(minutes/60),mins=minutes%60;
+  if(hours===0)return mins+' min';
+  if(hours<24)return hours+' h'+(mins?' '+mins+' min':'');
+  return 'Mañana · '+(hours-24)+' h';
+}
+function renderOpsIntelligence(){
+  if(!$('opsOverallBadge')||!dashboard)return;
+  const activeAlerts=(dashboard.alerts||[]).filter(function(a){return a.active!==false});
+  const dangerAlerts=activeAlerts.filter(function(a){return a.level==='danger'});
+  const warningAlerts=activeAlerts.filter(function(a){return a.level==='warning'});
+  const freeDocks=docks.filter(function(d){return d.status==='Disponible'}).length;
+  const activeCranes=cranes.filter(function(g){return g.status==='Activa'}).length;
+  const cranePct=Math.round(activeCranes/Math.max(cranes.length,1)*100);
+  const yardDetails=yards.map(function(y){
+    const pct=Math.round(Number(y.occupied||0)/Math.max(Number(y.capacity||0),1)*100);
+    return {name:y.name,pct:pct};
+  }).sort(function(a,b){return b.pct-a.pct});
+  const peakYard=yardDetails[0]||{name:'Sin patios',pct:0};
+  let state='stable',label='ESTABLE',title='Operación estable',text='Capacidad disponible y recursos dentro de rangos operativos.';
+  if(dangerAlerts.length||peakYard.pct>=90||freeDocks===0){
+    state='critical';label='CRÍTICO';title='Intervención prioritaria';
+    text='Hay condiciones que pueden comprometer el flujo portuario. Revisa prioridades y disponibilidad antes del próximo arribo.';
+  }else if(warningAlerts.length||peakYard.pct>=80||cranePct<60){
+    state='attention';label='ATENCIÓN';title='Operación bajo vigilancia';
+    text='La operación continúa, pero uno o más indicadores requieren seguimiento preventivo.';
+  }
+  $('opsOverallBadge').className='opsState '+state;
+  $('opsOverallBadge').textContent=label;
+  $('opsOverallTitle').textContent=title;
+  $('opsOverallText').textContent=text;
+  const operationalShips=ships.filter(function(s){return s.status!=='Finalizado'}).length;
+  const metrics=[['Muelles libres',freeDocks+'/'+docks.length],['Grúas activas',cranePct+'%'],['Pico patios',peakYard.pct+'%'],['Buques operativos',operationalShips]];
+  $('opsOverallMetrics').innerHTML=metrics.map(function(x){return '<div class="opsMetricMini"><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>';}).join('');
+
+  const arrivals=ships.map(function(s){return {ship:s,minutes:etaMinutes(s.eta)};}).sort(function(a,b){return a.minutes-b.minutes;}).slice(0,4);
+  $('opsArrivalList').innerHTML=arrivals.length?arrivals.map(function(item){
+    const s=item.ship;
+    return '<div class="opsArrivalItem"><div class="opsArrivalMain"><strong>'+esc(s.name)+'</strong><small>'+esc((s.status||'Sin estado')+' · Muelle '+(s.dock||'—'))+'</small></div><div class="opsArrivalEta"><strong>'+esc(s.eta||'—')+'</strong><small>'+esc(formatEtaDelta(item.minutes))+'</small></div><button class="opsArrivalAction" type="button" onclick="focusOpsShip('+Number(s.id)+')">Ver en 3D</button></div>';
+  }).join(''):'<div class="opsEmpty">No hay arribos registrados.</div>';
+
+  const priorities=[];
+  dangerAlerts.slice(0,2).forEach(function(a){priorities.push({tone:'danger',title:a.message,detail:'Alerta crítica activa',tag:'CRÍTICA'});});
+  warningAlerts.slice(0,2).forEach(function(a){priorities.push({tone:'warning',title:a.message,detail:'Requiere seguimiento operativo',tag:'ALERTA'});});
+  yardDetails.filter(function(y){return y.pct>=80;}).slice(0,2).forEach(function(y){priorities.push({tone:y.pct>=90?'danger':'warning',title:y.name+' al '+y.pct+'%',detail:'Redistribuir carga o preparar capacidad',tag:'PATIO'});});
+  const waiting=ships.filter(function(s){return /esper|tr[aá]nsito/i.test(String(s.status||''));}).slice(0,2);
+  waiting.forEach(function(s){priorities.push({tone:freeDocks===0?'danger':'warning',title:s.name+' pendiente de atraque',detail:freeDocks?'Hay '+freeDocks+' muelle(s) disponible(s)':'No hay muelles libres',tag:'BUQUE'});});
+  if(!priorities.length)priorities.push({tone:'stable',title:'Sin bloqueos prioritarios',detail:'No se detectan alertas críticas ni saturación alta.',tag:'OK'});
+  $('opsPriorityList').innerHTML=priorities.slice(0,5).map(function(p){return '<div class="opsPriorityItem '+p.tone+'"><div></div><div><strong>'+esc(p.title)+'</strong><small>'+esc(p.detail)+'</small></div><span class="opsPriorityTag">'+esc(p.tag)+'</span></div>';}).join('');
+  $('opsLastSync').textContent='Actualizado '+new Date().toLocaleTimeString('es-CO');
+  $('opsOptimizeBtn').classList.toggle('hidden',!canAccess('optimization'));
+}
+function focusOpsShip(id){
+  if(!canAccess('dashboard'))return;
+  openSection('dashboard');
+  requestAnimationFrame(function(){
+    initPort3D();buildPort3D();
+    setTimeout(function(){if(!focusDataObject('ship',id))notify('El buque no está visible en la escena 3D actual.');},100);
+  });
+}
+window.focusOpsShip=focusOpsShip;
+async function refreshOperationalOverview(){
+  const btn=$('opsRefreshBtn');
+  if(btn){btn.disabled=true;btn.textContent='Actualizando…';}
+  try{
+    const result=await Promise.all([api('/dashboard'),loadShips(),loadCranes(),loadYards(),loadDocks()]);
+    dashboard=result[0];renderDashboard();
+    notify('Centro de decisiones actualizado.');
+  }catch(error){showConnectionError(error.message)}
+  finally{if(btn){btn.disabled=false;btn.textContent='↻ Actualizar';}}
+}
+async function runOpsOptimization(){
+  if(!canAccess('optimization')){notify('No tienes permiso para ejecutar optimización.');return;}
+  await runOptimization();
+  renderOpsIntelligence();
+}
+$('opsRefreshBtn').onclick=refreshOperationalOverview;
+$('opsOptimizeBtn').onclick=runOpsOptimization;
+setInterval(function(){if(token&&!$('dashboardView').classList.contains('hidden'))renderOpsIntelligence();},30000);
 
 function statusTone(value){
   const s=String(value||"").toLowerCase();
