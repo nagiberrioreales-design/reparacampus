@@ -697,6 +697,148 @@ async function loadNotifications(){
 function notify(message){$("notice").textContent=message;show("notice");setTimeout(()=>hide("notice"),3200)}
 function showConnectionError(message){$("connectionError").textContent=`No se pudo completar la operación: ${message}`;show("connectionError")}
 
+
+let port3dScene=null,port3dCamera=null,port3dRenderer=null,port3dGroup=null,port3dRaycaster=null,port3dPointer=null;
+let port3dDrag={active:false,x:0,y:0,moved:false},port3dRotation={x:-0.42,y:0.7},port3dDistance=42,port3dSelected=null;
+
+function initPort3D(){
+  const host=$("port3dCanvas");
+  if(!host||port3dRenderer||typeof THREE==="undefined")return;
+  port3dScene=new THREE.Scene();
+  port3dScene.background=new THREE.Color(0x06131b);
+  port3dScene.fog=new THREE.Fog(0x06131b,45,90);
+  port3dCamera=new THREE.PerspectiveCamera(45,host.clientWidth/host.clientHeight,.1,200);
+  port3dRenderer=new THREE.WebGLRenderer({antialias:true});
+  port3dRenderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  port3dRenderer.setSize(host.clientWidth,host.clientHeight);
+  port3dRenderer.shadowMap.enabled=true;
+  host.prepend(port3dRenderer.domElement);
+
+  port3dScene.add(new THREE.HemisphereLight(0x9fe8ff,0x13291f,1.8));
+  const sun=new THREE.DirectionalLight(0xffffff,2.1);
+  sun.position.set(18,32,20);sun.castShadow=true;port3dScene.add(sun);
+
+  const water=new THREE.Mesh(new THREE.PlaneGeometry(90,60),new THREE.MeshStandardMaterial({color:0x063c52,roughness:.35,metalness:.25}));
+  water.rotation.x=-Math.PI/2;water.position.y=-.35;port3dScene.add(water);
+
+  const land=new THREE.Mesh(new THREE.BoxGeometry(52,.7,28),new THREE.MeshStandardMaterial({color:0x193c35,roughness:.92}));
+  land.position.set(0,0,8);land.receiveShadow=true;port3dScene.add(land);
+
+  port3dGroup=new THREE.Group();port3dScene.add(port3dGroup);
+  port3dRaycaster=new THREE.Raycaster();port3dPointer=new THREE.Vector2();
+
+  const canvas=port3dRenderer.domElement;
+  canvas.addEventListener("pointerdown",e=>{port3dDrag={active:true,x:e.clientX,y:e.clientY,moved:false};canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener("pointermove",e=>{
+    if(!port3dDrag.active)return;
+    const dx=e.clientX-port3dDrag.x,dy=e.clientY-port3dDrag.y;
+    if(Math.abs(dx)+Math.abs(dy)>3)port3dDrag.moved=true;
+    port3dRotation.y+=dx*.008;
+    port3dRotation.x=Math.max(-1.2,Math.min(.15,port3dRotation.x+dy*.006));
+    port3dDrag.x=e.clientX;port3dDrag.y=e.clientY;
+  });
+  canvas.addEventListener("pointerup",e=>{if(!port3dDrag.moved)pickPort3D(e);port3dDrag.active=false});
+  canvas.addEventListener("wheel",e=>{e.preventDefault();port3dDistance=Math.max(20,Math.min(70,port3dDistance+e.deltaY*.025))},{passive:false});
+  new ResizeObserver(()=>{if(!port3dRenderer)return;const w=host.clientWidth,h=host.clientHeight;port3dRenderer.setSize(w,h);port3dCamera.aspect=w/h;port3dCamera.updateProjectionMatrix()}).observe(host);
+  document.querySelectorAll("[data-port-view]").forEach(b=>b.addEventListener("click",()=>setPortView(b.dataset.portView)));
+  animatePort3D();
+}
+function setPortView(view){
+  document.querySelectorAll("[data-port-view]").forEach(b=>b.classList.toggle("activeView",b.dataset.portView===view));
+  if(view==="top"){port3dRotation={x:-1.18,y:0};port3dDistance=48}
+  else if(view==="storage"){port3dRotation={x:-.48,y:.2};port3dDistance=28}
+  else if(view==="docks"){port3dRotation={x:-.38,y:-.7};port3dDistance=31}
+  else{port3dRotation={x:-.42,y:.7};port3dDistance=42}
+}
+function animatePort3D(){
+  requestAnimationFrame(animatePort3D);
+  if(!port3dRenderer||!port3dCamera)return;
+  const pitch=port3dRotation.x,yaw=port3dRotation.y,d=port3dDistance;
+  port3dCamera.position.set(Math.sin(yaw)*Math.cos(pitch)*d,Math.max(7,-Math.sin(pitch)*d),Math.cos(yaw)*Math.cos(pitch)*d);
+  port3dCamera.lookAt(0,1.5,3);
+  port3dRenderer.render(port3dScene,port3dCamera);
+}
+function labelSprite(text){
+  const canvas=document.createElement("canvas");canvas.width=256;canvas.height=64;
+  const x=canvas.getContext("2d");
+  x.fillStyle="rgba(3,18,27,.82)";x.fillRect(0,0,256,64);
+  x.strokeStyle="#38d9d0";x.strokeRect(1,1,254,62);
+  x.fillStyle="#e8ffff";x.font="bold 26px sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(text,128,32);
+  const t=new THREE.CanvasTexture(canvas);
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true}));
+  s.scale.set(5.5,1.4,1);return s;
+}
+function addClickable(mesh,data){mesh.userData=data;mesh.traverse?.(o=>o.userData=data);port3dGroup.add(mesh);return mesh}
+function rebuildPort3D(){
+  if(!port3dGroup)return;
+  while(port3dGroup.children.length)port3dGroup.remove(port3dGroup.children[0]);
+
+  yards.forEach((y,i)=>{
+    const pct=Math.round((Number(y.occupied)/Math.max(Number(y.capacity),1))*100);
+    const color=pct>=85?0xd95059:pct>=70?0xd7a338:0x2abf88;
+    const h=1.3+(pct/100)*5;
+    const mesh=new THREE.Mesh(new THREE.BoxGeometry(7,h,6),new THREE.MeshStandardMaterial({color,roughness:.62,metalness:.15}));
+    mesh.position.set(-13+i*12,h/2+0.3,9);mesh.castShadow=true;mesh.receiveShadow=true;
+    addClickable(mesh,{kind:"yard",id:y.id});
+    const lab=labelSprite(`${y.name} · ${pct}%`);lab.position.set(mesh.position.x,h+1.5,9);port3dGroup.add(lab);
+  });
+
+  docks.forEach((d,i)=>{
+    const x=-21+(i%6)*8.2,z=-5-Math.floor(i/6)*5;
+    const color=d.status==="Disponible"?0x25b889:d.status==="Ocupado"?0xe6a63d:0xd45f66;
+    const mesh=new THREE.Mesh(new THREE.BoxGeometry(6,.65,3.5),new THREE.MeshStandardMaterial({color,roughness:.55}));
+    mesh.position.set(x,.15,z);addClickable(mesh,{kind:"dock",id:d.id});
+    const lab=labelSprite(d.code);lab.scale.set(3,0.8,1);lab.position.set(x,1.2,z);port3dGroup.add(lab);
+  });
+
+  ships.slice(0,8).forEach((s,i)=>{
+    const mesh=new THREE.Mesh(new THREE.BoxGeometry(5,1.2,1.8),new THREE.MeshStandardMaterial({color:0x197fc4,metalness:.45,roughness:.35}));
+    mesh.position.set(-18+(i%5)*9,1.2,-11-Math.floor(i/5)*4.5);
+    mesh.rotation.y=.08;addClickable(mesh,{kind:"ship",id:s.id});
+  });
+
+  cranes.slice(0,10).forEach((g,i)=>{
+    const group=new THREE.Group();
+    const mat=new THREE.MeshStandardMaterial({color:g.status==="Activa"?0xf0b644:0xb24b55,metalness:.3});
+    const post=new THREE.Mesh(new THREE.BoxGeometry(.45,5,.45),mat);post.position.y=2.5;group.add(post);
+    const arm=new THREE.Mesh(new THREE.BoxGeometry(3.6,.3,.3),mat);arm.position.set(1.45,4.7,0);group.add(arm);
+    group.position.set(-20+i*4.5,0,-1.5);group.userData={kind:"crane",id:g.id};group.traverse(o=>o.userData={kind:"crane",id:g.id});port3dGroup.add(group);
+  });
+
+  $("port3dUpdated").textContent="Actualizado "+new Date().toLocaleTimeString("es-CO");
+}
+function pickPort3D(e){
+  const rect=port3dRenderer.domElement.getBoundingClientRect();
+  port3dPointer.x=((e.clientX-rect.left)/rect.width)*2-1;
+  port3dPointer.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  port3dRaycaster.setFromCamera(port3dPointer,port3dCamera);
+  const hit=port3dRaycaster.intersectObjects(port3dGroup.children,true).find(x=>x.object.userData?.kind);
+  if(hit)showPort3DInfo(hit.object.userData);
+}
+function showPort3DInfo(ref){
+  port3dSelected=ref;let title="",rows=[];
+  if(ref.kind==="yard"){
+    const y=yards.find(x=>Number(x.id)===Number(ref.id));if(!y)return;
+    const cap=Number(y.capacity)||0,occ=Number(y.occupied)||0,pct=Math.round((occ/Math.max(cap,1))*100);
+    title=y.name;
+    rows=[["Estado",pct>=85?"Crítico":pct>=70?"Alto":"Normal"],["Capacidad",cap.toLocaleString("es-CO")],["Ocupado",occ.toLocaleString("es-CO")],["Disponible",Math.max(0,cap-occ).toLocaleString("es-CO")],["Ocupación",pct+"%"]];
+    $("port3dInfo").innerHTML=`<div class="eyebrow">ALMACENAMIENTO EN TIEMPO REAL</div><h4>${esc(title)}</h4><div class="storageGauge"><i style="width:${Math.min(100,pct)}%"></i></div>`+rows.map(r=>`<div class="infoRow"><span>${r[0]}</span><strong>${r[1]}</strong></div>`).join("");
+    return;
+  }
+  if(ref.kind==="dock"){const d=docks.find(x=>Number(x.id)===Number(ref.id));if(!d)return;title="Muelle "+d.code;rows=[["Estado",d.status],["Capacidad",Number(d.max_containers).toLocaleString("es-CO")+" cont."],["Buque",d.ship_name||"Sin asignar"]]}
+  if(ref.kind==="ship"){const s=ships.find(x=>Number(x.id)===Number(ref.id));if(!s)return;title=s.name;rows=[["Estado",s.status],["ETA",s.eta],["Muelle",s.dock],["Contenedores",Number(s.containers).toLocaleString("es-CO")]]}
+  if(ref.kind==="crane"){const g=cranes.find(x=>Number(x.id)===Number(ref.id));if(!g)return;title=g.code;rows=[["Estado",g.status],["Tipo","Grúa portuaria"]]}
+  $("port3dInfo").innerHTML=`<div class="eyebrow">ESTADO ACTUAL</div><h4>${esc(title)}</h4>`+rows.map(r=>`<div class="infoRow"><span>${r[0]}</span><strong>${esc(r[1])}</strong></div>`).join("");
+}
+async function refreshPortRealtime(){
+  if(!token||!canAccess("dashboard")||$("dashboardView").classList.contains("hidden"))return;
+  try{
+    await Promise.all([loadYards(),loadDocks(),loadShips(),loadCranes()]);
+    rebuildPort3D();
+    if(port3dSelected)showPort3DInfo(port3dSelected);
+  }catch{}
+}
+
 function renderDashboard(){
   if(!dashboard)return;
   const m=dashboard.metrics;
@@ -711,11 +853,10 @@ function renderDashboard(){
   $("metrics").innerHTML=metrics.map(x=>`<article class="card"><span>${x[0]}</span><strong>${x[1]}</strong><small>${x[2]}</small></article>`).join("");
   $("arrivals").innerHTML=dashboard.arrivals.map(s=>`<div class="arrival"><div><strong>${esc(s.name)}</strong><small>${esc(s.status)}</small></div><div class="arrivalMeta"><strong>${esc(s.eta)}</strong><span>${esc(s.dock)}</span></div></div>`).join("");
   $("dashboardAlerts").innerHTML=dashboard.alerts.length?dashboard.alerts.map(a=>alertHtml(a,false)).join(""):`<div class="empty">No hay alertas activas.</div>`;
-  if(dashboard.yards[0])$("yardA").textContent=`${dashboard.yards[0].percentage}%`;
-  if(dashboard.yards[1])$("yardB").textContent=`${dashboard.yards[1].percentage}%`;
   $("yardBar").style.width=`${m.yardOccupancy}%`;
   const totalCranes=Math.max(cranes.length,22);
   $("craneBar").style.width=`${Math.round((m.activeCranes/totalCranes)*100)}%`;
+  requestAnimationFrame(()=>{initPort3D();rebuildPort3D()});
 }
 
 function renderShips(){
@@ -1036,6 +1177,7 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 
 if(token&&currentUser){hide("landing");hide("login");show("app");loadMyPermissions().then(()=>{applyUser();openDefaultSection();return loadAll()}).catch(e=>showConnectionError(e.message))}
 setInterval(()=>{if(token&&canAccess("notifications"))loadNotifications().catch(()=>{})},8000);
+setInterval(refreshPortRealtime,10000);
 </script>
 </body>
 </html>
