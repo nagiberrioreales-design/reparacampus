@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.13 · Sprint 3</title>
+<title>Smart Ports v0.15 · Sprint 3</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -114,7 +114,7 @@ main.workspace{padding:22px;min-width:0}
 .adminTag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#153b54;color:#68c9fb;font-size:10px}
 
 
-/* Smart Ports v0.13 */
+/* Smart Ports v0.15 */
 .authActions{display:grid;gap:9px;margin-top:12px}.authActions button{width:100%}
 #register,#requestSent{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 15%,rgba(0,230,190,.16),transparent 28%),linear-gradient(135deg,#031018,#071d27)}
 .requestCard{width:min(500px,94vw);padding:30px;border:1px solid #1d6370;background:rgba(5,25,34,.96);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.45)}
@@ -127,7 +127,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){.portMap{min-height:360px}.requestCard{padding:22px}}
 
 
-/* Smart Ports v0.13 · 3D + permisos por área */
+/* Smart Ports v0.15 · 3D + permisos por área */
 .port3dToolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .port3dToolbar .ghost.activeView{border-color:#27d7c6;color:#aafff7;background:#0c3a3a}
 .port3dLayout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
@@ -143,7 +143,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){#port3dCanvas{height:380px;min-height:340px}.permissionCell{min-width:320px}.permissionGrid{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.13.1 · mapa interactivo con estética original */
+/* Smart Ports v0.15.1 · mapa interactivo con estética original */
 body{background:
   radial-gradient(circle at 18% 8%,rgba(0,224,210,.11),transparent 26%),
   radial-gradient(circle at 82% 16%,rgba(0,145,255,.10),transparent 28%),
@@ -205,7 +205,7 @@ nav button.active{box-shadow:0 0 18px rgba(35,222,201,.18),inset 0 0 18px rgba(3
 }
 
 
-/* Smart Ports v0.13 · Gemelo digital operativo */
+/* Smart Ports v0.15 · Gemelo digital operativo */
 aside{overflow:hidden}
 #sideNav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1f6177 transparent;padding:2px 0}
 .navScrollControl{width:100%;height:28px;border:1px solid #17475b;background:#0a1f2c;color:#71dcec;border-radius:7px;margin:3px 0;font-weight:900;box-shadow:0 0 12px rgba(54,209,220,.08)}
@@ -243,7 +243,7 @@ aside{overflow:hidden}
 #dashboardView>.dashboardMapPanel{margin:0}
 
 
-/* Smart Ports v0.13 · puerto urbano realista */
+/* Smart Ports v0.15 · puerto urbano realista */
 body{background:
  radial-gradient(circle at 20% 0%,rgba(0,255,225,.08),transparent 28%),
  radial-gradient(circle at 85% 0%,rgba(0,140,255,.08),transparent 30%),
@@ -266,6 +266,21 @@ body{background:
 @media(max-width:1250px){.dashboardHud{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:850px){.dashboardHud{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.dashboardHud{grid-template-columns:1fr}}
+
+
+/* Smart Ports v0.15 · puerto vivo */
+.animationToggle{min-width:138px}
+.animationToggle.paused{border-color:#7b5360!important;color:#ffc0c6!important;background:#2a171d!important;box-shadow:none!important}
+#port3dCanvas:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:
+  radial-gradient(circle at 50% 112%,rgba(0,230,221,.07),transparent 35%),
+  linear-gradient(180deg,rgba(30,76,104,.035),transparent 24%,rgba(0,0,0,.025));mix-blend-mode:screen}
+.portActivityBadge{position:absolute;right:14px;top:14px;z-index:8;display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(4,23,31,.82);border:1px solid #1e796f;color:#87efc4;font-size:10px;font-weight:800;backdrop-filter:blur(8px);box-shadow:0 0 18px rgba(50,235,187,.12)}
+.portActivityBadge i{width:7px;height:7px;border-radius:50%;background:#3df1b1;box-shadow:0 0 10px #3df1b1;animation:portPulse 1.5s ease-in-out infinite}
+@keyframes portPulse{50%{opacity:.35;transform:scale(.75)}}
+body.motionPaused .portActivityBadge i{animation:none;background:#ff7784;box-shadow:0 0 8px #ff7784}
+.cityLegend{box-shadow:0 0 18px rgba(0,191,219,.10)}
+.hudCard{transition:transform .18s,border-color .18s,box-shadow .18s}
+.hudCard:hover{transform:translateY(-2px);border-color:#21738a;box-shadow:0 10px 30px rgba(0,0,0,.30),0 0 20px rgba(0,199,210,.06)}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -344,7 +359,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.13 · Puerto urbano realista</div>
+    <div class="version">v0.15 · Puerto vivo</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -405,6 +420,7 @@ window.SP_GLTFLoader = GLTFLoader;
           <button class="ghost" id="mapZoomOutBtn">− Alejar</button>
           <button class="ghost" id="mapZoomInBtn">+ Acercar</button>
           <button class="ghost" id="mapFullscreenBtn">⛶ Pantalla completa</button>
+          <button class="ghost animationToggle activeView" id="mapAnimationBtn">▶ Animación ON</button>
           <button class="ghost" data-map-focus="storage">Almacenamiento</button>
           <button class="ghost" data-map-focus="docks">Muelles</button>
           <button class="ghost" data-map-focus="ships">Buques</button>
@@ -415,6 +431,7 @@ window.SP_GLTFLoader = GLTFLoader;
           <div id="port3dCanvas">
             <div class="mapCompass"></div>
             <div class="cityLegend">Terminal costera · entorno urbano simulado</div>
+            <div class="portActivityBadge" id="portActivityBadge"><i></i><span>Operación animada</span></div>
             <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
             <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
           </div>
@@ -872,7 +889,7 @@ function showConnectionError(message){$("connectionError").textContent=`No se pu
 
 
 
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,city:null};
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,city:null,cityWindows:[],animationEnabled:true};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -943,6 +960,13 @@ function initPort3D(){
   $("mapZoomInBtn").onclick=()=>port3D.distance=Math.max(18,port3D.distance-7);
   $("mapZoomOutBtn").onclick=()=>port3D.distance=Math.min(95,port3D.distance+7);
   $("mapFullscreenBtn").onclick=async()=>{if(!document.fullscreenElement)await host.requestFullscreen?.();else await document.exitFullscreen?.()};
+  $("mapAnimationBtn").onclick=()=>{
+    port3D.animationEnabled=!port3D.animationEnabled;
+    $("mapAnimationBtn").textContent=port3D.animationEnabled?"▶ Animación ON":"Ⅱ Animación OFF";
+    $("mapAnimationBtn").classList.toggle("paused",!port3D.animationEnabled);
+    document.body.classList.toggle("motionPaused",!port3D.animationEnabled);
+    $("portActivityBadge").querySelector("span").textContent=port3D.animationEnabled?"Operación animada":"Animación pausada";
+  };
   document.querySelectorAll("[data-map-focus]").forEach(b=>b.addEventListener("click",()=>focusPort3D(b.dataset.mapFocus)));
 
   buildPort3D();
@@ -977,22 +1001,56 @@ function animatePort3D(){
   );
   port3D.camera.lookAt(port3D.target);
 
-  if(port3D.waterUniforms)port3D.waterUniforms.uTime.value=t;
-  if(port3D.water)port3D.water.position.y=-.43+Math.sin(t*.45)*.02;
-  port3D.beacons.forEach((b,i)=>{
-    const pulse=.55+Math.sin(t*3+i)*.45;
-    if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
-  });
-  port3D.animated.forEach((a,i)=>{
-    if(a.userData?.type==="ship"){
-      a.position.y=(a.userData.baseY||0)+Math.sin(t*.65+i)*.045;
-      a.rotation.z=Math.sin(t*.45+i)*.004;
-    }
-    if(a.userData?.type==="trolley"){
-      const range=a.userData.range||2.6;
-      a.position.x=(a.userData.baseX||0)+Math.sin(t*.35+i)*range;
-    }
-  });
+  if(port3D.animationEnabled){
+    if(port3D.waterUniforms)port3D.waterUniforms.uTime.value=t;
+    if(port3D.water)port3D.water.position.y=-.43+Math.sin(t*.45)*.02;
+
+    port3D.beacons.forEach((b,i)=>{
+      const pulse=.55+Math.sin(t*3+i)*.45;
+      if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
+    });
+
+    port3D.cityWindows.forEach((w,i)=>{
+      const flicker=.72+Math.sin(t*.38+i*1.73)*.20;
+      if(w.material)w.material.opacity=Math.max(.35,Math.min(1,flicker));
+    });
+
+    port3D.animated.forEach((a,i)=>{
+      const u=a.userData||{};
+      if(u.type==="ship"){
+        a.position.y=(u.baseY||0)+Math.sin(t*.65+i)*.045;
+        a.rotation.z=Math.sin(t*.45+i)*.004;
+        if(u.transit){
+          a.position.x=(u.baseX||0)+Math.sin(t*.055+u.phase)*2.4;
+          a.position.z=(u.baseZ||0)+Math.cos(t*.045+u.phase)*.45;
+        }
+      }
+      if(u.type==="craneRig"){
+        const s=.5+.5*Math.sin(t*.38+u.phase);
+        a.position.x=(u.baseX||0)+(s-.5)*(u.range||3.4);
+        a.position.y=(u.baseY||0)-Math.sin(s*Math.PI)*(u.drop||1.2);
+        if(u.cable){u.cable.scale.y=.85+Math.sin(s*Math.PI)*.45;u.cable.position.y=-(1.45+Math.sin(s*Math.PI)*.7)}
+      }
+      if(u.type==="yardTruck"||u.type==="cityCar"){
+        const speed=u.speed||.55;
+        const p=(t*speed+u.phase)%1;
+        const start=u.start,end=u.end;
+        if(start&&end){
+          a.position.x=start.x+(end.x-start.x)*p;
+          a.position.z=start.z+(end.z-start.z)*p;
+          const dx=end.x-start.x,dz=end.z-start.z;
+          a.rotation.y=Math.atan2(dx,dz);
+        }
+      }
+      if(u.type==="yardLoop"){
+        const p=(t*(u.speed||.035)+u.phase)%1;
+        const angle=p*Math.PI*2;
+        a.position.x=u.cx+Math.cos(angle)*u.rx;
+        a.position.z=u.cz+Math.sin(angle)*u.rz;
+        a.rotation.y=-angle;
+      }
+    });
+  }
 
   port3D.renderer.render(port3D.scene,port3D.camera);
 }
@@ -1168,7 +1226,9 @@ function buildShip(data,x,z,rotation=0){
     g=buildProceduralShipFallback(data,x,z,rotation);
   }
   const label=labelSprite(data.name,port3D.realShipTemplate?"#7de8ff":"#55c8ff");
-  label.position.set(x,5.8,z);port3D.objects.add(label);
+  label.position.set(0,5.8,0);g.add(label);
+  g.userData.baseX=x;g.userData.baseZ=z;g.userData.phase=(Number(data.id)||0)*.73;
+  g.userData.transit=String(data.status||"").toLowerCase().includes("tránsito");
   return g;
 }
 
@@ -1196,10 +1256,15 @@ function buildCrane(data,x,z,rotation=0){
   const cabinMat=new THREE.MeshStandardMaterial({color:0x1b5368,roughness:.28,metalness:.25,transparent:true,opacity:.92});
   const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.1,.85,1.0),cabinMat);cabin.position.set(.8,5.55,-.95);group.add(cabin);
 
-  // trolley móvil
-  const trolley=new THREE.Mesh(new THREE.BoxGeometry(.8,.32,.62),dark);trolley.position.set(3.2,6.43,0);trolley.userData={type:"trolley",baseX:3.2,range:1.9};group.add(trolley);port3D.animated.push(trolley);
-  const cable=new THREE.Mesh(new THREE.BoxGeometry(.06,3.0,.06),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(3.2,4.85,0);group.add(cable);
-  const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.55,.12,.7),dark);spreader.position.set(3.2,3.35,0);group.add(spreader);
+  // trolley + gancho operando como un conjunto
+  const rig=new THREE.Group();
+  const trolley=new THREE.Mesh(new THREE.BoxGeometry(.8,.32,.62),dark);trolley.position.set(0,0,0);rig.add(trolley);
+  const cable=new THREE.Mesh(new THREE.BoxGeometry(.06,2.8,.06),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(0,-1.45,0);rig.add(cable);
+  const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.55,.12,.7),dark);spreader.position.set(0,-2.82,0);rig.add(spreader);
+  rig.position.set(3.2,6.43,0);
+  rig.userData={type:"craneRig",baseX:3.2,baseY:6.43,range:3.4,drop:1.15,phase:(Number(data.id)||0)*.47,cable};
+  group.add(rig);
+  if(active)port3D.animated.push(rig);
 
   // luz de estado
   const beaconMat=new THREE.MeshStandardMaterial({color:active?0x32ff9a:0xff4050,emissive:active?0x32ff9a:0xff4050,emissiveIntensity:2.4});
@@ -1246,8 +1311,12 @@ function createWaterMaterial(){
         float f=clamp(.48+vWave*1.7,0.0,1.0);
         vec3 col=mix(uDeep,uShallow,f);
         float bands=.5+.5*sin((vWorld.x+vWorld.z)*.33);
-        col+=uGlow*bands*.045;
-        gl_FragColor=vec4(col,.94);
+        float shimmer=pow(.5+.5*sin(vWorld.x*.85+vWorld.z*.31+vWave*16.0),10.0);
+        float harborGlow=.5+.5*cos(vWorld.z*.12);
+        col+=uGlow*bands*.05;
+        col+=vec3(0.40,0.75,0.90)*shimmer*.18;
+        col+=vec3(0.10,0.32,0.38)*harborGlow*.05;
+        gl_FragColor=vec4(col,.95);
       }`
   });
 }
@@ -1275,8 +1344,9 @@ function buildCityBackdrop(){
     const cols=Math.max(1,Math.floor(w/.9));
     for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
       if(rand(i*31+r*7+cc)>.42){
-        const wm=new THREE.MeshBasicMaterial({color:rand(i+r+cc)>.52?0xffcf76:0x76dfff});
+        const wm=new THREE.MeshBasicMaterial({color:rand(i+r+cc)>.52?0xffcf76:0x76dfff,transparent:true,opacity:.82});
         const win=new THREE.Mesh(new THREE.PlaneGeometry(.28,.18),wm);
+        port3D.cityWindows.push(win);
         win.position.set(x-w/2+.45+cc*.62,1.4+r*1.65,baseZ-d/2+rand(i+70)*7-.011);
         win.rotation.y=Math.PI;
         city.add(win);
@@ -1296,25 +1366,38 @@ function buildCityBackdrop(){
     const lamp=new THREE.PointLight(0xffd98a,1.1,6,2);lamp.position.set(x,1.4,37);city.add(lamp);
   }
 
+  for(let i=0;i<7;i++){
+    const car=new THREE.Group();
+    const body=box(.9,.34,.42,[0xe34d4d,0x2a9ee8,0xe7b746,0xd7e1e5][i%4],0,.24,0);
+    car.add(body);
+    const head=new THREE.PointLight(0xffefbb,.7,3);head.position.set(.52,.28,0);car.add(head);
+    car.userData={type:"cityCar",start:{x:-52,z:37.5+i%2*.7},end:{x:52,z:37.5+i%2*.7},speed:.018+i*.002,phase:i*.13};
+    city.add(car);port3D.animated.push(car);
+  }
+
   port3D.city=city;
   port3D.objects.add(city);
 }
 
-function buildYardVehicle(x,z,color=0xf0b744){
+function buildYardVehicle(x,z,color=0xf0b744,phase=0){
   const g=new THREE.Group();
   const cab=box(1.3,1.3,1.1,color,.65,.85,0);g.add(cab);
   const trailer=box(3.2,.45,1.15,0x35434a,-1.5,.55,0);g.add(trailer);
+  const cargo=box(2.8,1.05,1.0,[0x1b75a9,0xc84d3a,0xe2a130][Math.round(phase*10)%3],-1.4,1.15,0);g.add(cargo);
   for(const wx of [-2.4,-.6,.65])for(const wz of [-.62,.62]){
     const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.18,12),new THREE.MeshStandardMaterial({color:0x15191b}));
     wheel.rotation.x=Math.PI/2;wheel.position.set(wx,.25,wz);g.add(wheel);
   }
-  g.position.set(x,0,z);port3D.objects.add(g);
+  const lamp=new THREE.PointLight(0xfff1bd,1.1,4);lamp.position.set(1.4,.85,0);g.add(lamp);
+  g.position.set(x,0,z);
+  g.userData={type:"yardLoop",cx:3,cz:17,rx:24,rz:5,speed:.018+phase*.004,phase};
+  port3D.animated.push(g);port3D.objects.add(g);
 }
 
 function buildPort3D(){
   if(!port3D.objects)return;
   clearPort3DGroup();
-  port3D.beacons=[];port3D.animated=[];port3D.water=null;
+  port3D.beacons=[];port3D.animated=[];port3D.cityWindows=[];port3D.water=null;
 
   // Agua animada con shader
   const waterGeo=new THREE.PlaneGeometry(150,105,90,64);
@@ -1345,10 +1428,10 @@ function buildPort3D(){
   // Calles laterales
   const road1=box(58,.10,4,0x26363c,3,.62,24);port3D.objects.add(road1);
   const road2=box(5,.10,30,0x26363c,-25,.62,8);port3D.objects.add(road2);
-  buildYardVehicle(-18,18,0xf0b744);
-  buildYardVehicle(-2,18,0x31b5e7);
-  buildYardVehicle(13,20,0xe66848);
-  buildYardVehicle(23,14,0xf0b744);
+  buildYardVehicle(-18,18,0xf0b744,.02);
+  buildYardVehicle(-2,18,0x31b5e7,.27);
+  buildYardVehicle(13,20,0xe66848,.52);
+  buildYardVehicle(23,14,0xf0b744,.77);
 
   // Patios con densidad proporcional
   const yardPos=[[-12,9],[4,9],[20,9]];
