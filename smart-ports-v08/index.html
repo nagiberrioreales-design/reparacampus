@@ -488,7 +488,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="cityLegend">Terminal costera · entorno urbano simulado</div>
             <div class="colorLifeLegend"><span class="l-yard">● Patios</span><span class="l-dock">● Muelles</span><span class="l-crane">● Grúas</span><span class="l-city">● Ciudad</span></div>
             <div class="portActivityBadge" id="portActivityBadge"><i></i><span>Operación animada</span></div>
-            <div class="smartCameraBadge">Cámara inteligente · LOD activo</div>
+            <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div>
             <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
             <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
           </div>
@@ -497,7 +497,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="eyebrow">CONTROL DIRECTO 3D</div>
             <h4>Puerto Smart Ports</h4>
             <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
-            <span class="mapStatusPill">● Escena 3D conectada</span><div class="selectionFocusNote">Selecciona un objeto: la cámara se acercará automáticamente, lo resaltará y ocultará etiquetas lejanas para reducir saturación.</div><div class="muted" style="font-size:10px;margin-top:10px">Buques, grúas y vehículos usan modelos GLB cuando están disponibles; el sistema conserva fallback procedural. PBR de concreto: Poly Haven (CC0). Grúa: Poly Haven/Timothy3D (CC0). Camión: Cesium/Analytical Graphics (CC BY 4.0).</div>
+            <span class="mapStatusPill">● Escena 3D conectada</span><div class="selectionFocusNote">Selecciona un objeto: la cámara se acercará automáticamente, lo resaltará y ocultará etiquetas lejanas para reducir saturación.</div><div class="muted" style="font-size:10px;margin-top:10px">Buques, grúas y vehículos usan modelos GLB cuando están disponibles; el sistema conserva fallback procedural. Las grúas activas ejecutan un ciclo visual de carga/descarga de contenedores. PBR de concreto: Poly Haven (CC0). Grúa: Poly Haven/Timothy3D (CC0). Camión: Cesium/Analytical Graphics (CC BY 4.0).</div>
           </div>
         </div>
       </article>
@@ -1191,10 +1191,38 @@ function animatePort3D(){
         }
       }
       if(u.type==="craneRig"){
-        const s=.5+.5*Math.sin(t*.38+u.phase);
-        a.position.x=(u.baseX||0)+(s-.5)*(u.range||3.4);
-        a.position.y=(u.baseY||0)-Math.sin(s*Math.PI)*(u.drop||1.2);
-        if(u.cable){u.cable.scale.y=.85+Math.sin(s*Math.PI)*.45;u.cable.position.y=-(1.45+Math.sin(s*Math.PI)*.7)}
+        const ease=v=>v*v*(3-2*v);
+        const p=(t*.075+u.phase)%1;
+        const x0=u.baseX||0,x1=x0+(u.range||4.3),maxDrop=u.maxDrop||1.55;
+        let x=x0,drop=.18,carry=false;
+
+        if(p<.12){
+          const q=ease(p/.12);drop=.18+q*maxDrop;
+        }else if(p<.24){
+          const q=ease((p-.12)/.12);drop=.18+(1-q)*maxDrop;carry=true;
+        }else if(p<.52){
+          const q=ease((p-.24)/.28);x=THREE.MathUtils.lerp(x0,x1,q);drop=.18;carry=true;
+        }else if(p<.66){
+          const q=ease((p-.52)/.14);x=x1;drop=.18+q*maxDrop;carry=true;
+        }else if(p<.72){
+          x=x1;drop=.18+maxDrop;carry=false;
+        }else if(p<.84){
+          const q=ease((p-.72)/.12);x=x1;drop=.18+(1-q)*maxDrop;
+        }else{
+          const q=ease((p-.84)/.16);x=THREE.MathUtils.lerp(x1,x0,q);drop=.18;
+        }
+
+        a.position.x=x;
+        a.position.y=u.baseY||0;
+        if(u.cable){
+          u.cable.scale.y=1+drop*.32;
+          u.cable.position.y=-(1.25+drop*.48);
+        }
+        if(u.spreader)u.spreader.position.y=-2.45-drop;
+        if(u.cargo){
+          u.cargo.position.y=-2.92-drop;
+          u.cargo.visible=carry;
+        }
       }
       if(u.type==="yardTruck"||u.type==="cityCar"){
         const speed=u.speed||.55;
@@ -1467,8 +1495,12 @@ function buildCrane(data,x,z,rotation=0){
   const trolley=new THREE.Mesh(new THREE.BoxGeometry(.75,.28,.56),rigMat);rig.add(trolley);
   const cable=new THREE.Mesh(new THREE.BoxGeometry(.055,2.4,.055),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(0,-1.25,0);rig.add(cable);
   const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.4,.1,.62),rigMat);spreader.position.set(0,-2.45,0);rig.add(spreader);
-  rig.position.set(1.8,5.55,0);
-  rig.userData={type:"craneRig",baseX:1.8,baseY:5.55,range:2.7,drop:.9,phase:(Number(data.id)||0)*.47,cable};
+  const cargoColor=[0x1977b8,0xd94f44,0xf0a735,0x2b9c72,0x7a56b7][(Number(data.id)||0)%5];
+  const cargoMat=new THREE.MeshStandardMaterial({color:cargoColor,roughness:.58,metalness:.18,emissive:0x041018,emissiveIntensity:.18});
+  const cargo=new THREE.Mesh(new THREE.BoxGeometry(1.55,.72,.68),cargoMat);cargo.position.set(0,-2.92,0);cargo.castShadow=true;cargo.receiveShadow=true;cargo.visible=false;rig.add(cargo);
+  const cargoEdge=new THREE.LineSegments(new THREE.EdgesGeometry(cargo.geometry),new THREE.LineBasicMaterial({color:0xcbe9ee,transparent:true,opacity:.24}));cargo.add(cargoEdge);
+  rig.position.set(.7,5.55,0);
+  rig.userData={type:"craneRig",baseX:.7,baseY:5.55,range:4.3,maxDrop:1.55,phase:((Number(data.id)||0)*.083)%1,cable,spreader,cargo};
   group.add(rig);if(active)port3D.animated.push(rig);
 
   const beaconMat=new THREE.MeshStandardMaterial({color:active?0x32ff9a:0xff4050,emissive:active?0x32ff9a:0xff4050,emissiveIntensity:2.4});
@@ -1673,7 +1705,7 @@ function buildPort3D(){
     const pct=Math.round((Number(y.occupied)/Math.max(Number(y.capacity),1))*100);
     const baseColor=pct>=85?0x6f3037:pct>=70?0x6e5a25:[0x1b5b47,0x245f56,0x24506c][i%3];
     const group=new THREE.Group();
-    const base=box(13,.3,9,baseColor,0,.72,0);group.add(base);
+    const base=pbrConcreteBox(13,.3,9,baseColor,0,.72,0,false);group.add(base);
     const count=Math.max(10,Math.round(10+pct*.28));
     addContainerStack(group,-5.4,-.8,count);
     group.position.set(x,0,z);tagObject(group,{kind:"yard",id:y.id});port3D.objects.add(group);
