@@ -497,7 +497,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="eyebrow">CONTROL DIRECTO 3D</div>
             <h4>Puerto Smart Ports</h4>
             <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
-            <span class="mapStatusPill">● Escena 3D conectada</span><div class="muted" style="font-size:10px;margin-top:10px">Modelo de carguero GLB cargado para demostración académica; fallback procedural disponible.</div>
+            <span class="mapStatusPill">● Escena 3D conectada</span><div class="selectionFocusNote">Selecciona un objeto: la cámara se acercará automáticamente, lo resaltará y ocultará etiquetas lejanas para reducir saturación.</div><div class="muted" style="font-size:10px;margin-top:10px">Buques, grúas y vehículos usan modelos GLB cuando están disponibles; el sistema conserva fallback procedural.</div>
           </div>
         </div>
       </article>
@@ -1646,43 +1646,133 @@ function buildPort3D(){
 
   $("port3dUpdated").textContent="Puerto 3D actualizado "+new Date().toLocaleTimeString("es-CO");
 }
+
+function findTaggedRoot(obj){
+  let cur=obj;
+  while(cur&&cur!==port3D.objects){
+    if(cur.userData?.kind&&cur.userData?.id!=null)return cur;
+    cur=cur.parent;
+  }
+  return obj;
+}
+function clearSelectionHighlight(){
+  if(port3D.selectionHelper){
+    port3D.scene.remove(port3D.selectionHelper);
+    port3D.selectionHelper.geometry?.dispose?.();
+    port3D.selectionHelper.material?.dispose?.();
+  }
+  port3D.selectionHelper=null;
+  port3D.selectedRoot=null;
+}
+function focusSelectedObject(root,kind){
+  if(!root)return;
+  const p=new THREE.Vector3();
+  root.getWorldPosition(p);
+  port3D.previousView={target:port3D.target.clone(),distance:port3D.distance,pitch:port3D.pitch,yaw:port3D.yaw};
+  const distance={crane:17,ship:23,yard:21,dock:19}[kind]||21;
+  const pitch={crane:.42,ship:.36,yard:.56,dock:.46}[kind]||.45;
+  port3D.focusTween={
+    fromTarget:port3D.target.clone(),
+    toTarget:p.clone().add(new THREE.Vector3(0,kind==="crane"?2.2:1,0)),
+    fromDistance:port3D.distance,toDistance:distance,
+    fromPitch:port3D.pitch,toPitch:pitch,
+    started:performance.now(),duration:700
+  };
+  clearSelectionHighlight();
+  const color={crane:0xffc95b,ship:0x55cfff,yard:0x58e4a7,dock:0x7aeaff}[kind]||0x5be5dc;
+  port3D.selectedRoot=root;
+  port3D.selectionHelper=new THREE.BoxHelper(root,color);
+  port3D.selectionHelper.material.transparent=true;
+  port3D.selectionHelper.material.opacity=.78;
+  port3D.scene.add(port3D.selectionHelper);
+}
+function returnFromSelection(){
+  if(!port3D.previousView)return;
+  const v=port3D.previousView;
+  port3D.focusTween={
+    fromTarget:port3D.target.clone(),toTarget:v.target.clone(),
+    fromDistance:port3D.distance,toDistance:v.distance,
+    fromPitch:port3D.pitch,toPitch:v.pitch,
+    started:performance.now(),duration:650
+  };
+  port3D.yaw=v.yaw;
+  port3D.previousView=null;
+  clearSelectionHighlight();
+}
+window.returnFromSelection=returnFromSelection;
+function focusReturnButton(){
+  return port3D.previousView?'<button class="ghost focusBack" onclick="returnFromSelection()">↩ Volver a vista anterior</button>':"";
+}
+
 function pickPort3D(e){
   const rect=port3D.renderer.domElement.getBoundingClientRect();
   port3D.pointer.x=((e.clientX-rect.left)/rect.width)*2-1;
   port3D.pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;
   port3D.raycaster.setFromCamera(port3D.pointer,port3D.camera);
   const hit=port3D.raycaster.intersectObjects(port3D.objects.children,true).find(h=>h.object.userData?.kind);
-  if(hit)showPort3DInfo(hit.object.userData.kind,Number(hit.object.userData.id));
+  if(hit){
+    const root=findTaggedRoot(hit.object);
+    focusSelectedObject(root,hit.object.userData.kind);
+    showPort3DInfo(hit.object.userData.kind,Number(hit.object.userData.id));
+  }
 }
 function infoRows(rows){return rows.map(r=>`<div class="infoRow"><span>${r[0]}</span><strong>${esc(r[1])}</strong></div>`).join("")}
 function showPort3DInfo(kind,id){
   port3D.selected={kind,id};
+  const updated=new Date().toLocaleTimeString("es-CO");
+
   if(kind==="crane"){
     const g=cranes.find(x=>Number(x.id)===id);if(!g)return;
     const active=g.status==="Activa",allowed=canAccess("cranes");
-    $("port3dInfo").innerHTML=`
-      <span class="objectType">GRÚA PORTUARIA</span>
-      <div class="eyebrow">CONTROL DIRECTO 3D</div>
-      <h4>${esc(g.code)}</h4>
-      ${infoRows([["Estado",g.status],["Control",allowed?"Autorizado":"Solo lectura"]])}
-      <div class="craneControlGrid">
-        <button class="controlOn" onclick="setCraneMapStatus(${g.id},'Activa')" ${!allowed||active?"disabled":""}>▶ Activar</button>
-        <button class="controlOff" onclick="setCraneMapStatus(${g.id},'Mantenimiento')" ${!allowed||!active?"disabled":""}>■ Desactivar</button>
-      </div>
-      ${allowed?mapAction("cranes","Abrir módulo de grúas"):""}`;
+    $("port3dInfo").innerHTML=
+      '<span class="objectType">GRÚA PORTUARIA</span>'+
+      '<div class="eyebrow">CONTROL DIRECTO 3D</div>'+
+      '<h4>'+esc(g.code)+'</h4>'+
+      infoRows([["Estado",g.status],["Control",allowed?"Autorizado":"Solo lectura"],["Actualizado",updated]])+
+      '<div class="craneControlGrid">'+
+        '<button class="controlOn" onclick="setCraneMapStatus('+g.id+',\'Activa\')" '+(!allowed||active?"disabled":"")+'>▶ Activar</button>'+
+        '<button class="controlOff" onclick="setCraneMapStatus('+g.id+',\'Mantenimiento\')" '+(!allowed||!active?"disabled":"")+'>■ Desactivar</button>'+
+      '</div>'+
+      (allowed?mapAction("cranes","Abrir módulo de grúas"):"")+
+      focusReturnButton();
     return;
   }
+
   if(kind==="yard"){
-    const y=yards.find(x=>Number(x.id)===id);if(!y)return;const cap=Number(y.capacity)||0,occ=Number(y.occupied)||0,pct=Math.round((occ/Math.max(cap,1))*100);
-    $("port3dInfo").innerHTML=`<span class="objectType">ALMACENAMIENTO</span><div class="eyebrow">ESTADO DEL PATIO</div><h4>${esc(y.name)}</h4><div class="storageGauge"><i style="width:${pct}%"></i></div>${infoRows([["Ocupación",pct+"%"],["Ocupado",occ+" TEU"],["Disponible",Math.max(0,cap-occ)+" TEU"]])}${mapAction("yards","Abrir almacenamiento")}`;return;
+    const y=yards.find(x=>Number(x.id)===id);if(!y)return;
+    const cap=Number(y.capacity)||0,occ=Number(y.occupied)||0,pct=Math.round((occ/Math.max(cap,1))*100);
+    $("port3dInfo").innerHTML=
+      '<span class="objectType">ALMACENAMIENTO</span>'+
+      '<div class="eyebrow">ESTADO DEL PATIO</div>'+
+      '<h4>'+esc(y.name)+'</h4>'+
+      '<div class="storageGauge"><i style="width:'+pct+'%"></i></div>'+
+      infoRows([["Ocupación",pct+"%"],["Ocupado",occ+" TEU"],["Disponible",Math.max(0,cap-occ)+" TEU"],["Actualizado",updated]])+
+      mapAction("yards","Abrir almacenamiento")+
+      focusReturnButton();
+    return;
   }
+
   if(kind==="dock"){
     const d=docks.find(x=>Number(x.id)===id);if(!d)return;
-    $("port3dInfo").innerHTML=`<span class="objectType">MUELLE</span><div class="eyebrow">ESTADO ACTUAL</div><h4>Muelle ${esc(d.code)}</h4>${infoRows([["Estado",d.status],["Capacidad",String(d.max_containers)+" cont."],["Buque",d.ship_name||"Sin asignar"]])}${mapAction("docks","Abrir muelles")}`;return;
+    $("port3dInfo").innerHTML=
+      '<span class="objectType">MUELLE</span>'+
+      '<div class="eyebrow">ESTADO ACTUAL</div>'+
+      '<h4>Muelle '+esc(d.code)+'</h4>'+
+      infoRows([["Estado",d.status],["Capacidad",String(d.max_containers)+" cont."],["Buque",d.ship_name||"Sin asignar"],["Actualizado",updated]])+
+      mapAction("docks","Abrir muelles")+
+      focusReturnButton();
+    return;
   }
+
   if(kind==="ship"){
     const s=ships.find(x=>Number(x.id)===id);if(!s)return;
-    $("port3dInfo").innerHTML=`<span class="objectType">BUQUE</span><div class="eyebrow">TRÁFICO MARÍTIMO</div><h4>${esc(s.name)}</h4>${infoRows([["Estado",s.status],["ETA",s.eta],["Muelle",s.dock],["Contenedores",String(s.containers)]])}${mapAction("ships","Abrir buques")}`;
+    $("port3dInfo").innerHTML=
+      '<span class="objectType">BUQUE</span>'+
+      '<div class="eyebrow">TRÁFICO MARÍTIMO</div>'+
+      '<h4>'+esc(s.name)+'</h4>'+
+      infoRows([["Estado",s.status],["ETA",s.eta],["Muelle",s.dock],["Contenedores",String(s.containers)],["Actualizado",updated]])+
+      mapAction("ships","Abrir buques")+
+      focusReturnButton();
   }
 }
 async function setCraneMapStatus(id,status){
