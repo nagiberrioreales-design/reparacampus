@@ -497,7 +497,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="eyebrow">CONTROL DIRECTO 3D</div>
             <h4>Puerto Smart Ports</h4>
             <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
-            <span class="mapStatusPill">● Escena 3D conectada</span><div class="selectionFocusNote">Selecciona un objeto: la cámara se acercará automáticamente, lo resaltará y ocultará etiquetas lejanas para reducir saturación.</div><div class="muted" style="font-size:10px;margin-top:10px">Buques, grúas y vehículos usan modelos GLB cuando están disponibles; el sistema conserva fallback procedural.</div>
+            <span class="mapStatusPill">● Escena 3D conectada</span><div class="selectionFocusNote">Selecciona un objeto: la cámara se acercará automáticamente, lo resaltará y ocultará etiquetas lejanas para reducir saturación.</div><div class="muted" style="font-size:10px;margin-top:10px">Buques, grúas y vehículos usan modelos GLB cuando están disponibles; el sistema conserva fallback procedural. Assets: grúa Poly Haven/Timothy3D (CC0) y Cesium Milk Truck / Analytical Graphics (CC BY 4.0).</div>
           </div>
         </div>
       </article>
@@ -1648,12 +1648,13 @@ function buildPort3D(){
 }
 
 function findTaggedRoot(obj){
-  let cur=obj;
+  let cur=obj,found=obj;
+  const kind=obj.userData?.kind,id=obj.userData?.id;
   while(cur&&cur!==port3D.objects){
-    if(cur.userData?.kind&&cur.userData?.id!=null)return cur;
+    if(cur.userData?.kind===kind&&cur.userData?.id===id)found=cur;
     cur=cur.parent;
   }
-  return obj;
+  return found;
 }
 function clearSelectionHighlight(){
   if(port3D.selectionHelper){
