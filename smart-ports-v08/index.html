@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.27 · Vision 2046</title>
+<title>Smart Ports v0.28 · Neural Cockpit 2046</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.27 · Vision 2046 */
+/* Smart Ports v0.28 · Neural Cockpit 2046 */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,13 +949,13 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.27 · Vision 2046 */
+/* Smart Ports v0.28 · Neural Cockpit 2046 */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
 
-/* Smart Ports v0.27 · Vision 2046 */
+/* Smart Ports v0.28 · Neural Cockpit 2046 */
 .controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
 .controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
 .towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
@@ -980,7 +980,7 @@ body.lowQuality #port3dCanvas:before{opacity:.62}
 @media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
 @media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
 
-/* Smart Ports v0.27 · Vision 2046 */
+/* Smart Ports v0.28 · Neural Cockpit 2046 */
 .decisionLabPanel{margin-top:14px;padding:16px!important;border-color:rgba(102,196,255,.30)!important;background:radial-gradient(circle at 8% 0%,rgba(46,135,198,.12),transparent 32%),linear-gradient(180deg,rgba(5,24,36,.99),rgba(3,17,26,.99))!important}
 .decisionLabHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:13px}.decisionLabHead h3{margin:4px 0;font-size:19px}.decisionLabHead p{margin:0;font-size:11px}
 .scenarioBadge{padding:7px 10px;border:1px solid #23536a;border-radius:999px;background:#082431;color:#87cddd;font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.scenarioBadge.warning{color:#ffd177;border-color:#72582d;background:#352816}.scenarioBadge.danger{color:#ff9ca4;border-color:#773b43;background:#371d23}.scenarioBadge.stable{color:#83eabd;border-color:#28624d;background:#102b22}
@@ -1387,6 +1387,241 @@ input:focus,select:focus,textarea:focus{
   body:after,#port3dCanvas:after,.logoBox,.version:before{animation:none!important}
   *{scroll-behavior:auto!important}
 }
+
+/* =========================================================
+   Smart Ports v0.28 · NEURAL COCKPIT 2046
+   Structural redesign: immersive digital-twin cockpit
+   ========================================================= */
+@media(min-width:1051px){
+  #app{
+    grid-template-columns:78px minmax(0,1fr)!important;
+    transition:grid-template-columns .25s ease;
+  }
+  aside{
+    width:78px!important;
+    padding:14px 9px 12px!important;
+    z-index:80!important;
+    overflow:visible!important;
+    background:rgba(2,12,21,.94)!important;
+    box-shadow:10px 0 45px rgba(0,0,0,.28)!important;
+  }
+  .brand{
+    height:52px;padding:8px 0!important;margin:0!important;
+    display:grid;place-items:center;font-size:23px!important;
+  }
+  .brand span{display:none!important}
+  .version{
+    width:42px;height:20px;margin:0 auto 12px!important;padding:0!important;
+    display:grid!important;place-items:center!important;
+    font-size:0!important;border-radius:999px!important;
+  }
+  .version:after{content:"2046";font-size:7px;color:#79e7e6;letter-spacing:.08em}
+  .navScrollControl{display:none!important}
+  #sideNav{
+    padding:4px 0!important;gap:6px!important;overflow:visible!important;
+  }
+  #sideNav button{
+    position:relative!important;width:52px!important;height:48px!important;min-height:48px!important;
+    margin:0 auto!important;padding:0!important;
+    display:grid!important;place-items:center!important;
+    border-radius:13px!important;
+    overflow:visible!important;text-align:center!important;
+  }
+  #sideNav .railIcon{font-size:17px!important;line-height:1!important;color:#76a7b9}
+  #sideNav .railText{display:none!important}
+  #sideNav button.active .railIcon{color:#dfffff!important;filter:drop-shadow(0 0 7px rgba(91,240,227,.55))}
+  #sideNav button:after{
+    content:attr(data-label)!important;
+    position:absolute!important;left:64px!important;top:50%!important;right:auto!important;
+    width:max-content!important;max-width:210px!important;
+    transform:translateY(-50%) translateX(-6px)!important;
+    opacity:0!important;pointer-events:none!important;
+    padding:8px 10px!important;border-radius:8px!important;
+    background:rgba(4,20,31,.96)!important;border:1px solid rgba(91,225,237,.22)!important;
+    color:#dffbff!important;font-size:10px!important;font-weight:800!important;letter-spacing:.03em!important;
+    box-shadow:0 12px 30px rgba(0,0,0,.28),0 0 20px rgba(56,217,226,.06)!important;
+    transition:.18s ease!important;
+  }
+  #sideNav button:hover:after{opacity:1!important;transform:translateY(-50%) translateX(0)!important}
+  #sideNav button.active:before{
+    content:"";position:absolute;left:-9px;width:2px;height:24px;border-radius:3px;
+    background:linear-gradient(#62f6ff,#52f2c8);box-shadow:0 0 12px rgba(83,240,220,.75);
+  }
+  #sideNotifCount,#pendingAccessNav{
+    position:absolute!important;right:3px!important;top:3px!important;
+    width:15px!important;height:15px!important;display:grid!important;place-items:center!important;
+    border-radius:50%!important;background:#ff6475!important;color:white!important;
+    font-size:7px!important;line-height:1!important;
+  }
+  .userBox{
+    padding:8px 0!important;margin:7px 0 0!important;border:0!important;background:transparent!important;
+    display:grid!important;place-items:center!important;
+  }
+  .userIdentity>div:last-child{display:none!important}
+  .userAvatar{width:40px!important;height:40px!important;font-size:10px!important}
+  #logoutBtn{
+    width:40px!important;height:30px!important;margin:6px 0 0!important;padding:0!important;
+    font-size:0!important;text-align:center!important;border:1px solid rgba(255,106,119,.16)!important;
+    border-radius:8px!important;
+  }
+  #logoutBtn:after{content:"↪";font-size:14px!important;color:#e9909a}
+  main.workspace{padding:0!important;overflow:hidden}
+  .topbar{
+    height:72px!important;min-height:72px!important;margin:0!important;padding:0 22px!important;
+    border-bottom:1px solid rgba(83,231,239,.13)!important;
+    background:linear-gradient(90deg,rgba(3,14,24,.93),rgba(4,23,35,.82),rgba(3,14,24,.93))!important;
+  }
+  .topbar .eyebrow{font-size:8px!important;letter-spacing:.16em!important}
+  .topbar h2{font-size:22px!important;margin-top:3px!important}
+  .commandStrip{
+    height:34px!important;min-height:34px!important;padding:0 22px!important;margin:0!important;
+    background:rgba(3,14,23,.86)!important;
+  }
+  #dashboardView{
+    position:relative!important;padding:12px 14px 30px!important;
+    overflow:visible!important;
+  }
+  #dashboardView>.dashboardMapPanel{
+    position:relative!important;
+    height:calc(100vh - 130px)!important;
+    min-height:670px!important;
+    padding:0!important;margin:0!important;
+    overflow:visible!important;border:0!important;background:transparent!important;
+    box-shadow:none!important;
+  }
+  #dashboardView>.dashboardMapPanel>.panelHeader{display:none!important}
+  .interactivePortToolbar{
+    position:absolute!important;left:18px!important;top:18px!important;right:330px!important;z-index:30!important;
+    margin:0!important;padding:8px!important;border:1px solid rgba(88,225,237,.14)!important;
+    border-radius:12px!important;background:rgba(3,18,29,.72)!important;
+    backdrop-filter:blur(16px)!important;box-shadow:0 12px 30px rgba(0,0,0,.18)!important;
+  }
+  .interactivePortToolbar .ghost{
+    min-height:30px!important;padding:6px 9px!important;font-size:9px!important;
+    background:rgba(8,35,47,.58)!important;
+  }
+  .interactivePortToolbar #port3dUpdated{
+    margin-left:auto!important;font-size:8px!important;color:#6fa1ae!important;
+  }
+  .interactivePortLayout{
+    display:block!important;height:100%!important;position:relative!important;
+  }
+  #port3dCanvas{
+    height:100%!important;min-height:670px!important;width:100%!important;
+    border-radius:22px!important;border:1px solid rgba(89,235,241,.22)!important;
+    clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)!important;
+    box-shadow:inset 0 0 90px rgba(25,152,186,.09),0 24px 70px rgba(0,0,0,.30)!important;
+  }
+  .port3dInfo{
+    position:absolute!important;right:18px!important;top:76px!important;bottom:22px!important;
+    width:294px!important;min-height:0!important;max-height:none!important;z-index:24!important;
+    overflow:auto!important;padding:16px!important;
+    border:1px solid rgba(89,226,237,.20)!important;border-radius:16px!important;
+    background:linear-gradient(180deg,rgba(4,20,31,.83),rgba(3,16,27,.91))!important;
+    backdrop-filter:blur(20px) saturate(140%)!important;
+    box-shadow:-18px 0 55px rgba(0,0,0,.22),inset 0 1px rgba(166,250,255,.035)!important;
+  }
+  .port3dInfo:before{
+    content:"CONTEXT NODE";display:block;margin-bottom:10px;color:#6ff1db;
+    font-size:7px;font-weight:900;letter-spacing:.16em;
+  }
+  .cityLegend{top:82px!important;left:18px!important}
+  .colorLifeLegend{top:112px!important;left:18px!important}
+  .smartCameraBadge{top:18px!important;right:18px!important}
+  .futureMapBadge{top:auto!important;left:18px!important;bottom:20px!important}
+  .mapHint{left:50%!important;bottom:20px!important;transform:translateX(-50%)!important}
+  .mapFullscreenBadge{right:326px!important;bottom:20px!important}
+  .portActivityBadge{right:326px!important;top:78px!important}
+
+  .neuralHud{
+    position:absolute;left:18px;top:152px;z-index:12;
+    display:grid;gap:8px;width:150px;pointer-events:none;
+  }
+  .neuralKpi{
+    position:relative;padding:9px 10px 8px 12px;
+    border:1px solid rgba(77,210,226,.16);border-left:2px solid rgba(94,239,228,.70);
+    border-radius:8px;background:linear-gradient(90deg,rgba(3,19,30,.78),rgba(4,22,33,.42));
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+  }
+  .neuralKpi:after{
+    content:"";position:absolute;right:-1px;top:8px;width:10px;height:1px;background:#5feee0;opacity:.55;
+  }
+  .neuralKpi span{display:block;color:#63a7b5;font-size:7px;font-weight:900;letter-spacing:.12em}
+  .neuralKpi strong{display:block;margin-top:2px;color:#efffff;font-size:21px;line-height:1;font-weight:900;text-shadow:0 0 14px rgba(92,237,229,.12)}
+  .neuralKpi small{display:block;margin-top:3px;color:#5d8190;font-size:7px}
+  .neuralRisk{border-left-color:#aa93ff}
+  .neuralReticle{
+    position:absolute;left:50%;top:52%;z-index:8;width:190px;height:190px;
+    transform:translate(-50%,-50%);border:1px solid rgba(90,235,241,.07);
+    border-radius:50%;pointer-events:none;box-shadow:0 0 0 28px rgba(78,223,233,.012),0 0 0 56px rgba(78,223,233,.006);
+  }
+  .neuralReticle:before,.neuralReticle:after{
+    content:"";position:absolute;background:rgba(101,239,245,.12);
+  }
+  .neuralReticle:before{left:50%;top:-22px;bottom:-22px;width:1px}
+  .neuralReticle:after{top:50%;left:-22px;right:-22px;height:1px}
+  .neuralReticle i{
+    position:absolute;inset:24px;border:1px dashed rgba(86,241,226,.13);border-radius:50%;
+    animation:neuralSpin 16s linear infinite;
+  }
+  .neuralReticle b{
+    position:absolute;inset:55px;border:1px solid rgba(128,116,255,.12);border-radius:50%;
+    animation:neuralSpinReverse 10s linear infinite;
+  }
+  .neuralReticle span{
+    position:absolute;left:50%;bottom:-28px;transform:translateX(-50%);
+    color:#5e9aa7;font-size:7px;font-weight:900;letter-spacing:.15em;white-space:nowrap;
+  }
+  @keyframes neuralSpin{to{transform:rotate(360deg)}}
+  @keyframes neuralSpinReverse{to{transform:rotate(-360deg)}}
+  .neuralSignal{
+    position:absolute;left:184px;top:154px;z-index:12;display:flex;align-items:center;gap:6px;
+    padding:5px 8px;border-radius:999px;border:1px solid rgba(81,226,223,.13);
+    background:rgba(3,18,27,.58);color:#69a2ad;font-size:7px;font-weight:800;letter-spacing:.05em;
+    pointer-events:none;backdrop-filter:blur(9px);
+  }
+  .neuralSignal i{width:5px;height:5px;border-radius:50%;background:#67f2c3;box-shadow:0 0 10px #67f2c3;animation:futurePulse 1.8s infinite}
+  .dashboardHud{
+    position:relative!important;z-index:28!important;
+    grid-template-columns:1.05fr 1.2fr 1fr 1fr 1.1fr!important;
+    gap:8px!important;margin:-145px 324px 22px 18px!important;
+    pointer-events:none;
+  }
+  .dashboardHud .hudCard{
+    min-height:108px!important;padding:10px!important;
+    background:linear-gradient(180deg,rgba(4,22,33,.78),rgba(3,17,27,.72))!important;
+    backdrop-filter:blur(16px) saturate(130%)!important;
+    border-color:rgba(84,218,229,.14)!important;
+    box-shadow:0 14px 32px rgba(0,0,0,.18)!important;
+  }
+  .dashboardHud .hudCard .eyebrow{font-size:7px!important;margin-bottom:5px!important}
+  .dashboardHud .hudBig{font-size:24px!important}
+  .dashboardHud .hudList{gap:4px!important;margin-top:5px!important}
+  .dashboardHud .hudList>div{font-size:8px!important}
+  .dashboardHud .hudSub{font-size:8px!important}
+  .dashboardHud .hudEquip{gap:5px!important;margin-top:5px!important}
+  .dashboardHud .hudEquip div{padding:5px!important}
+  .dashboardHud .hudEquip strong{font-size:14px!important}
+  .dashboardHud .hudDonut{width:58px!important;height:58px!important}
+  .dashboardHud .sparkline{height:34px!important}
+  .opsIntelPanel,.controlTowerPanel,.decisionLabPanel{
+    position:relative!important;z-index:2!important;margin-top:12px!important;
+  }
+}
+
+@media(min-width:1051px) and (max-height:800px){
+  #dashboardView>.dashboardMapPanel{height:720px!important}
+  #port3dCanvas{min-height:720px!important}
+}
+@media(max-width:1050px){
+  .neuralHud{display:none!important}
+  .neuralReticle{display:none!important}
+  .neuralSignal{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .neuralReticle i,.neuralReticle b,.neuralSignal i{animation:none!important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script type="importmap">
@@ -1467,22 +1702,22 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.27 · Vision 2046</div>
+    <div class="version">v0.28 · Neural Cockpit</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
-      <button class="active" data-section="dashboard">⌂ Vista general</button>
-      <button data-section="ships">⚓ Buques</button>
-      <button data-section="containers">▣ Contenedores</button>
-      <button data-section="cranes">⌁ Grúas</button>
-      <button data-section="yards">▦ Almacenamiento / Patios</button>
-      <button data-section="docks">▥ Muelles</button>
-      <button data-section="alerts">⚠ Alertas</button>
-      <button data-section="analytics">▥ Analítica</button>
-      <button data-section="reports">▤ Reportes</button>
-      <button data-section="optimization">✦ Optimización</button>
-      <button data-section="notifications">🔔 Notificaciones <span id="sideNotifCount"></span></button>
-      <button class="adminOnly" data-section="users">👥 Usuarios y accesos <span id="pendingAccessNav"></span></button>
-      <button class="adminOnly" data-section="audit">⌕ Auditoría</button>
+      <button class="active" data-section="dashboard" data-label="Vista general" aria-label="Vista general"><span class="railIcon">⌂</span><span class="railText">Vista general</span></button>
+      <button data-section="ships" data-label="Buques" aria-label="Buques"><span class="railIcon">⚓</span><span class="railText">Buques</span></button>
+      <button data-section="containers" data-label="Contenedores" aria-label="Contenedores"><span class="railIcon">▣</span><span class="railText">Contenedores</span></button>
+      <button data-section="cranes" data-label="Grúas" aria-label="Grúas"><span class="railIcon">⌁</span><span class="railText">Grúas</span></button>
+      <button data-section="yards" data-label="Patios" aria-label="Patios"><span class="railIcon">▦</span><span class="railText">Patios</span></button>
+      <button data-section="docks" data-label="Muelles" aria-label="Muelles"><span class="railIcon">▥</span><span class="railText">Muelles</span></button>
+      <button data-section="alerts" data-label="Alertas" aria-label="Alertas"><span class="railIcon">⚠</span><span class="railText">Alertas</span></button>
+      <button data-section="analytics" data-label="Analítica" aria-label="Analítica"><span class="railIcon">◫</span><span class="railText">Analítica</span></button>
+      <button data-section="reports" data-label="Reportes" aria-label="Reportes"><span class="railIcon">▤</span><span class="railText">Reportes</span></button>
+      <button data-section="optimization" data-label="Optimización" aria-label="Optimización"><span class="railIcon">✦</span><span class="railText">Optimización</span></button>
+      <button data-section="notifications" data-label="Notificaciones" aria-label="Notificaciones"><span class="railIcon">◆</span><span class="railText">Notificaciones</span> <span id="sideNotifCount"></span></button>
+      <button class="adminOnly" data-section="users" data-label="Usuarios y accesos" aria-label="Usuarios y accesos"><span class="railIcon">◉</span><span class="railText">Usuarios y accesos</span> <span id="pendingAccessNav"></span></button>
+      <button class="adminOnly" data-section="audit" data-label="Auditoría" aria-label="Auditoría"><span class="railIcon">⌕</span><span class="railText">Auditoría</span></button>
     </nav>
     <button class="navScrollControl" id="navScrollDown" type="button" title="Bajar menú">▼</button>
     <div class="userBox">
@@ -1562,6 +1797,15 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="colorLifeLegend"><span class="l-yard">● Patios</span><span class="l-dock">● Muelles</span><span class="l-crane">● Grúas</span><span class="l-city">● Ciudad</span></div>
             <div class="portActivityBadge" id="portActivityBadge"><i></i><span>Operación animada</span></div>
             <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div><div class="futureMapBadge">AUTONOMOUS DIGITAL TWIN · 2046</div>
+            <div class="neuralHud">
+              <div class="neuralKpi"><span>TRÁFICO</span><strong id="cockpitShips">0</strong><small>buques activos</small></div>
+              <div class="neuralKpi"><span>STS ONLINE</span><strong id="cockpitCranes">0%</strong><small>capacidad grúas</small></div>
+              <div class="neuralKpi"><span>YARD LOAD</span><strong id="cockpitYard">0%</strong><small>ocupación máxima</small></div>
+              <div class="neuralKpi neuralRisk"><span>RISK CORE</span><strong id="cockpitRisk">0</strong><small>índice predictivo</small></div>
+            </div>
+            <div class="neuralReticle" aria-hidden="true"><i></i><b></b><span>NEURAL TRACKING</span></div>
+            <div class="neuralSignal"><i></i><span id="cockpitTracking">0 entidades sincronizadas</span></div>
+
             <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
             <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
           </div>
@@ -3384,6 +3628,13 @@ function renderDashboard(){
     <div><span>Contenedores registrados</span><strong>${totalContainers}</strong></div>
     <div><span>Buques activos</span><strong>${activeShips}</strong></div>
   `;
+  if($("cockpitShips"))$("cockpitShips").textContent=activeShips;
+  if($("cockpitCranes"))$("cockpitCranes").textContent=cranePct+"%";
+  const peakYard=Math.max(0,...yards.map(y=>Math.round(Number(y.occupied||0)/Math.max(Number(y.capacity||0),1)*100)));
+  if($("cockpitYard"))$("cockpitYard").textContent=peakYard+"%";
+  const cockpitRisk=operationalRisk();
+  if($("cockpitRisk"))$("cockpitRisk").textContent=cockpitRisk.score;
+  if($("cockpitTracking"))$("cockpitTracking").textContent=(ships.length+cranes.length+yards.length+docks.length)+" entidades sincronizadas";
   renderOpsIntelligence();
   renderControlTower();
   recordCapacitySnapshot();
