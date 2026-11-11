@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.30 · Production Ready + Living City</title>
+<title>Smart Ports v1.0 · Final Release</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -389,7 +389,7 @@ aside{
   color:#f2ffff;
 }
 .brand:after{
-  content:"PORT OPERATIONS PLATFORM";display:block;margin:5px 0 0 29px;
+  content:"SMART PORTS · PRODUCTION PLATFORM";display:block;margin:5px 0 0 29px;
   font-size:8px;letter-spacing:.18em;font-weight:800;color:#5da9bb;
 }
 .version{
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.30 · Production Ready + Living City */
+/* Smart Ports v1.0 · Final Release */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,13 +949,13 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.30 · Production Ready + Living City */
+/* Smart Ports v1.0 · Final Release */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
 
-/* Smart Ports v0.30 · Production Ready + Living City */
+/* Smart Ports v1.0 · Final Release */
 .controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
 .controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
 .towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
@@ -980,7 +980,7 @@ body.lowQuality #port3dCanvas:before{opacity:.62}
 @media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
 @media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
 
-/* Smart Ports v0.30 · Production Ready + Living City */
+/* Smart Ports v1.0 · Final Release */
 .decisionLabPanel{margin-top:14px;padding:16px!important;border-color:rgba(102,196,255,.30)!important;background:radial-gradient(circle at 8% 0%,rgba(46,135,198,.12),transparent 32%),linear-gradient(180deg,rgba(5,24,36,.99),rgba(3,17,26,.99))!important}
 .decisionLabHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:13px}.decisionLabHead h3{margin:4px 0;font-size:19px}.decisionLabHead p{margin:0;font-size:11px}
 .scenarioBadge{padding:7px 10px;border:1px solid #23536a;border-radius:999px;background:#082431;color:#87cddd;font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.scenarioBadge.warning{color:#ffd177;border-color:#72582d;background:#352816}.scenarioBadge.danger{color:#ff9ca4;border-color:#773b43;background:#371d23}.scenarioBadge.stable{color:#83eabd;border-color:#28624d;background:#102b22}
@@ -2097,6 +2097,117 @@ td strong{color:#e8edf2!important;font-weight:650!important}
 @keyframes cityLifePulse{50%{opacity:.45;transform:scale(.78)}}
 @media(max-width:1050px){.cityLifeBadge{display:none}}
 @media(prefers-reduced-motion:reduce){.cityLifeBadge i{animation:none}}
+
+/* =========================================================
+   Smart Ports v1.0 · FINAL RELEASE
+   Executive command layer + production hardening
+   ========================================================= */
+.finalCommandDeck{
+  order:-2;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:13px;
+  background:linear-gradient(180deg,#121a23,#0f161e);
+  padding:16px 17px 14px;
+  box-shadow:0 10px 24px rgba(0,0,0,.11);
+}
+.finalDeckHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}
+.finalDeckHeader .eyebrow{font-size:7px!important;color:#697684!important;letter-spacing:.11em!important}
+.finalDeckTitleRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+.finalDeckTitleRow h3{margin:0;color:#f1f4f7;font-size:18px;font-weight:700;letter-spacing:-.025em}
+.finalDeckHeader p{margin:5px 0 0;color:#737f8c;font-size:9px}
+.finalHealthPill{
+  display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;
+  border:1px solid rgba(66,201,139,.15);background:rgba(66,201,139,.06);
+  color:#79cda3;font-size:8px;font-weight:700;white-space:nowrap
+}
+.finalHealthPill i{width:6px;height:6px;border-radius:50%;background:#42c98b}
+.finalHealthPill.warning{border-color:rgba(231,173,77,.17);background:rgba(231,173,77,.07);color:#d8b16d}
+.finalHealthPill.warning i{background:#e7ad4d}
+.finalHealthPill.critical{border-color:rgba(236,102,114,.18);background:rgba(236,102,114,.07);color:#e0929a}
+.finalHealthPill.critical i{background:#ec6672}
+.finalDeckActions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.finalDeckActions button{
+  min-height:30px!important;padding:5px 8px!important;display:inline-flex!important;align-items:center!important;gap:6px!important;
+  font-size:8px!important
+}
+.finalDeckActions svg{width:12px;height:12px}
+.finalDeckMetrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.finalDeckMetrics article{
+  min-width:0;padding:10px 11px;border-radius:9px;border:1px solid rgba(255,255,255,.055);background:#0d141b
+}
+.finalDeckMetrics span{display:block;color:#687582;font-size:7px;font-weight:700;letter-spacing:.065em;text-transform:uppercase}
+.finalDeckMetrics strong{
+  display:block;margin-top:5px;color:#f1f4f6;font-size:21px;line-height:1;font-weight:720;letter-spacing:-.035em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.finalDeckMetrics small{
+  display:block;margin-top:5px;color:#6f7b88;font-size:7.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+
+.productionStatusBar{
+  position:fixed;left:228px;right:0;bottom:0;z-index:70;height:26px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px;
+  border-top:1px solid rgba(255,255,255,.065);background:rgba(10,15,21,.96);backdrop-filter:blur(12px);
+  color:#596674;font-size:7px;font-weight:600;letter-spacing:.025em;
+}
+.productionStatusLeft,.productionStatusRight{display:flex;align-items:center;gap:13px;min-width:0}
+.productionStatusBar strong{color:#85919d;font-weight:700}
+.productionStatusRight>span,.productionStatusLeft>span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.systemState{padding-right:10px;border-right:1px solid rgba(255,255,255,.07)}
+.systemState i,.statusTiny{width:5px;height:5px;border-radius:50%;display:inline-block}
+.systemState.online i,.statusTiny.liveCity{background:#42c98b}
+.systemState.offline{color:#d88a92}.systemState.offline i{background:#ec6672}
+.statusTiny.twinReady{background:#5d91df}
+main.workspace{padding-bottom:26px!important}
+body.focusMode #app{grid-template-columns:1fr!important}
+body.focusMode aside{display:none!important}
+body.focusMode .commandStrip{display:none!important}
+body.focusMode .productionStatusBar{left:0!important}
+body.focusMode .topbar{min-height:58px!important;height:58px!important}
+body.focusMode .topbar .eyebrow,body.focusMode .pageSubtitle{display:none!important}
+body.focusMode .view{padding-top:14px!important}
+
+body.compactDensity .view{padding:17px 20px 27px!important}
+body.compactDensity .panel{padding:14px!important}
+body.compactDensity tbody td{padding:9px 11px!important}
+body.compactDensity .resourceCard,body.compactDensity .dockCard,body.compactDensity .reportCard{padding:13px!important}
+body.compactDensity .finalCommandDeck{padding:12px 14px 11px}
+body.compactDensity .dashboardHud .hudCard{min-height:100px!important;padding:11px!important}
+
+.shortcutPanel{
+  position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:20px;
+  background:rgba(3,6,9,.68);backdrop-filter:blur(8px)
+}
+.shortcutCard{
+  width:min(620px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.11);border-radius:13px;
+  background:#111820;box-shadow:0 30px 90px rgba(0,0,0,.45);padding:16px
+}
+.shortcutHead{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.shortcutHead h3{margin:3px 0 0;color:#f1f4f7;font-size:17px;letter-spacing:-.02em}
+.shortcutClose{width:30px;height:30px;padding:0!important;display:grid!important;place-items:center!important}
+.shortcutClose svg{width:13px;height:13px}
+.shortcutGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;padding:14px 0 6px}
+.shortcutGrid>div{min-height:36px;display:flex;align-items:center;gap:6px;padding:7px 8px;border:1px solid rgba(255,255,255,.05);border-radius:8px;background:#0d141b}
+.shortcutGrid kbd{min-width:25px;text-align:center;padding:4px 6px;border:1px solid rgba(255,255,255,.09)!important;border-radius:5px!important;background:#161f28!important;color:#aab5c0!important;font:700 8px ui-monospace,SFMono-Regular,Consolas,monospace!important}
+.shortcutGrid span{margin-left:4px;color:#85919d;font-size:8.5px}
+.shortcutFoot{padding-top:10px;color:#64717d;font-size:8px;border-top:1px solid rgba(255,255,255,.055)}
+
+.dataPulse{animation:dataPulse .35s ease}
+@keyframes dataPulse{50%{opacity:.62}}
+@media(max-width:1300px){.finalDeckMetrics{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1050px){
+  .productionStatusBar{left:0!important}
+  .productionStatusRight span{display:none}
+  .finalDeckMetrics{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+  .productionStatusBar{display:none!important}
+  main.workspace{padding-bottom:0!important}
+  .finalDeckHeader{flex-direction:column}
+  .finalDeckActions{width:100%;justify-content:flex-start}
+  .finalDeckMetrics{grid-template-columns:1fr 1fr}
+  .shortcutGrid{grid-template-columns:1fr}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
@@ -2116,8 +2227,8 @@ window.SP_GLTFLoader = GLTFLoader;
     <div>
       <div class="eyebrow">SISTEMA PORTUARIO AUTÓNOMO · VISION 2046</div>
       <h1>SMART PORTS</h1>
-      <p class="sub">Gemelo digital, automatización y decisiones operativas de próxima generación.</p>
-      <p class="motto">Diseñado como se vería un centro portuario dentro de 20 años.</p>
+      <p class="sub">Operaciones portuarias, gemelo digital y decisiones en tiempo real desde una sola plataforma.</p>
+      <p class="motto">Versión final de producción · operación, inteligencia y simulación integradas.</p>
       <div class="heroCapabilities">
         <span>Digital Twin 2046</span><span>Autonomous Ops</span><span>Predictive Intelligence</span><span>Zero-lag Command</span>
       </div>
@@ -2178,7 +2289,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand"><span class="brandMark"><i data-lucide="anchor"></i></span><span class="brandCopy"><strong>Smart Ports</strong><small>Operations Platform</small></span></div>
-    <div class="version">v0.30 · Living City</div>
+    <div class="version">v1.0 · Final Release</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <div class="navSectionLabel">Operate</div>
@@ -2234,7 +2345,7 @@ window.SP_GLTFLoader = GLTFLoader;
         <span class="commandDot"></span>
         <span>OPERACIÓN</span>
         <strong id="commandModule">Vista general</strong>
-        <span class="futureEraChip">PRODUCTION</span>
+        <span class="futureEraChip">V1.0 FINAL</span>
       </div>
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
@@ -2244,10 +2355,50 @@ window.SP_GLTFLoader = GLTFLoader;
       </div>
     </div>
 
+    <div class="productionStatusBar" id="productionStatusBar">
+      <div class="productionStatusLeft">
+        <span class="systemState online" id="systemState"><i></i><span>Producción</span></span>
+        <span>API <strong id="statusApiLatency">— ms</strong></span>
+        <span>Datos <strong id="statusFreshness">Sin sincronizar</strong></span>
+        <span>Render <strong id="statusFps">— FPS</strong></span>
+      </div>
+      <div class="productionStatusRight">
+        <span><i class="statusTiny liveCity"></i>Ciudad viva</span>
+        <span><i class="statusTiny twinReady"></i>Digital Twin</span>
+        <strong>Smart Ports v1.0 FINAL</strong>
+      </div>
+    </div>
+
     <div id="connectionError" class="connectionError hidden"></div>
     <div id="notice" class="notice hidden"></div>
 
     <section id="dashboardView" class="view">
+      <section class="finalCommandDeck" id="finalCommandDeck">
+        <div class="finalDeckHeader">
+          <div>
+            <div class="eyebrow">EXECUTIVE COMMAND DECK</div>
+            <div class="finalDeckTitleRow">
+              <h3>Estado global de la operación</h3>
+              <span class="finalHealthPill healthy" id="finalHealthPill"><i></i><span>Operación saludable</span></span>
+            </div>
+            <p id="finalHealthDetail">Sincronizando capacidad, tráfico y recursos.</p>
+          </div>
+          <div class="finalDeckActions">
+            <button class="ghost" id="finalRefreshBtn" type="button"><i data-lucide="refresh-cw"></i><span>Actualizar</span></button>
+            <button class="ghost" id="finalDensityBtn" type="button"><i data-lucide="rows-3"></i><span>Densidad</span></button>
+            <button class="ghost" id="finalFocusBtn" type="button"><i data-lucide="maximize-2"></i><span>Enfoque</span></button>
+            <button class="ghost" id="finalShortcutsBtn" type="button"><i data-lucide="command"></i><span>Atajos</span></button>
+          </div>
+        </div>
+        <div class="finalDeckMetrics">
+          <article><span>Riesgo operativo</span><strong id="finalRisk">0</strong><small id="finalRiskLabel">Bajo</small></article>
+          <article><span>Alertas activas</span><strong id="finalAlerts">0</strong><small id="finalAlertLabel">Sin bloqueos</small></article>
+          <article><span>Muelles libres</span><strong id="finalDocks">0</strong><small id="finalDockLabel">de 0 disponibles</small></article>
+          <article><span>Grúas operativas</span><strong id="finalCranes">0%</strong><small id="finalCraneLabel">Disponibilidad</small></article>
+          <article><span>Próximo arribo</span><strong id="finalArrival">—</strong><small id="finalArrivalShip">Sin ETA</small></article>
+          <article><span>Pico de patios</span><strong id="finalYard">0%</strong><small id="finalYardName">Sin datos</small></article>
+        </div>
+      </section>
       <div class="hidden" aria-hidden="true">
         <div id="metrics"></div>
         <div id="arrivals"></div>
@@ -2284,7 +2435,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="cityLegend">Terminal costera · entorno urbano simulado</div>
             <div class="colorLifeLegend"><span class="l-yard">● Patios</span><span class="l-dock">● Muelles</span><span class="l-crane">● Grúas</span><span class="l-city">● Ciudad</span></div>
             <div class="portActivityBadge" id="portActivityBadge"><i></i><span>Operación animada</span></div>
-            <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div><div class="futureMapBadge">LIVING DIGITAL TWIN · CITY + OCEAN</div><div class="cityLifeBadge"><i></i><span>Ciudad viva</span></div>
+            <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div><div class="futureMapBadge">DIGITAL TWIN · CITY + OCEAN · LIVE</div><div class="cityLifeBadge"><i></i><span>Ciudad viva</span></div>
             <div class="neuralHud">
               <div class="neuralKpi"><span>TRÁFICO</span><strong id="cockpitShips">0</strong><small>buques activos</small></div>
               <div class="neuralKpi"><span>STS ONLINE</span><strong id="cockpitCranes">0%</strong><small>capacidad grúas</small></div>
@@ -2622,12 +2773,33 @@ window.SP_GLTFLoader = GLTFLoader;
   </div>
 </section>
 
+<section id="shortcutPanel" class="shortcutPanel hidden" aria-hidden="true">
+  <div class="shortcutCard">
+    <div class="shortcutHead">
+      <div><div class="eyebrow">PRODUCTIVITY</div><h3>Atajos de Smart Ports</h3></div>
+      <button class="ghost shortcutClose" id="shortcutCloseBtn" type="button"><i data-lucide="x"></i></button>
+    </div>
+    <div class="shortcutGrid">
+      <div><kbd>Ctrl</kbd><kbd>K</kbd><span>Búsqueda global</span></div>
+      <div><kbd>Alt</kbd><kbd>1</kbd><span>Vista general</span></div>
+      <div><kbd>Alt</kbd><kbd>2</kbd><span>Buques</span></div>
+      <div><kbd>Alt</kbd><kbd>3</kbd><span>Alertas</span></div>
+      <div><kbd>Alt</kbd><kbd>R</kbd><span>Actualizar operación</span></div>
+      <div><kbd>Alt</kbd><kbd>F</kbd><span>Modo enfoque</span></div>
+      <div><kbd>Alt</kbd><kbd>D</kbd><span>Cambiar densidad</span></div>
+      <div><kbd>?</kbd><span>Mostrar / ocultar esta ayuda</span></div>
+    </div>
+    <div class="shortcutFoot">Los atajos se desactivan mientras escribes en formularios.</div>
+  </div>
+</section>
+
 <script>
 const API="https://wmkfyswbrjqsqacerqfa.supabase.co/functions/v1/smart-ports-v08/api";
 let token=localStorage.getItem("smartPortsToken")||"";
 let currentUser=JSON.parse(localStorage.getItem("smartPortsUser")||"null");
 let ships=[],containers=[],cranes=[],yards=[],alerts=[],docks=[],users=[],accessRequests=[],auditLogs=[],notifications=[],dashboard=null,analytics=null,optimization=null;
 let myModules=[],permissionRows=[];
+let lastApiLatency=0,lastDataSyncAt=0,currentRenderFps=0,fpsSampleFrames=0,fpsSampleStarted=0;
 const MODULE_LABELS={dashboard:"Vista general",ships:"Buques",containers:"Contenedores",cranes:"Grúas",yards:"Almacenamiento",docks:"Muelles",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",notifications:"Notificaciones"};
 const ALL_MODULES=Object.keys(MODULE_LABELS);
 const $=id=>document.getElementById(id);
@@ -2635,10 +2807,13 @@ const show=id=>$(id).classList.remove("hidden");
 const hide=id=>$(id).classList.add("hidden");
 
 async function api(path,options={}){
+  const requestStarted=performance.now();
   const headers={"Content-Type":"application/json",...(options.headers||{})};
   if(token) headers.Authorization=`Bearer ${token}`;
   const response=await fetch(`${API}${path}`,{...options,headers});
   const data=await response.json().catch(()=>({}));
+  lastApiLatency=Math.max(1,Math.round(performance.now()-requestStarted));
+  updateProductionStatus();
 
   if(response.status===401 && token && path!=="/auth/login"){
     token="";currentUser=null;
@@ -2810,6 +2985,110 @@ $("userForm").addEventListener("submit",async e=>{
 });
 
 
+
+function dataAgeLabel(){
+  if(!lastDataSyncAt)return "Sin sincronizar";
+  const seconds=Math.max(0,Math.floor((Date.now()-lastDataSyncAt)/1000));
+  if(seconds<5)return "Ahora";
+  if(seconds<60)return seconds+" s";
+  return Math.floor(seconds/60)+" min";
+}
+function updateProductionStatus(){
+  const online=navigator.onLine;
+  const state=$("systemState");
+  if(state){
+    state.className="systemState "+(online?"online":"offline");
+    state.innerHTML='<i></i><span>'+(online?"Producción":"Sin conexión")+'</span>';
+  }
+  if($("statusApiLatency"))$("statusApiLatency").textContent=lastApiLatency?lastApiLatency+" ms":"— ms";
+  if($("statusFreshness"))$("statusFreshness").textContent=dataAgeLabel();
+  if($("statusFps"))$("statusFps").textContent=currentRenderFps?currentRenderFps+" FPS":"— FPS";
+}
+function renderFinalCommandDeck(){
+  if(!$("finalCommandDeck")||!dashboard)return;
+  const risk=operationalRisk();
+  const activeAlerts=(dashboard.alerts||[]).filter(a=>a.active!==false);
+  const danger=activeAlerts.filter(a=>a.level==="danger").length;
+  const freeDocks=docks.filter(d=>d.status==="Disponible").length;
+  const activeCranes=cranes.filter(g=>g.status==="Activa").length;
+  const cranePct=Math.round(activeCranes/Math.max(cranes.length,1)*100);
+  const yardInfo=yards.map(y=>({
+    name:y.name||"Patio",
+    pct:Math.round(Number(y.occupied||0)/Math.max(Number(y.capacity||0),1)*100)
+  })).sort((a,b)=>b.pct-a.pct)[0]||{name:"Sin datos",pct:0};
+  const next=ships.map(s=>({ship:s,minutes:etaMinutes(s.eta)})).sort((a,b)=>a.minutes-b.minutes)[0];
+  const health=risk.score>=70?"critical":risk.score>=35?"warning":"healthy";
+  const healthText=health==="critical"?"Intervención requerida":health==="warning"?"Operación bajo vigilancia":"Operación saludable";
+  const detail=health==="critical"
+    ?"Capacidad o disponibilidad comprometida. Revisa prioridades inmediatamente."
+    :health==="warning"
+      ?"La operación continúa, pero uno o más indicadores requieren seguimiento."
+      :"Capacidad, equipos y flujo portuario dentro de rangos operativos.";
+  const pill=$("finalHealthPill");
+  if(pill){pill.className="finalHealthPill "+health;pill.innerHTML="<i></i><span>"+healthText+"</span>";}
+  if($("finalHealthDetail"))$("finalHealthDetail").textContent=detail;
+  if($("finalRisk"))$("finalRisk").textContent=risk.score;
+  if($("finalRiskLabel"))$("finalRiskLabel").textContent=risk.score>=70?"Alto":risk.score>=35?"Medio":"Bajo";
+  if($("finalAlerts"))$("finalAlerts").textContent=activeAlerts.length;
+  if($("finalAlertLabel"))$("finalAlertLabel").textContent=danger?danger+" crítica(s)":activeAlerts.length?"Revisar":"Sin bloqueos";
+  if($("finalDocks"))$("finalDocks").textContent=freeDocks;
+  if($("finalDockLabel"))$("finalDockLabel").textContent="de "+docks.length+" disponibles";
+  if($("finalCranes"))$("finalCranes").textContent=cranePct+"%";
+  if($("finalCraneLabel"))$("finalCraneLabel").textContent=activeCranes+" de "+cranes.length+" activas";
+  if($("finalArrival"))$("finalArrival").textContent=next?formatEtaDelta(next.minutes):"—";
+  if($("finalArrivalShip"))$("finalArrivalShip").textContent=next?(next.ship.name||"Buque")+" · "+(next.ship.eta||"Sin ETA"):"Sin ETA";
+  if($("finalYard"))$("finalYard").textContent=yardInfo.pct+"%";
+  if($("finalYardName"))$("finalYardName").textContent=yardInfo.name;
+}
+function toggleFocusMode(){
+  document.body.classList.toggle("focusMode");
+  localStorage.setItem("smartPortsFocus",document.body.classList.contains("focusMode")?"1":"0");
+  setTimeout(()=>window.dispatchEvent(new Event("resize")),220);
+}
+function toggleDensity(){
+  document.body.classList.toggle("compactDensity");
+  localStorage.setItem("smartPortsDensity",document.body.classList.contains("compactDensity")?"compact":"comfortable");
+}
+function toggleShortcutPanel(force){
+  const panel=$("shortcutPanel");if(!panel)return;
+  const showPanel=typeof force==="boolean"?force:panel.classList.contains("hidden");
+  panel.classList.toggle("hidden",!showPanel);
+  panel.setAttribute("aria-hidden",showPanel?"false":"true");
+  if(showPanel&&window.lucide)window.lucide.createIcons({attrs:{"stroke-width":1.8}});
+}
+function finalRefresh(){
+  if(!$("dashboardView")?.classList.contains("hidden"))return refreshOperationalOverview();
+  const active=document.querySelector("nav button.active[data-section]")?.dataset.section||"dashboard";
+  document.querySelector('nav button[data-section="'+active+'"]')?.click();
+}
+function setupFinalControls(){
+  if(localStorage.getItem("smartPortsDensity")==="compact")document.body.classList.add("compactDensity");
+  if(localStorage.getItem("smartPortsFocus")==="1")document.body.classList.add("focusMode");
+  $("finalRefreshBtn")?.addEventListener("click",finalRefresh);
+  $("finalFocusBtn")?.addEventListener("click",toggleFocusMode);
+  $("finalDensityBtn")?.addEventListener("click",toggleDensity);
+  $("finalShortcutsBtn")?.addEventListener("click",()=>toggleShortcutPanel(true));
+  $("shortcutCloseBtn")?.addEventListener("click",()=>toggleShortcutPanel(false));
+  $("shortcutPanel")?.addEventListener("click",e=>{if(e.target.id==="shortcutPanel")toggleShortcutPanel(false)});
+  window.addEventListener("online",updateProductionStatus);
+  window.addEventListener("offline",updateProductionStatus);
+  document.addEventListener("keydown",e=>{
+    const tag=(e.target?.tagName||"").toLowerCase();
+    const typing=tag==="input"||tag==="textarea"||tag==="select"||e.target?.isContentEditable;
+    if(typing)return;
+    if(e.key==="?"&&!e.ctrlKey&&!e.altKey&&!e.metaKey){e.preventDefault();toggleShortcutPanel();}
+    if(e.key==="Escape")toggleShortcutPanel(false);
+    if(e.altKey&&e.key==="1"){e.preventDefault();openSection("dashboard")}
+    if(e.altKey&&e.key==="2"){e.preventDefault();openSection("ships")}
+    if(e.altKey&&e.key==="3"){e.preventDefault();openSection("alerts")}
+    if(e.altKey&&e.key.toLowerCase()==="r"){e.preventDefault();finalRefresh()}
+    if(e.altKey&&e.key.toLowerCase()==="f"){e.preventDefault();toggleFocusMode()}
+    if(e.altKey&&e.key.toLowerCase()==="d"){e.preventDefault();toggleDensity()}
+  });
+  updateProductionStatus();
+  setInterval(updateProductionStatus,1000);
+}
+
 const PAGE_META={
   dashboard:"Estado operativo, capacidad y gemelo digital.",
   ships:"Tráfico marítimo, arribos y asignaciones de muelle.",
@@ -2844,6 +3123,7 @@ function updateWorkspaceClock(){
   el.textContent=now.toLocaleDateString("es-CO",{weekday:"short",day:"2-digit",month:"short"})+" · "+now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"});
 }
 function initProductUI(){
+  setupFinalControls();
   updateWorkspaceClock();
   setInterval(updateWorkspaceClock,60000);
   if(window.lucide)window.lucide.createIcons({attrs:{"stroke-width":1.8}});
@@ -2927,7 +3207,7 @@ async function loadAll(){
   if(canAccess("notifications"))secondary.push(loadNotifications());
   if(currentUser?.role==="Administrador")secondary.push(loadUsers(),loadAccessRequests(),loadPermissionRows(),loadAudit());
 
-  const loadSecondary=()=>Promise.allSettled(secondary).then(()=>{renderOpsIntelligence();renderControlTower();renderScenarioLab();});
+  const loadSecondary=()=>Promise.allSettled(secondary).then(()=>{renderOpsIntelligence();renderControlTower();renderScenarioLab();renderFinalCommandDeck();});
   if("requestIdleCallback" in window)requestIdleCallback(loadSecondary,{timeout:1800});
   else setTimeout(loadSecondary,250);
 }
@@ -3321,6 +3601,12 @@ function animatePort3D(){
   if(nowFrame-port3D.lastFrame<1000/targetFps)return;
   port3D.lastFrame=nowFrame;
   port3D.frameNo++;
+  fpsSampleFrames++;
+  if(!fpsSampleStarted)fpsSampleStarted=nowFrame;
+  if(nowFrame-fpsSampleStarted>=1000){
+    currentRenderFps=Math.round(fpsSampleFrames*1000/(nowFrame-fpsSampleStarted));
+    fpsSampleFrames=0;fpsSampleStarted=nowFrame;updateProductionStatus();
+  }
   const t=port3D.clock?port3D.clock.getElapsedTime():0;
   if(port3D.focusTween){
     const now=performance.now();
@@ -4290,11 +4576,14 @@ function renderDashboard(){
   const cockpitRisk=operationalRisk();
   if($("cockpitRisk"))$("cockpitRisk").textContent=cockpitRisk.score;
   if($("cockpitTracking"))$("cockpitTracking").textContent=(ships.length+cranes.length+yards.length+docks.length)+" entidades sincronizadas";
+  lastDataSyncAt=Date.now();
   renderOpsIntelligence();
   renderControlTower();
   recordCapacitySnapshot();
   renderCapacityTrends();
   renderScenarioLab();
+  renderFinalCommandDeck();
+  updateProductionStatus();
 }
 
 
@@ -4384,6 +4673,7 @@ async function runOpsOptimization(){
   if(!canAccess('optimization')){notify('No tienes permiso para ejecutar optimización.');return;}
   await runOptimization();
   renderOpsIntelligence();
+  renderFinalCommandDeck();
 }
 $('opsRefreshBtn').onclick=refreshOperationalOverview;
 $('opsOptimizeBtn').onclick=runOpsOptimization;
