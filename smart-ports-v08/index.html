@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.29 · Launch Platform</title>
+<title>Smart Ports v0.30 · Production Ready + Living City</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.29 · Launch Platform */
+/* Smart Ports v0.30 · Production Ready + Living City */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,13 +949,13 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.29 · Launch Platform */
+/* Smart Ports v0.30 · Production Ready + Living City */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
 
-/* Smart Ports v0.29 · Launch Platform */
+/* Smart Ports v0.30 · Production Ready + Living City */
 .controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
 .controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
 .towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
@@ -980,7 +980,7 @@ body.lowQuality #port3dCanvas:before{opacity:.62}
 @media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
 @media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
 
-/* Smart Ports v0.29 · Launch Platform */
+/* Smart Ports v0.30 · Production Ready + Living City */
 .decisionLabPanel{margin-top:14px;padding:16px!important;border-color:rgba(102,196,255,.30)!important;background:radial-gradient(circle at 8% 0%,rgba(46,135,198,.12),transparent 32%),linear-gradient(180deg,rgba(5,24,36,.99),rgba(3,17,26,.99))!important}
 .decisionLabHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:13px}.decisionLabHead h3{margin:4px 0;font-size:19px}.decisionLabHead p{margin:0;font-size:11px}
 .scenarioBadge{padding:7px 10px;border:1px solid #23536a;border-radius:999px;background:#082431;color:#87cddd;font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.scenarioBadge.warning{color:#ffd177;border-color:#72582d;background:#352816}.scenarioBadge.danger{color:#ff9ca4;border-color:#773b43;background:#371d23}.scenarioBadge.stable{color:#83eabd;border-color:#28624d;background:#102b22}
@@ -2082,6 +2082,21 @@ td strong{color:#e8edf2!important;font-weight:650!important}
   .topbar{padding:0 12px!important}
   .view{padding:12px!important}
 }
+
+/* Smart Ports v0.30 · Living City */
+.cityLifeBadge{
+  position:absolute;left:18px;bottom:48px;z-index:9;display:inline-flex;align-items:center;gap:6px;
+  padding:5px 8px;border:1px solid rgba(255,255,255,.09);border-radius:6px;
+  background:rgba(10,17,24,.72);backdrop-filter:blur(8px);color:#8d99a5;
+  font-size:7px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;pointer-events:none;
+}
+.cityLifeBadge i{
+  width:5px;height:5px;border-radius:50%;background:#55cfa0;
+  box-shadow:0 0 0 3px rgba(85,207,160,.08);animation:cityLifePulse 2.4s ease-in-out infinite;
+}
+@keyframes cityLifePulse{50%{opacity:.45;transform:scale(.78)}}
+@media(max-width:1050px){.cityLifeBadge{display:none}}
+@media(prefers-reduced-motion:reduce){.cityLifeBadge i{animation:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
@@ -2163,7 +2178,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand"><span class="brandMark"><i data-lucide="anchor"></i></span><span class="brandCopy"><strong>Smart Ports</strong><small>Operations Platform</small></span></div>
-    <div class="version">v0.29 · Launch Platform</div>
+    <div class="version">v0.30 · Living City</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <div class="navSectionLabel">Operate</div>
@@ -2269,7 +2284,7 @@ window.SP_GLTFLoader = GLTFLoader;
             <div class="cityLegend">Terminal costera · entorno urbano simulado</div>
             <div class="colorLifeLegend"><span class="l-yard">● Patios</span><span class="l-dock">● Muelles</span><span class="l-crane">● Grúas</span><span class="l-city">● Ciudad</span></div>
             <div class="portActivityBadge" id="portActivityBadge"><i></i><span>Operación animada</span></div>
-            <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div><div class="futureMapBadge">AUTONOMOUS DIGITAL TWIN · 2046</div>
+            <div class="smartCameraBadge">Cámara inteligente · LOD activo · carga animada</div><div class="futureMapBadge">LIVING DIGITAL TWIN · CITY + OCEAN</div><div class="cityLifeBadge"><i></i><span>Ciudad viva</span></div>
             <div class="neuralHud">
               <div class="neuralKpi"><span>TRÁFICO</span><strong id="cockpitShips">0</strong><small>buques activos</small></div>
               <div class="neuralKpi"><span>STS ONLINE</span><strong id="cockpitCranes">0%</strong><small>capacidad grúas</small></div>
@@ -3093,7 +3108,7 @@ function prefersHighQuality3D(){
   const mobile=/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"");
   return !narrow&&!mobile&&cores>=6&&memory>=6;
 }
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],labels:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,realCraneTemplate:null,realCranePromise:null,realCraneFailed:false,realTruckTemplate:null,realTruckPromise:null,realTruckFailed:false,city:null,cityWindows:[],animationEnabled:true,qualityHigh:prefersHighQuality3D(),focusTween:null,previousView:null,selectionHelper:null,selectedRoot:null,sky:null,pbr:null,pbrPromise:null,reflectionTarget:null,reflectionCamera:null,reflectionFrame:0,buildSignature:"",lastFrame:0,frameNo:0};
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],labels:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,realCraneTemplate:null,realCranePromise:null,realCraneFailed:false,realTruckTemplate:null,realTruckPromise:null,realTruckFailed:false,city:null,cityWindows:[],cityBeacons:[],cityHaze:[],cityBuildings:[],cityTraffic:[],animationEnabled:true,qualityHigh:prefersHighQuality3D(),focusTween:null,previousView:null,selectionHelper:null,selectedRoot:null,sky:null,pbr:null,pbrPromise:null,reflectionTarget:null,reflectionCamera:null,reflectionFrame:0,buildSignature:"",lastFrame:0,frameNo:0};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -3333,10 +3348,32 @@ function animatePort3D(){
       if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
     });
 
-    if(port3D.frameNo%4===0)port3D.cityWindows.forEach((w,i)=>{
-      const flicker=.72+Math.sin(t*.38+i*1.73)*.20;
-      if(w.material)w.material.opacity=Math.max(.35,Math.min(1,flicker));
-    });
+    if(port3D.frameNo%4===0){
+      port3D.cityWindows.forEach((w,i)=>{
+        const u=w.userData||{};
+        const base=u.baseOpacity||.55;
+        const pulse=(u.pulse||.12)*Math.sin(t*.28+(u.phase||i));
+        const slowOff=(u.offChance||0)>.82&&Math.sin(t*.055+(u.phase||0))>.91?-.34:0;
+        if(w.material)w.material.opacity=Math.max(.10,Math.min(1,base+pulse+slowOff));
+      });
+      port3D.cityBuildings.forEach((b,i)=>{
+        const u=b.userData||{};
+        if(b.material&&"emissiveIntensity" in b.material){
+          b.material.emissiveIntensity=(u.baseEmissive||.2)+Math.sin(t*.12+(u.phase||i))*.055;
+        }
+      });
+      port3D.cityBeacons.forEach((b,i)=>{
+        const u=b.userData||{};
+        const blink=Math.pow(Math.max(0,Math.sin(t*(u.speed||2)+(u.phase||i))),8);
+        if(b.material)b.material.opacity=.16+blink*.84;
+        const scale=.8+blink*.7;b.scale.setScalar(scale);
+      });
+      port3D.cityHaze.forEach((h,i)=>{
+        const u=h.userData||{};
+        h.position.x=(u.baseX||0)+Math.sin(t*(u.speed||.04)+(u.phase||i))*5.5;
+        if(h.material)h.material.opacity=.025+i*.008+(Math.sin(t*.09+i)*.008);
+      });
+    }
 
     port3D.animated.forEach((a,i)=>{
       const u=a.userData||{};
@@ -3399,6 +3436,13 @@ function animatePort3D(){
         a.position.x=u.cx+Math.cos(angle)*u.rx;
         a.position.z=u.cz+Math.sin(angle)*u.rz;
         a.rotation.y=-angle;
+      }
+      if(u.type==="cityDrone"){
+        const angle=(t*(u.speed||.012)+u.phase)*Math.PI*2;
+        a.position.x=u.cx+Math.cos(angle)*u.rx;
+        a.position.z=u.cz+Math.sin(angle)*u.rz;
+        a.position.y=u.y+Math.sin(t*.55+u.phase*9)*.22;
+        a.rotation.y=-angle+.4;
       }
     });
   }
@@ -3745,55 +3789,149 @@ function buildCityBackdrop(){
   const city=new THREE.Group();
   const rand=(n)=>Math.abs(Math.sin(n*12.9898+78.233))*43758.5453%1;
   const baseZ=47;
-  for(let i=0;i<34;i++){
-    const x=-48+i*3.2;
-    const h=4+rand(i)*16;
-    const w=1.6+rand(i+20)*2.6;
+
+  // Capa lejana: siluetas para profundidad sin coste alto.
+  const farMat=new THREE.MeshBasicMaterial({color:0x08161f,transparent:true,opacity:.82,fog:true});
+  for(let i=0;i<22;i++){
+    const x=-54+i*5.2;
+    const h=3+rand(i+300)*10;
+    const w=2.2+rand(i+330)*4.5;
+    const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,2.2),farMat.clone());
+    b.position.set(x,h/2+.4,60+rand(i+350)*9);
+    city.add(b);
+  }
+
+  // Capa media/principal.
+  for(let i=0;i<38;i++){
+    const x=-51+i*2.85;
+    const h=4+rand(i)*17;
+    const w=1.5+rand(i+20)*2.7;
     const d=2.0+rand(i+40)*3.2;
+    const baseLight=.13+rand(i+5)*.09;
     const mat=new THREE.MeshStandardMaterial({
-      color:new THREE.Color().setHSL(.50+rand(i+12)*.11,.18+rand(i+8)*.10,.15+rand(i+5)*.10),
-      roughness:.72,metalness:.18,
-      emissive:new THREE.Color(0x07252c),emissiveIntensity:.32
+      color:new THREE.Color().setHSL(.50+rand(i+12)*.11,.16+rand(i+8)*.11,baseLight),
+      roughness:.75,metalness:.16,
+      emissive:new THREE.Color(0x061c23),emissiveIntensity:.22
     });
     const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
     b.position.set(x,h/2+.6,baseZ+rand(i+70)*7);
     b.castShadow=false;b.receiveShadow=true;
-    city.add(b);
+    b.userData={type:"cityBuilding",baseEmissive:.18+rand(i+99)*.18,phase:rand(i+199)*Math.PI*2};
+    city.add(b);port3D.cityBuildings.push(b);
 
-    const rows=Math.max(2,Math.floor(h/2.1));
-    const cols=Math.max(1,Math.floor(w/.9));
+    const rows=Math.max(2,Math.floor(h/1.8));
+    const cols=Math.max(1,Math.floor(w/.72));
     for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
-      if(rand(i*31+r*7+cc)>.42){
-        const winColor=rand(i+r+cc)>.62?0xffcf76:(rand(i+r+cc*2)>.48?0x76dfff:0xff9a6b);
-        const wm=new THREE.MeshBasicMaterial({color:winColor,transparent:true,opacity:.84});
-        const win=new THREE.Mesh(new THREE.PlaneGeometry(.28,.18),wm);
+      if(rand(i*31+r*7+cc)>.38){
+        const seed=rand(i*83+r*17+cc*3);
+        const winColor=seed>.70?0xffcf7a:(seed>.46?0x77dcff:0xff9f76);
+        const wm=new THREE.MeshBasicMaterial({
+          color:winColor,transparent:true,
+          opacity:.35+seed*.6,
+          blending:THREE.AdditiveBlending,
+          depthWrite:false
+        });
+        const win=new THREE.Mesh(new THREE.PlaneGeometry(.24,.15),wm);
+        win.userData={
+          baseOpacity:.30+seed*.62,
+          phase:rand(i*19+r*11+cc)*Math.PI*2,
+          pulse:.08+rand(i+r+cc*7)*.18,
+          offChance:rand(i*27+r*3+cc*13)
+        };
         port3D.cityWindows.push(win);
-        win.position.set(x-w/2+.45+cc*.62,1.4+r*1.65,baseZ-d/2+rand(i+70)*7-.011);
+        win.position.set(
+          x-w/2+.38+cc*.54,
+          1.2+r*1.48,
+          baseZ-d/2+rand(i+70)*7-.018
+        );
         win.rotation.y=Math.PI;
         city.add(win);
       }
     }
+
+    // Baliza superior para edificios altos.
+    if(h>13&&rand(i+511)>.43){
+      const beaconMat=new THREE.MeshBasicMaterial({color:0xff5568,transparent:true,opacity:.9});
+      const beacon=new THREE.Mesh(new THREE.SphereGeometry(.075,6,5),beaconMat);
+      beacon.position.set(x,h+.72,baseZ+rand(i+70)*7);
+      beacon.userData={phase:rand(i+711)*Math.PI*2,speed:1.7+rand(i+811)*1.2};
+      city.add(beacon);port3D.cityBeacons.push(beacon);
+    }
   }
 
-  // torres altas de skyline
+  // Torres dominantes del skyline.
   [[-22,24],[0,31],[18,27],[32,21]].forEach(([x,h],i)=>{
-    const tower=box(4,h,4,0x203742,x,h/2+.5,53+i*.7,0x062a31);city.add(tower);
-    const crown=new THREE.PointLight(0x48dfff,2.5,14);crown.position.set(x,h+1,53+i*.7);city.add(crown);
+    const tower=box(4,h,4,0x203742,x,h/2+.5,53+i*.7,0x062a31);
+    tower.castShadow=false;
+    tower.userData={type:"cityBuilding",baseEmissive:.24,phase:i*1.2};
+    city.add(tower);port3D.cityBuildings.push(tower);
+
+    const crownMat=new THREE.MeshBasicMaterial({color:i%2?0x68dcff:0x53f0d0,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false});
+    const crown=new THREE.Mesh(new THREE.SphereGeometry(.16,8,6),crownMat);
+    crown.position.set(x,h+1,53+i*.7);
+    crown.userData={phase:i*.9,speed:1.25+i*.13};
+    city.add(crown);port3D.cityBeacons.push(crown);
   });
 
-  // avenida costera iluminada
-  const road=box(110,.08,5,0x1b292f,0,.2,39);city.add(road);
-  for(let x=-52;x<=52;x+=5){
-    const lamp=new THREE.PointLight(0xffd98a,1.1,6,2);lamp.position.set(x,1.4,37);city.add(lamp);
+  // Glow atmosférico en varias capas.
+  const hazeColors=[0x1d7f9a,0x3666a8,0x1c8a78];
+  for(let i=0;i<3;i++){
+    const hazeMat=new THREE.MeshBasicMaterial({
+      color:hazeColors[i],transparent:true,opacity:.035+i*.009,
+      depthWrite:false,blending:THREE.AdditiveBlending,fog:true
+    });
+    const haze=new THREE.Mesh(new THREE.PlaneGeometry(92-i*10,16+i*4),hazeMat);
+    haze.position.set(-10+i*12,7+i*1.8,59+i*4);
+    haze.rotation.y=Math.PI;
+    haze.userData={baseX:haze.position.x,phase:i*1.9,speed:.035+i*.009};
+    city.add(haze);port3D.cityHaze.push(haze);
   }
 
-  for(let i=0;i<7;i++){
+  // Avenida costera.
+  const road=box(112,.08,5.3,0x172329,0,.2,39);road.castShadow=false;city.add(road);
+  const median=box(112,.025,.10,0xb49c56,0,.27,39);median.castShadow=false;city.add(median);
+  for(let x=-52;x<=52;x+=5){
+    const lampPole=box(.045,1.35,.045,0x3c4a50,x,.75,37.2);lampPole.castShadow=false;city.add(lampPole);
+    const glowMat=new THREE.MeshBasicMaterial({color:0xffd98a,transparent:true,opacity:.72,blending:THREE.AdditiveBlending,depthWrite:false});
+    const glow=new THREE.Mesh(new THREE.SphereGeometry(.07,6,5),glowMat);glow.position.set(x,1.45,37.2);city.add(glow);
+  }
+
+  // Tráfico bidireccional: luces en lugar de muchos PointLight.
+  const carColors=[0xe34d4d,0x2a9ee8,0xe7b746,0xd7e1e5,0x5fc58f];
+  for(let i=0;i<14;i++){
+    const reverse=i%2===1;
+    const laneZ=37.55+(i%4)*.46;
     const car=new THREE.Group();
-    const body=box(.9,.34,.42,[0xe34d4d,0x2a9ee8,0xe7b746,0xd7e1e5][i%4],0,.24,0);
-    car.add(body);
-    const head=new THREE.PointLight(0xffefbb,.7,3);head.position.set(.52,.28,0);car.add(head);
-    car.userData={type:"cityCar",start:{x:-52,z:37.5+i%2*.7},end:{x:52,z:37.5+i%2*.7},speed:.018+i*.002,phase:i*.13};
-    city.add(car);port3D.animated.push(car);
+    const body=box(.78,.28,.38,carColors[i%carColors.length],0,.22,0);body.castShadow=false;car.add(body);
+
+    const headMat=new THREE.MeshBasicMaterial({color:0xffefc4,transparent:true,opacity:.92,blending:THREE.AdditiveBlending,depthWrite:false});
+    const tailMat=new THREE.MeshBasicMaterial({color:0xff4055,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false});
+    const head=new THREE.Mesh(new THREE.PlaneGeometry(.10,.09),headMat);
+    const tail=new THREE.Mesh(new THREE.PlaneGeometry(.10,.09),tailMat);
+    head.position.set(reverse?-.41:.41,.28,0);tail.position.set(reverse?.41:-.41,.28,0);
+    head.rotation.y=Math.PI/2;tail.rotation.y=Math.PI/2;
+    car.add(head,tail);
+
+    const start=reverse?{x:54,z:laneZ}:{x:-54,z:laneZ};
+    const end=reverse?{x:-54,z:laneZ}:{x:54,z:laneZ};
+    car.userData={type:"cityCar",start,end,speed:.012+(i%6)*.0018,phase:(i/14),lane:i%4};
+    city.add(car);port3D.animated.push(car);port3D.cityTraffic.push(car);
+  }
+
+  // Drones / aeronaves lentas al fondo.
+  for(let i=0;i<(port3D.qualityHigh?4:2);i++){
+    const drone=new THREE.Group();
+    const coreMat=new THREE.MeshBasicMaterial({color:i%2?0x68ddff:0x6affcf,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false});
+    const core=new THREE.Mesh(new THREE.SphereGeometry(.10,7,5),coreMat);drone.add(core);
+    const wing=new THREE.Mesh(new THREE.BoxGeometry(.65,.035,.12),new THREE.MeshBasicMaterial({color:0x29434f,transparent:true,opacity:.8}));drone.add(wing);
+    drone.userData={
+      type:"cityDrone",
+      cx:-18+i*12,cz:54+i*2.5,
+      rx:16+i*3,rz:3+i,
+      y:14+i*2.6,
+      speed:.010+i*.0025,phase:i*.23
+    };
+    city.add(drone);port3D.animated.push(drone);
   }
 
   port3D.city=city;
@@ -3830,7 +3968,7 @@ function buildPort3D(force=false){
   port3D.buildSignature=signature;
   clearSelectionHighlight();
   clearPort3DGroup();
-  port3D.beacons=[];port3D.animated=[];port3D.labels=[];port3D.cityWindows=[];port3D.water=null;
+  port3D.beacons=[];port3D.animated=[];port3D.labels=[];port3D.cityWindows=[];port3D.cityBeacons=[];port3D.cityHaze=[];port3D.cityBuildings=[];port3D.cityTraffic=[];port3D.water=null;
 
   // Agua animada con shader
   const waterGeo=new THREE.PlaneGeometry(150,105,port3D.qualityHigh?56:32,port3D.qualityHigh?40:22);
