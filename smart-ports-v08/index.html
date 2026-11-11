@@ -442,6 +442,9 @@ const API="https://wmkfyswbrjqsqacerqfa.supabase.co/functions/v1/smart-ports-v08
 let token=localStorage.getItem("smartPortsToken")||"";
 let currentUser=JSON.parse(localStorage.getItem("smartPortsUser")||"null");
 let ships=[],containers=[],cranes=[],yards=[],alerts=[],docks=[],users=[],accessRequests=[],auditLogs=[],notifications=[],dashboard=null,analytics=null,optimization=null;
+let myModules=[],permissionRows=[];
+const MODULE_LABELS={dashboard:"Vista general",ships:"Buques",containers:"Contenedores",cranes:"Grúas",yards:"Almacenamiento",docks:"Muelles",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",notifications:"Notificaciones"};
+const ALL_MODULES=Object.keys(MODULE_LABELS);
 const $=id=>document.getElementById(id);
 const show=id=>$(id).classList.remove("hidden");
 const hide=id=>$(id).classList.add("hidden");
@@ -505,7 +508,7 @@ $("loginForm").addEventListener("submit",async e=>{
     const result=await api("/auth/login",{method:"POST",body:JSON.stringify({email:$("userInput").value.trim(),password:$("passInput").value})});
     token=result.token;currentUser=result.user;
     localStorage.setItem("smartPortsToken",token);localStorage.setItem("smartPortsUser",JSON.stringify(currentUser));
-    hide("login");show("app");applyUser();await loadAll();
+    hide("login");show("app");await loadMyPermissions();applyUser();openDefaultSection();await loadAll();
   }catch(error){$("loginError").textContent=error.message;show("loginError")}
 });
 
@@ -515,10 +518,11 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
     btn.classList.add("active");
     document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
     const section=btn.dataset.section;
+    if(!canAccess(section)){notify("No tienes permiso para abrir este módulo.");return}
     $(`${section}View`).classList.remove("hidden");
     const titles={
       dashboard:"Vista general",ships:"Gestión de buques",containers:"Contenedores",cranes:"Grúas",
-      yards:"Patios",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",
+      yards:"Almacenamiento / Patios",docks:"Muelles",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",
       notifications:"Notificaciones",users:"Usuarios y accesos",audit:"Auditoría"
     };
     $("pageTitle").textContent=titles[section]||"Smart Ports";
@@ -527,12 +531,13 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
       if(section==="ships")await loadShips();
       if(section==="containers")await loadContainers();
       if(section==="cranes")await loadCranes();
-      if(section==="yards")await loadYards();
+      if(section==="yards")await Promise.all([loadYards(),loadContainers()]);
+      if(section==="docks")await loadDocks();
       if(section==="alerts")await loadAlerts();
       if(section==="analytics")await loadAnalytics();
       if(section==="optimization")await Promise.all([loadOptimization(),loadDocks()]);
       if(section==="notifications")await loadNotifications();
-      if(section==="users")await Promise.all([loadUsers(),loadAccessRequests()]);
+      if(section==="users")await Promise.all([loadUsers(),loadAccessRequests(),loadPermissionRows()]);
       if(section==="audit")await loadAudit();
     }catch(error){showConnectionError(error.message)}
   });
@@ -610,29 +615,63 @@ $("userForm").addEventListener("submit",async e=>{
 });
 
 function openSection(section){
+  if(!canAccess(section)){notify("No tienes permiso para abrir este módulo.");return}
   document.querySelectorAll("nav button[data-section]").forEach(b=>b.classList.toggle("active",b.dataset.section===section));
   document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
   const view=$(`${section}View`);
   if(view)view.classList.remove("hidden");
   const titles={
     dashboard:"Vista general",ships:"Gestión de buques",containers:"Contenedores",cranes:"Grúas",
-    yards:"Patios",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",
+    yards:"Almacenamiento / Patios",docks:"Muelles",alerts:"Alertas",analytics:"Analítica",reports:"Reportes",optimization:"Optimización",
     notifications:"Notificaciones",users:"Usuarios y accesos",audit:"Auditoría"
   };
   $("pageTitle").textContent=titles[section]||"Smart Ports";
 }
 
+function canAccess(section){
+  if(currentUser?.role==="Administrador")return true;
+  if(section==="users"||section==="audit")return false;
+  return myModules.includes(section);
+}
+async function loadMyPermissions(){
+  if(currentUser?.role==="Administrador"){myModules=[...ALL_MODULES];return}
+  const result=await api("/permissions/me");
+  myModules=Array.isArray(result.modules)?result.modules:["dashboard"];
+}
+async function loadPermissionRows(){
+  if(currentUser?.role!=="Administrador")return;
+  permissionRows=await api("/permissions/users");
+  renderUsers();
+}
+function openDefaultSection(){
+  const preferred=currentUser?.role==="Administrador"?"dashboard":(myModules[0]||"dashboard");
+  openSection(preferred);
+}
 function applyUser(){
   $("userName").textContent=currentUser?.name||"Usuario";
-  $("userRole").textContent=currentUser?.role||"";
-  document.querySelectorAll(".adminOnly").forEach(el=>{
-    el.classList.toggle("hidden", currentUser?.role!=="Administrador");
+  $("userRole").textContent=currentUser?.role==="Administrador"?"Administrador · acceso total":(currentUser?.role||"");
+  document.querySelectorAll(".adminOnly").forEach(el=>el.classList.toggle("hidden", currentUser?.role!=="Administrador"));
+  document.querySelectorAll("nav button[data-section]").forEach(btn=>{
+    const section=btn.dataset.section;
+    if(section==="users"||section==="audit")return;
+    btn.classList.toggle("hidden",!canAccess(section));
   });
+  $("quickShipBtn").classList.toggle("hidden",!canAccess("ships"));
+  $("notificationButton").classList.toggle("hidden",!canAccess("notifications"));
 }
-
 async function loadAll(){
-  const jobs=[loadDashboard(),loadShips(),loadContainers(),loadCranes(),loadYards(),loadAlerts(),loadDocks(),loadAnalytics(),loadOptimization(),loadNotifications()];
-  if(currentUser?.role==="Administrador") jobs.push(loadUsers(),loadAccessRequests(),loadAudit());
+  const jobs=[];
+  if(canAccess("dashboard"))jobs.push(loadDashboard(),loadShips(),loadCranes(),loadYards(),loadDocks());
+  if(canAccess("ships")&&!canAccess("dashboard"))jobs.push(loadShips());
+  if(canAccess("containers"))jobs.push(loadContainers());
+  if(canAccess("cranes")&&!canAccess("dashboard"))jobs.push(loadCranes());
+  if(canAccess("yards")&&!canAccess("dashboard"))jobs.push(loadYards());
+  if(canAccess("docks")&&!canAccess("dashboard"))jobs.push(loadDocks());
+  if(canAccess("alerts"))jobs.push(loadAlerts());
+  if(canAccess("analytics"))jobs.push(loadAnalytics());
+  if(canAccess("optimization"))jobs.push(loadOptimization(),loadDocks());
+  if(canAccess("notifications"))jobs.push(loadNotifications());
+  if(currentUser?.role==="Administrador")jobs.push(loadUsers(),loadAccessRequests(),loadPermissionRows(),loadAudit());
   await Promise.all(jobs);
   hide("connectionError");
 }
@@ -783,11 +822,13 @@ function renderAnalytics(){
 }
 
 function renderDocks(){
-  const el=$("docksGrid");if(!el)return;
-  el.innerHTML=docks.length?docks.map(d=>{
+  const targets=[$("docksGrid"),$("docksAccessGrid")].filter(Boolean);
+  if(!targets.length)return;
+  const html=docks.length?docks.map(d=>{
     const cls=d.status==="Disponible"?"dock-free":d.status==="Ocupado"?"dock-busy":"dock-maint";
     return `<article class="dockCard"><strong>${esc(d.code)}</strong><p class="${cls}">${esc(d.status)}</p><p>Capacidad: ${Number(d.max_containers).toLocaleString("en-US")} cont.</p>${d.ship_name?`<p>Buque: ${esc(d.ship_name)}</p>`:""}</article>`;
   }).join(""):`<div class="empty">No hay muelles configurados.</div>`;
+  targets.forEach(el=>el.innerHTML=html);
 }
 
 function renderOptimization(){
@@ -854,15 +895,19 @@ function renderAccessRequests(){
       <td><div class="requestReason" title="${esc(r.reason||"")}">${esc(r.reason||"Sin motivo")}</div></td>
       <td><span class="badge ${statusClass}">${statusLabel}</span></td>
       <td>${r.status==="pending"?`<select id="accessRole-${r.id}"><option>Operador</option><option>Administrador</option></select>`:esc(r.approved_role||"—")}</td>
+      <td>${r.status==="pending"?`<select class="accessPreset" id="accessArea-${r.id}"><option value="storage">Almacenamiento</option><option value="maritime">Buques y muelles</option><option value="cranes">Grúas</option><option value="docks">Muelles</option><option value="analytics">Analítica y reportes</option><option value="operations">Operación general</option></select>`:"—"}</td>
       <td>${actions}</td>
     </tr>`;
-  }).join(""):`<tr><td colspan="7" class="empty">No hay solicitudes de acceso.</td></tr>`;
+  }).join(""):`<tr><td colspan="8" class="empty">No hay solicitudes de acceso.</td></tr>`;
 }
 
 async function approveAccessRequest(id){
   const role=$(`accessRole-${id}`)?.value||"Operador";
+  const preset=$(`accessArea-${id}`)?.value||"storage";
+  const presets={storage:["containers","yards"],maritime:["ships","docks"],cranes:["cranes"],docks:["docks"],analytics:["analytics","reports"],operations:["dashboard","ships","containers","cranes","yards","docks","alerts"]};
+  const modules=role==="Administrador"?ALL_MODULES:(presets[preset]||["containers","yards"]);
   try{
-    const result=await api(`/access-requests/${id}/approve`,{method:"PATCH",body:JSON.stringify({role})});
+    const result=await api(`/access-requests/${id}/approve`,{method:"PATCH",body:JSON.stringify({role,modules})});
     notify(result.message||"Acceso aprobado.");
     await Promise.all([loadAccessRequests(),loadUsers(),loadAudit(),loadNotifications()]);
   }catch(error){showConnectionError(error.message)}
@@ -879,6 +924,14 @@ async function rejectAccessRequest(id){
 }
 window.rejectAccessRequest=rejectAccessRequest;
 
+function permissionsForUser(id){
+  return permissionRows.filter(p=>Number(p.user_id)===Number(id)).map(p=>p.module_key);
+}
+function renderPermissionCell(u){
+  if(u.role==="Administrador")return '<span class="badge status-active">Acceso total</span>';
+  const enabled=permissionsForUser(u.id);
+  return `<div class="permissionCell"><div class="permissionGrid">${ALL_MODULES.map(m=>`<label><input type="checkbox" data-perm-user="${u.id}" value="${m}" ${enabled.includes(m)?"checked":""}> ${MODULE_LABELS[m]}</label>`).join("")}</div><div class="permissionActions"><button class="primary small" onclick="saveUserModules(${u.id})">Guardar permisos</button><button class="ghost" onclick="applyAreaPreset(${u.id},'storage')">Almacenamiento</button></div></div>`;
+}
 function renderUsers(){
   if(currentUser?.role!=="Administrador")return;
   $("usersBody").innerHTML=users.length?users.map(u=>`
@@ -892,19 +945,31 @@ function renderUsers(){
         </select>
       </td>
       <td><span class="userStatus ${u.active?"active":"disabled"}">${u.active?"Activo":"Desactivado"}</span></td>
-      <td>
-        <button class="ghost" onclick="toggleUserActive(${u.id},${!u.active})" ${u.id===currentUser.id?"disabled":""}>
-          ${u.active?"Desactivar":"Activar"}
-        </button>
-      </td>
-    </tr>`).join(""):`<tr><td colspan="5" class="empty">No hay usuarios registrados.</td></tr>`;
+      <td>${renderPermissionCell(u)}</td>
+      <td><button class="ghost" onclick="toggleUserActive(${u.id},${!u.active})" ${u.id===currentUser.id?"disabled":""}>${u.active?"Desactivar":"Activar"}</button></td>
+    </tr>`).join(""):`<tr><td colspan="6" class="empty">No hay usuarios registrados.</td></tr>`;
 }
+async function saveUserModules(id){
+  const modules=[...document.querySelectorAll(`input[data-perm-user="${id}"]:checked`)].map(x=>x.value);
+  try{
+    await api(`/permissions/users/${id}`,{method:"PUT",body:JSON.stringify({modules})});
+    notify("Permisos por área actualizados.");
+    await loadPermissionRows();
+  }catch(error){showConnectionError(error.message)}
+}
+window.saveUserModules=saveUserModules;
+function applyAreaPreset(id,preset){
+  const presets={storage:["containers","yards"],maritime:["ships","docks"],cranes:["cranes"],docks:["docks"],analytics:["analytics","reports"],operations:["dashboard","ships","containers","cranes","yards","docks","alerts"]};
+  const allowed=presets[preset]||[];
+  document.querySelectorAll(`input[data-perm-user="${id}"]`).forEach(x=>x.checked=allowed.includes(x.value));
+}
+window.applyAreaPreset=applyAreaPreset;
 
 async function changeUserRole(id,role){
   try{
     await api(`/users/${id}`,{method:"PATCH",body:JSON.stringify({role})});
     notify("Rol actualizado.");
-    await Promise.all([loadUsers(),loadAudit(),loadNotifications()]);
+    await Promise.all([loadUsers(),loadPermissionRows(),loadAudit(),loadNotifications()]);
   }catch(error){showConnectionError(error.message);await loadUsers()}
 }
 window.changeUserRole=changeUserRole;
@@ -969,8 +1034,8 @@ function formatDate(value){
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
-if(token&&currentUser){hide("landing");hide("login");show("app");applyUser();loadAll().catch(e=>showConnectionError(e.message))}
-setInterval(()=>{if(token)loadNotifications().catch(()=>{})},8000);
+if(token&&currentUser){hide("landing");hide("login");show("app");loadMyPermissions().then(()=>{applyUser();openDefaultSection();return loadAll()}).catch(e=>showConnectionError(e.message))}
+setInterval(()=>{if(token&&canAccess("notifications"))loadNotifications().catch(()=>{})},8000);
 </script>
 </body>
 </html>
