@@ -1355,6 +1355,9 @@ $("registerForm").addEventListener("submit",async e=>{
 
 $("navScrollUp").onclick=()=>$("sideNav").scrollBy({top:-190,behavior:"smooth"});
 $("navScrollDown").onclick=()=>$("sideNav").scrollBy({top:190,behavior:"smooth"});
+$("mobileMenuBtn").onclick=()=>document.body.classList.toggle("sidebarOpen");
+$("sidebarBackdrop").onclick=()=>document.body.classList.remove("sidebarOpen");
+window.addEventListener("resize",()=>{if(window.innerWidth>850)document.body.classList.remove("sidebarOpen")});
 $("logoutBtn").onclick=()=>{
   token="";currentUser=null;
   localStorage.removeItem("smartPortsToken");localStorage.removeItem("smartPortsUser");
@@ -1378,6 +1381,7 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
   btn.addEventListener("click",async()=>{
     document.querySelectorAll("nav button[data-section]").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
+    document.body.classList.remove("sidebarOpen");
     document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
     const section=btn.dataset.section;
     if(!canAccess(section)){notify("No tienes permiso para abrir este módulo.");return}
@@ -1479,6 +1483,7 @@ $("userForm").addEventListener("submit",async e=>{
 
 function openSection(section){
   if(!canAccess(section)){notify("No tienes permiso para abrir este módulo.");return}
+  document.body.classList.remove("sidebarOpen");
   document.querySelectorAll("nav button[data-section]").forEach(b=>b.classList.toggle("active",b.dataset.section===section));
   document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
   const view=$(`${section}View`);
@@ -1514,6 +1519,10 @@ function openDefaultSection(){
 function applyUser(){
   $("userName").textContent=currentUser?.name||"Usuario";
   $("userRole").textContent=currentUser?.role==="Administrador"?"Administrador · acceso total":(currentUser?.role||"");
+  if($("userAvatar")){
+    const parts=String(currentUser?.name||"Smart Ports").trim().split(/\s+/).filter(Boolean);
+    $("userAvatar").textContent=((parts[0]?.[0]||"S")+(parts[1]?.[0]||parts[0]?.[1]||"P")).toUpperCase();
+  }
   if($("commandRole"))$("commandRole").textContent=(currentUser?.role||"Usuario").toUpperCase();
   document.querySelectorAll(".adminOnly").forEach(el=>el.classList.toggle("hidden", currentUser?.role!=="Administrador"));
   document.querySelectorAll("nav button[data-section]").forEach(btn=>{
@@ -1704,6 +1713,7 @@ document.addEventListener("keydown",function(e){
     if($("commandPalette").classList.contains("hidden"))openGlobalSearch();else closeGlobalSearch();
   }
   if(e.key==="Escape"&&!$("commandPalette").classList.contains("hidden"))closeGlobalSearch();
+  else if(e.key==="Escape"&&document.body.classList.contains("sidebarOpen"))document.body.classList.remove("sidebarOpen");
 });
 
 
