@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.25 · Control Tower</title>
+<title>Smart Ports v0.26 · Decision Lab</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.25 · Control Tower */
+/* Smart Ports v0.26 · Decision Lab */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,13 +949,13 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.25 · Control Tower */
+/* Smart Ports v0.26 · Decision Lab */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
 
-/* Smart Ports v0.25 · Control Tower */
+/* Smart Ports v0.26 · Decision Lab */
 .controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
 .controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
 .towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
@@ -979,6 +979,21 @@ body.lowQuality #port3dCanvas:before{opacity:.62}
 .contextDecision{margin-top:11px;padding:9px;border:1px solid #1b4654;border-radius:8px;background:linear-gradient(135deg,rgba(17,56,68,.75),rgba(7,29,39,.85))}.contextDecision .decisionLabel{display:block;color:#6fcfd0;font-size:8px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.contextDecision strong{display:block;margin-top:4px;color:#efffff;font-size:11px}.contextDecision p{margin:3px 0 0;color:#7598a4;font-size:9px;line-height:1.4}
 @media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
 @media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
+
+/* Smart Ports v0.26 · Decision Lab */
+.decisionLabPanel{margin-top:14px;padding:16px!important;border-color:rgba(102,196,255,.30)!important;background:radial-gradient(circle at 8% 0%,rgba(46,135,198,.12),transparent 32%),linear-gradient(180deg,rgba(5,24,36,.99),rgba(3,17,26,.99))!important}
+.decisionLabHead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:13px}.decisionLabHead h3{margin:4px 0;font-size:19px}.decisionLabHead p{margin:0;font-size:11px}
+.scenarioBadge{padding:7px 10px;border:1px solid #23536a;border-radius:999px;background:#082431;color:#87cddd;font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.scenarioBadge.warning{color:#ffd177;border-color:#72582d;background:#352816}.scenarioBadge.danger{color:#ff9ca4;border-color:#773b43;background:#371d23}.scenarioBadge.stable{color:#83eabd;border-color:#28624d;background:#102b22}
+.decisionLabGrid{display:grid;grid-template-columns:1.05fr .95fr 1fr;gap:10px}.scenarioControls,.scenarioResult,.trendBlock{border:1px solid #163b4b;border-radius:11px;background:#061b25;padding:12px;min-width:0}
+.scenarioTitle{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.scenarioTitle strong{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#c1dce4}.scenarioTitle small{font-size:8px;color:#678d9a;text-transform:uppercase;letter-spacing:.07em}
+.scenarioControl{display:grid;grid-template-columns:minmax(0,1fr) 54px;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(26,65,79,.62)}.scenarioControl:last-of-type{border-bottom:0}.scenarioControl label{display:block;margin:0;color:#dceff4;font-size:9.5px;font-weight:700}.scenarioControl small{display:block;margin-top:2px;color:#678b98;font-size:8.5px;line-height:1.3}.scenarioControl input[type="range"]{width:100%;margin-top:6px;accent-color:#42d5d6}.scenarioValue{display:grid;place-items:center;min-height:37px;border:1px solid #1d4b5c;border-radius:8px;background:#08222d;color:#eaffff;font-size:13px;font-weight:900}
+.scenarioActions{display:flex;gap:7px;margin-top:10px}.scenarioActions button{flex:1}
+.scenarioHero{display:grid;grid-template-columns:82px minmax(0,1fr);gap:12px;align-items:center}.scenarioDial{--scenario:0%;width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#61dca9 0 var(--scenario),#10313e var(--scenario) 100%);position:relative}.scenarioDial:after{content:"";position:absolute;inset:7px;background:#061b25;border-radius:50%}.scenarioDial strong{position:relative;z-index:1;font-size:21px;color:#efffff}.scenarioCopy strong,.scenarioCopy small{display:block}.scenarioCopy strong{font-size:13px;color:#edffff}.scenarioCopy small{margin-top:3px;color:#7396a3;font-size:9px;line-height:1.4}
+.scenarioCompare{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}.scenarioMetric{padding:8px;border:1px solid #153b49;border-radius:8px;background:#051821}.scenarioMetric span{display:block;color:#668b98;font-size:8px;text-transform:uppercase;letter-spacing:.06em}.scenarioMetric strong{display:block;margin-top:3px;color:#e8ffff;font-size:14px}.scenarioMetric em{display:block;margin-top:2px;color:#668793;font-size:8px;font-style:normal}
+.playbookList{display:grid;gap:7px;margin-top:10px}.playbookItem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:8px;border:1px solid #173d4b;border-radius:8px;background:#071f29}.playbookItem strong,.playbookItem small{display:block}.playbookItem strong{font-size:9.5px;color:#ebfcff}.playbookItem small{margin-top:2px;font-size:8.5px;color:#6d919d;line-height:1.35}.playbookItem button{align-self:center;border:1px solid #23566a;background:#092633;color:#83d6e2;border-radius:7px;padding:5px 7px;font-size:8.5px}
+.trendGrid{display:grid;gap:7px}.trendCard{padding:8px;border:1px solid #143946;border-radius:8px;background:#051821}.trendMeta{display:flex;justify-content:space-between;align-items:center;gap:8px}.trendMeta span{color:#6c909c;font-size:8px;text-transform:uppercase;letter-spacing:.06em}.trendMeta strong{color:#e8ffff;font-size:11px}.miniTrend{width:100%;height:42px;margin-top:4px;display:block}.miniTrend polyline{fill:none;stroke:#54d5d2;stroke-width:2;vector-effect:non-scaling-stroke}.miniTrend .trendBase{stroke:#143644;stroke-width:1}.trendEmpty{color:#607f8c;font-size:9px;padding:12px;text-align:center;border:1px dashed #214655;border-radius:8px}
+@media(max-width:1180px){.decisionLabGrid{grid-template-columns:1fr 1fr}.trendBlock{grid-column:1/-1}.trendGrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.decisionLabHead{flex-direction:column}.decisionLabGrid{grid-template-columns:1fr}.trendBlock{grid-column:auto}.trendGrid{grid-template-columns:1fr}.scenarioHero{grid-template-columns:72px minmax(0,1fr)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script type="importmap">
@@ -1059,7 +1074,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.25 · Control Tower</div>
+    <div class="version">v0.26 · Decision Lab</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -1107,7 +1122,7 @@ window.SP_GLTFLoader = GLTFLoader;
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
         <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
-        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.25</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.26</strong></span>
         <span>PERFIL <strong id="commandRole">—</strong></span>
       </div>
     </div>
@@ -1256,6 +1271,61 @@ window.SP_GLTFLoader = GLTFLoader;
               <button class="ghost" type="button" onclick="openOpsModule('alerts')">Ver alertas</button>
               <button class="primary small" id="towerOptimizeBtn" type="button" onclick="runTowerOptimization()">Optimizar operación</button>
             </div>
+          </section>
+        </div>
+      </article>
+
+
+      <article class="panel decisionLabPanel">
+        <div class="decisionLabHead">
+          <div>
+            <div class="eyebrow">DECISION LAB · WHAT-IF</div>
+            <h3>Simulador de capacidad portuaria</h3>
+            <p class="muted">Prueba escenarios antes de ejecutar cambios reales. La simulación no modifica PostgreSQL.</p>
+          </div>
+          <span class="scenarioBadge stable" id="scenarioBadge">ESCENARIO ESTABLE</span>
+        </div>
+
+        <div class="decisionLabGrid">
+          <section class="scenarioControls">
+            <div class="scenarioTitle"><strong>Variables del escenario</strong><small>Simulación local</small></div>
+
+            <div class="scenarioControl">
+              <div><label>Arribos adicionales</label><small>Buques extra que llegarían a la operación actual.</small><input id="simArrivals" type="range" min="0" max="8" value="0" step="1"></div>
+              <div class="scenarioValue" id="simArrivalsValue">+0</div>
+            </div>
+            <div class="scenarioControl">
+              <div><label>Grúas fuera de servicio</label><small>Equipos activos que dejarían de estar disponibles.</small><input id="simCranesDown" type="range" min="0" max="8" value="0" step="1"></div>
+              <div class="scenarioValue" id="simCranesDownValue">0</div>
+            </div>
+            <div class="scenarioControl">
+              <div><label>Cambio de ocupación en patios</label><small>Variación proyectada sobre la ocupación máxima actual.</small><input id="simYardDelta" type="range" min="-20" max="30" value="0" step="5"></div>
+              <div class="scenarioValue" id="simYardDeltaValue">0%</div>
+            </div>
+            <div class="scenarioControl">
+              <div><label>Muelles indisponibles</label><small>Muelles libres que quedarían temporalmente bloqueados.</small><input id="simDocksDown" type="range" min="0" max="4" value="0" step="1"></div>
+              <div class="scenarioValue" id="simDocksDownValue">0</div>
+            </div>
+
+            <div class="scenarioActions">
+              <button class="ghost" id="resetScenarioBtn" type="button">Restablecer</button>
+              <button class="primary small" id="optimizeScenarioBtn" type="button">Optimizar operación real</button>
+            </div>
+          </section>
+
+          <section class="scenarioResult">
+            <div class="scenarioTitle"><strong>Impacto proyectado</strong><small>Riesgo estimado</small></div>
+            <div class="scenarioHero">
+              <div class="scenarioDial" id="scenarioDial"><strong id="scenarioScore">0</strong></div>
+              <div class="scenarioCopy"><strong id="scenarioTitle">Escenario estable</strong><small id="scenarioText">Ajusta las variables para estimar el impacto sobre la operación.</small></div>
+            </div>
+            <div class="scenarioCompare" id="scenarioCompare"></div>
+            <div class="playbookList" id="scenarioPlaybook"></div>
+          </section>
+
+          <section class="trendBlock">
+            <div class="scenarioTitle"><strong>Tendencia de la sesión</strong><small>Últimas muestras</small></div>
+            <div class="trendGrid" id="trendGrid"></div>
           </section>
         </div>
       </article>
@@ -1687,7 +1757,7 @@ async function loadAll(){
   if(canAccess("notifications"))secondary.push(loadNotifications());
   if(currentUser?.role==="Administrador")secondary.push(loadUsers(),loadAccessRequests(),loadPermissionRows(),loadAudit());
 
-  const loadSecondary=()=>Promise.allSettled(secondary).then(()=>renderOpsIntelligence());
+  const loadSecondary=()=>Promise.allSettled(secondary).then(()=>{renderOpsIntelligence();renderControlTower();renderScenarioLab();});
   if("requestIdleCallback" in window)requestIdleCallback(loadSecondary,{timeout:1800});
   else setTimeout(loadSecondary,250);
 }
@@ -2922,6 +2992,9 @@ function renderDashboard(){
   `;
   renderOpsIntelligence();
   renderControlTower();
+  recordCapacitySnapshot();
+  renderCapacityTrends();
+  renderScenarioLab();
 }
 
 
@@ -3181,6 +3254,129 @@ function contextDecisionHtml(kind,obj){
   }
   return '<div class="contextDecision"><span class="decisionLabel">Recomendación de la torre</span><strong>'+esc(title)+'</strong><p>'+esc(detail)+'</p></div>';
 }
+
+
+let capacityHistory=[];
+try{capacityHistory=JSON.parse(sessionStorage.getItem("smartPortsCapacityHistory")||"[]").slice(-36)}catch{}
+function recordCapacitySnapshot(){
+  if(!dashboard)return;
+  const risk=operationalRisk();
+  const snapshot={
+    t:Date.now(),
+    risk:risk.score,
+    yard:risk.peakYard,
+    cranes:risk.cranePct,
+    docks:risk.freeDocks
+  };
+  const last=capacityHistory[capacityHistory.length-1];
+  if(!last||Date.now()-last.t>12000){
+    capacityHistory.push(snapshot);
+    capacityHistory=capacityHistory.slice(-36);
+    try{sessionStorage.setItem("smartPortsCapacityHistory",JSON.stringify(capacityHistory))}catch{}
+  }
+}
+function scenarioInputs(){
+  return {
+    arrivals:Number($("simArrivals")?.value||0),
+    cranesDown:Number($("simCranesDown")?.value||0),
+    yardDelta:Number($("simYardDelta")?.value||0),
+    docksDown:Number($("simDocksDown")?.value||0)
+  };
+}
+function calculateScenario(){
+  const base=operationalRisk(),sim=scenarioInputs();
+  const activeCranes=cranes.filter(g=>g.status==="Activa").length;
+  const projectedActive=Math.max(0,activeCranes-sim.cranesDown);
+  const projectedCranePct=Math.round(projectedActive/Math.max(cranes.length,1)*100);
+  const projectedYard=Math.max(0,Math.min(100,base.peakYard+sim.yardDelta));
+  const projectedDocks=Math.max(0,base.freeDocks-sim.docksDown);
+  const projectedWaiting=base.waiting+Math.max(0,sim.arrivals-projectedDocks);
+  let score=base.danger*20+base.warnings*8;
+  if(projectedDocks===0)score+=26;else if(projectedDocks===1)score+=12;
+  if(projectedYard>=90)score+=22;else if(projectedYard>=80)score+=12;
+  if(projectedCranePct<50)score+=18;else if(projectedCranePct<70)score+=9;
+  score+=Math.min(projectedWaiting*5,20);
+  score+=Math.min(sim.arrivals*3,18);
+  score=Math.max(0,Math.min(100,Math.round(score)));
+  return {base,sim,score,projectedCranePct,projectedYard,projectedDocks,projectedWaiting};
+}
+function scenarioPlaybook(result){
+  const items=[];
+  if(result.projectedDocks===0)items.push({title:"Evitar bloqueo de atraques",detail:"El escenario deja cero muelles libres.",section:"docks",action:"Muelles"});
+  else if(result.projectedDocks===1)items.push({title:"Reservar capacidad crítica",detail:"Solo quedaría un muelle disponible.",section:"docks",action:"Muelles"});
+  if(result.projectedYard>=90)items.push({title:"Plan de descongestión",detail:"La ocupación proyectada de patios llega a "+result.projectedYard+"%.",section:"yards",action:"Patios"});
+  else if(result.projectedYard>=80)items.push({title:"Redistribución preventiva",detail:"Los patios entrarían en zona de presión operativa.",section:"yards",action:"Patios"});
+  if(result.projectedCranePct<70)items.push({title:"Proteger disponibilidad STS",detail:"La capacidad de grúas bajaría a "+result.projectedCranePct+"%.",section:"cranes",action:"Grúas"});
+  if(result.projectedWaiting>0)items.push({title:"Escalonar arribos",detail:"Se proyectan "+result.projectedWaiting+" buque(s) en espera.",section:"ships",action:"Buques"});
+  if(result.score>=70)items.push({title:"Ejecutar optimización",detail:"El escenario supera el umbral de riesgo alto.",section:"optimization",action:"Optimizar"});
+  if(!items.length)items.push({title:"Escenario viable",detail:"No aparecen cuellos de botella relevantes con estos parámetros.",section:"dashboard",action:"Dashboard"});
+  return items.slice(0,4);
+}
+function renderScenarioLab(){
+  if(!$("scenarioDial")||!dashboard)return;
+  const r=calculateScenario();
+  const refs={
+    simArrivalsValue:"+"+r.sim.arrivals,
+    simCranesDownValue:String(r.sim.cranesDown),
+    simYardDeltaValue:(r.sim.yardDelta>0?"+":"")+r.sim.yardDelta+"%",
+    simDocksDownValue:String(r.sim.docksDown)
+  };
+  Object.entries(refs).forEach(([id,value])=>{if($(id))$(id).textContent=value});
+  const level=r.score>=70?"danger":r.score>=35?"warning":"stable";
+  const title=r.score>=70?"Escenario crítico":r.score>=35?"Escenario bajo presión":"Escenario estable";
+  $("scenarioBadge").className="scenarioBadge "+level;
+  $("scenarioBadge").textContent=title.toUpperCase();
+  $("scenarioScore").textContent=r.score;
+  $("scenarioDial").style.setProperty("--scenario",r.score+"%");
+  $("scenarioDial").style.background="conic-gradient("+(level==="danger"?"#ff7780":level==="warning"?"#ffc761":"#61dca9")+" 0 "+r.score+"%,#10313e "+r.score+"% 100%)";
+  $("scenarioTitle").textContent=title;
+  $("scenarioText").textContent=r.score>=70?"La combinación simulada produciría una condición de alta congestión o baja disponibilidad.":r.score>=35?"El puerto seguiría operando, pero con menor margen para absorber nuevas variaciones.":"La capacidad proyectada mantiene margen operativo suficiente.";
+  const compare=[
+    ["Riesgo",r.base.score+" → "+r.score,(r.score-r.base.score>=0?"+":"")+(r.score-r.base.score)],
+    ["Muelles libres",r.base.freeDocks+" → "+r.projectedDocks,"capacidad"],
+    ["Grúas activas",r.base.cranePct+"% → "+r.projectedCranePct+"%","disponibilidad"],
+    ["Pico patios",r.base.peakYard+"% → "+r.projectedYard+"%","ocupación"]
+  ];
+  $("scenarioCompare").innerHTML=compare.map(x=>'<div class="scenarioMetric"><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong><em>'+esc(x[2])+'</em></div>').join("");
+  $("scenarioPlaybook").innerHTML=scenarioPlaybook(r).map(x=>'<div class="playbookItem"><div><strong>'+esc(x.title)+'</strong><small>'+esc(x.detail)+'</small></div><button type="button" onclick="openOpsModule(\''+x.section+'\')">'+esc(x.action)+'</button></div>').join("");
+  $("optimizeScenarioBtn").classList.toggle("hidden",!canAccess("optimization"));
+}
+function trendPoints(values,w=220,h=38){
+  if(!values.length)return "";
+  const min=Math.min(...values),max=Math.max(...values),range=Math.max(1,max-min);
+  return values.map((v,i)=>{
+    const x=values.length===1?w/2:(i/(values.length-1))*w;
+    const y=h-4-((v-min)/range)*(h-8);
+    return x.toFixed(1)+","+y.toFixed(1);
+  }).join(" ");
+}
+function renderCapacityTrends(){
+  if(!$("trendGrid"))return;
+  const defs=[
+    {key:"risk",label:"Riesgo operativo",suffix:"/100"},
+    {key:"yard",label:"Pico de patios",suffix:"%"},
+    {key:"cranes",label:"Grúas activas",suffix:"%"}
+  ];
+  if(capacityHistory.length<2){
+    $("trendGrid").innerHTML='<div class="trendEmpty">Las tendencias aparecerán después de varias actualizaciones de la sesión.</div>';
+    return;
+  }
+  $("trendGrid").innerHTML=defs.map(d=>{
+    const vals=capacityHistory.map(x=>Number(x[d.key]||0));
+    const last=vals[vals.length-1];
+    return '<div class="trendCard"><div class="trendMeta"><span>'+esc(d.label)+'</span><strong>'+last+d.suffix+'</strong></div><svg class="miniTrend" viewBox="0 0 220 42" preserveAspectRatio="none"><polyline class="trendBase" points="0,36 220,36"></polyline><polyline points="'+trendPoints(vals,220,38)+'"></polyline></svg></div>';
+  }).join("");
+}
+function resetScenario(){
+  [["simArrivals",0],["simCranesDown",0],["simYardDelta",0],["simDocksDown",0]].forEach(([id,value])=>{if($(id))$(id).value=value});
+  renderScenarioLab();
+}
+window.resetScenario=resetScenario;
+["simArrivals","simCranesDown","simYardDelta","simDocksDown"].forEach(id=>{
+  const el=$(id);if(el)el.addEventListener("input",renderScenarioLab);
+});
+$("resetScenarioBtn")?.addEventListener("click",resetScenario);
+$("optimizeScenarioBtn")?.addEventListener("click",runTowerOptimization);
 
 function statusTone(value){
   const s=String(value||"").toLowerCase();
