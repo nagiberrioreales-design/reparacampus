@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.24 · Performance Engine</title>
+<title>Smart Ports v0.25 · Control Tower</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.24 · Performance Engine */
+/* Smart Ports v0.25 · Control Tower */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -949,11 +949,36 @@ select{cursor:pointer}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
 
-/* Smart Ports v0.24 · Performance Engine */
+/* Smart Ports v0.25 · Control Tower */
 body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
 body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
 body.lowQuality #port3dCanvas:before{opacity:.62}
 
+
+/* Smart Ports v0.25 · Control Tower */
+.controlTowerPanel{margin-top:14px;padding:16px!important;border-color:rgba(73,223,217,.30)!important;background:radial-gradient(circle at 100% 0%,rgba(27,143,159,.10),transparent 34%),linear-gradient(180deg,rgba(5,25,36,.985),rgba(3,18,27,.985))!important}
+.controlTowerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}.controlTowerHead h3{margin:4px 0;font-size:19px}.controlTowerHead p{margin:0;font-size:11px}
+.towerStatus{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.towerStatus span{padding:6px 8px;border:1px solid #1b4a59;border-radius:999px;background:#071f2a;color:#7ea9b7;font-size:9px;font-weight:800;letter-spacing:.05em}
+.towerStatus .towerLive{color:#79edbe;border-color:#225f4b;background:#0a2a22}
+.berthPipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}
+.berthStage{position:relative;min-width:0;padding:10px;border:1px solid #173d4b;border-radius:10px;background:linear-gradient(180deg,#08232f,#061b25);overflow:hidden}
+.berthStage:after{content:"";position:absolute;right:-10px;top:50%;width:18px;height:1px;background:#2f6674}.berthStage:last-child:after{display:none}
+.berthStage span{display:block;color:#6e96a5;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.berthStage strong{display:block;margin-top:4px;color:#edffff;font-size:21px}.berthStage small{display:block;margin-top:2px;color:#5f8290;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.berthStage.active{border-color:#2c7d88;box-shadow:inset 0 0 0 1px rgba(74,225,217,.06),0 0 20px rgba(24,167,177,.06)}
+.towerGrid{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:10px}.towerBlock{min-width:0;border:1px solid #153a48;border-radius:11px;background:#061b25;padding:12px}
+.towerBlockHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.towerBlockHead strong{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#bed9e1}.towerBlockHead small{font-size:8px;color:#638996;text-transform:uppercase;letter-spacing:.07em}
+.berthShipList,.opsEventStream,.predictiveList{display:grid;gap:7px}.berthShip{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px;border:1px solid #153947;border-radius:8px;background:#051821}
+.berthShip strong,.berthShip small{display:block}.berthShip strong{color:#e8ffff;font-size:10px}.berthShip small{margin-top:2px;color:#6e929e;font-size:9px}.berthShip button{border:1px solid #215465;background:#092430;color:#84dce7;border-radius:7px;padding:6px 7px;font-size:9px}
+.shipProgress{height:3px;border-radius:999px;background:#102f3c;margin-top:6px;overflow:hidden}.shipProgress i{display:block;height:100%;background:linear-gradient(90deg,#24c4c8,#72edc1);border-radius:inherit}
+.opsEventStream{max-height:238px;overflow:auto;padding-right:2px}.opsEvent{display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:8px;align-items:start;padding:8px;border-bottom:1px solid rgba(31,73,86,.52)}.opsEvent:last-child{border-bottom:0}
+.opsEventDot{width:7px;height:7px;border-radius:50%;margin-top:4px;background:#61d9a4;box-shadow:0 0 8px rgba(97,217,164,.3)}.opsEvent.warning .opsEventDot{background:#ffc761}.opsEvent.danger .opsEventDot{background:#ff7780}.opsEvent.info .opsEventDot{background:#60c9f2}
+.opsEvent strong,.opsEvent small{display:block}.opsEvent strong{font-size:9.5px;color:#e6f9fd}.opsEvent small{margin-top:2px;color:#688c98;font-size:8.5px;line-height:1.35}.opsEvent time{color:#527887;font-size:8px;white-space:nowrap}
+.riskHero{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center;margin-bottom:10px}.riskDial{--risk:0%;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#ffbc55 var(--risk),#10313d 0);position:relative}.riskDial:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#061b25}.riskDial strong{position:relative;z-index:1;font-size:19px;color:#f2ffff}.riskCopy strong,.riskCopy small{display:block}.riskCopy strong{font-size:12px;color:#edffff}.riskCopy small{margin-top:3px;color:#7396a2;font-size:9px;line-height:1.35}
+.predictiveItem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;padding:8px;border:1px solid #173b49;border-radius:8px;background:#071e28}.predictiveItem strong,.predictiveItem small{display:block}.predictiveItem strong{font-size:9.5px;color:#e9fcff}.predictiveItem small{margin-top:2px;font-size:8.5px;color:#6d909d;line-height:1.35}.predictiveItem span{font-size:8px;color:#8bdac8;border:1px solid #275a56;border-radius:999px;padding:4px 6px;height:max-content}
+.towerActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.towerActions button{flex:1;min-width:118px}
+.contextDecision{margin-top:11px;padding:9px;border:1px solid #1b4654;border-radius:8px;background:linear-gradient(135deg,rgba(17,56,68,.75),rgba(7,29,39,.85))}.contextDecision .decisionLabel{display:block;color:#6fcfd0;font-size:8px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.contextDecision strong{display:block;margin-top:4px;color:#efffff;font-size:11px}.contextDecision p{margin:3px 0 0;color:#7598a4;font-size:9px;line-height:1.4}
+@media(max-width:1180px){.towerGrid{grid-template-columns:1fr 1fr}.towerGrid>.towerBlock:last-child{grid-column:1/-1}.berthPipeline{grid-template-columns:repeat(5,minmax(120px,1fr));overflow:auto;padding-bottom:3px}}
+@media(max-width:760px){.controlTowerHead{flex-direction:column}.towerStatus{justify-content:flex-start}.towerGrid{grid-template-columns:1fr}.towerGrid>.towerBlock:last-child{grid-column:auto}.berthPipeline{grid-template-columns:repeat(5,140px)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script type="importmap">
@@ -1034,7 +1059,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.24 · Performance Engine</div>
+    <div class="version">v0.25 · Control Tower</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -1082,7 +1107,7 @@ window.SP_GLTFLoader = GLTFLoader;
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
         <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
-        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.24</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.25</strong></span>
         <span>PERFIL <strong id="commandRole">—</strong></span>
       </div>
     </div>
@@ -1198,6 +1223,43 @@ window.SP_GLTFLoader = GLTFLoader;
           </section>
         </div>
       </article>
+
+      <article class="panel controlTowerPanel">
+        <div class="controlTowerHead">
+          <div>
+            <div class="eyebrow">CONTROL TOWER · v0.25</div>
+            <h3>Torre de Control Operativa</h3>
+            <p class="muted">Flujo de atraque, eventos detectados y recomendaciones de capacidad en una sola vista.</p>
+          </div>
+          <div class="towerStatus"><span class="towerLive">● MONITOREO ACTIVO</span><span id="towerEventCount">0 eventos</span><span id="towerRiskBadge">Riesgo bajo</span></div>
+        </div>
+
+        <div class="berthPipeline" id="berthPipeline"></div>
+
+        <div class="towerGrid">
+          <section class="towerBlock">
+            <div class="towerBlockHead"><strong>Flujo de buques</strong><small>Estado actual</small></div>
+            <div class="berthShipList" id="berthShipList"></div>
+          </section>
+          <section class="towerBlock">
+            <div class="towerBlockHead"><strong>Eventos operativos</strong><small>Detectados por cambios</small></div>
+            <div class="opsEventStream" id="opsEventStream"></div>
+          </section>
+          <section class="towerBlock">
+            <div class="towerBlockHead"><strong>Predicción operativa</strong><small>Riesgo 0–100</small></div>
+            <div class="riskHero">
+              <div class="riskDial" id="towerRiskDial"><strong id="towerRiskScore">0</strong></div>
+              <div class="riskCopy"><strong id="towerRiskTitle">Riesgo bajo</strong><small id="towerRiskText">Calculando disponibilidad y carga operativa.</small></div>
+            </div>
+            <div class="predictiveList" id="predictiveList"></div>
+            <div class="towerActions">
+              <button class="ghost" type="button" onclick="openOpsModule('alerts')">Ver alertas</button>
+              <button class="primary small" id="towerOptimizeBtn" type="button" onclick="runTowerOptimization()">Optimizar operación</button>
+            </div>
+          </section>
+        </div>
+      </article>
+
     </section>
 
     <section id="shipsView" class="view hidden">
@@ -1613,6 +1675,7 @@ async function loadAll(){
   }
   if(canAccess("containers")&&canAccess("dashboard"))primary.push(loadContainers());
   await Promise.all(primary);
+  if(canAccess("dashboard")&&dashboard)renderDashboard();
   hide("connectionError");
 
   if(backgroundLoadStarted)return;
@@ -2728,6 +2791,7 @@ function showPort3DInfo(kind,id){
         '<button class="controlOn" onclick="setCraneMapStatus('+g.id+',\'Activa\')" '+(!allowed||active?"disabled":"")+'>▶ Activar</button>'+
         '<button class="controlOff" onclick="setCraneMapStatus('+g.id+',\'Mantenimiento\')" '+(!allowed||!active?"disabled":"")+'>■ Desactivar</button>'+
       '</div>'+
+      contextDecisionHtml("crane",g)+
       (allowed?mapAction("cranes","Abrir módulo de grúas"):"")+
       focusReturnButton();
     return;
@@ -2742,6 +2806,7 @@ function showPort3DInfo(kind,id){
       '<h4>'+esc(y.name)+'</h4>'+
       '<div class="storageGauge"><i style="width:'+pct+'%"></i></div>'+
       infoRows([["Ocupación",pct+"%"],["Ocupado",occ+" TEU"],["Disponible",Math.max(0,cap-occ)+" TEU"],["Actualizado",updated]])+
+      contextDecisionHtml("yard",y)+
       mapAction("yards","Abrir almacenamiento")+
       focusReturnButton();
     return;
@@ -2754,6 +2819,7 @@ function showPort3DInfo(kind,id){
       '<div class="eyebrow">ESTADO ACTUAL</div>'+
       '<h4>Muelle '+esc(d.code)+'</h4>'+
       infoRows([["Estado",d.status],["Capacidad",String(d.max_containers)+" cont."],["Buque",d.ship_name||"Sin asignar"],["Actualizado",updated]])+
+      contextDecisionHtml("dock",d)+
       mapAction("docks","Abrir muelles")+
       focusReturnButton();
     return;
@@ -2766,6 +2832,7 @@ function showPort3DInfo(kind,id){
       '<div class="eyebrow">TRÁFICO MARÍTIMO</div>'+
       '<h4>'+esc(s.name)+'</h4>'+
       infoRows([["Estado",s.status],["ETA",s.eta],["Muelle",s.dock],["Contenedores",String(s.containers)],["Actualizado",updated]])+
+      contextDecisionHtml("ship",s)+
       mapAction("ships","Abrir buques")+
       focusReturnButton();
   }
@@ -2854,6 +2921,7 @@ function renderDashboard(){
     <div><span>Buques activos</span><strong>${activeShips}</strong></div>
   `;
   renderOpsIntelligence();
+  renderControlTower();
 }
 
 
@@ -2947,6 +3015,172 @@ async function runOpsOptimization(){
 $('opsRefreshBtn').onclick=refreshOperationalOverview;
 $('opsOptimizeBtn').onclick=runOpsOptimization;
 setInterval(function(){if(token&&!$('dashboardView').classList.contains('hidden'))renderOpsIntelligence();},30000);
+
+
+const BERTH_STAGES=[
+  {key:"arrival",label:"Arribo",detail:"En aproximación"},
+  {key:"waiting",label:"Espera",detail:"Cola de atraque"},
+  {key:"berthing",label:"Atraque",detail:"En muelle"},
+  {key:"operations",label:"Operación",detail:"Carga / descarga"},
+  {key:"departure",label:"Salida",detail:"Cierre de escala"}
+];
+let opsEventState={snapshot:null,events:[]};
+try{opsEventState.events=JSON.parse(sessionStorage.getItem("smartPortsOpsEvents")||"[]").slice(0,24)}catch{}
+function shipStage(ship){
+  const s=normalizeSearch(ship?.status||"");
+  if(/final|salid|despach|complet/.test(s))return "departure";
+  if(/descarg|carg|oper|inspecc/.test(s))return "operations";
+  if(/puerto|atrac|muelle|amarr/.test(s))return "berthing";
+  if(/esper|cola|pendiente/.test(s))return "waiting";
+  return "arrival";
+}
+function shipStageProgress(ship){
+  const order={arrival:15,waiting:35,berthing:55,operations:78,departure:100};
+  return order[shipStage(ship)]||15;
+}
+function opsSnapshot(){
+  const yardMap={};yards.forEach(y=>yardMap[y.id]=Math.round(Number(y.occupied||0)/Math.max(Number(y.capacity||0),1)*100));
+  const shipMap={};ships.forEach(s=>shipMap[s.id]={status:s.status||"",dock:s.dock||""});
+  const craneMap={};cranes.forEach(g=>craneMap[g.id]=g.status||"");
+  const dockMap={};docks.forEach(d=>dockMap[d.id]={status:d.status||"",ship:d.ship_name||""});
+  return {yardMap,shipMap,craneMap,dockMap,alertIds:(dashboard?.alerts||[]).filter(a=>a.active!==false).map(a=>String(a.id||a.message))};
+}
+function addOpsEvent(title,detail,tone="info"){
+  const item={id:Date.now()+Math.random(),title,detail,tone,time:Date.now()};
+  opsEventState.events.unshift(item);
+  opsEventState.events=opsEventState.events.slice(0,24);
+  try{sessionStorage.setItem("smartPortsOpsEvents",JSON.stringify(opsEventState.events))}catch{}
+}
+function detectOperationalChanges(){
+  const next=opsSnapshot(),prev=opsEventState.snapshot;
+  if(!prev){
+    opsEventState.snapshot=next;
+    if(!opsEventState.events.length)addOpsEvent("Torre de control conectada","Monitoreo de buques, muelles, patios y grúas iniciado.","info");
+    return;
+  }
+  Object.entries(next.shipMap).forEach(([id,s])=>{
+    const p=prev.shipMap[id];if(!p)return;
+    const ship=ships.find(x=>String(x.id)===id);
+    if(p.status!==s.status)addOpsEvent((ship?.name||"Buque")+" cambió de estado",String(p.status||"—")+" → "+String(s.status||"—"),"info");
+    if(p.dock!==s.dock)addOpsEvent((ship?.name||"Buque")+" cambió de muelle","Muelle "+String(p.dock||"—")+" → "+String(s.dock||"—"),"warning");
+  });
+  Object.entries(next.craneMap).forEach(([id,status])=>{
+    const old=prev.craneMap[id];if(old==null||old===status)return;
+    const crane=cranes.find(x=>String(x.id)===id);
+    addOpsEvent((crane?.code||"Grúa")+" actualizada",old+" → "+status,status==="Activa"?"info":"warning");
+  });
+  Object.entries(next.yardMap).forEach(([id,pct])=>{
+    const old=prev.yardMap[id];if(old==null||old===pct)return;
+    const yard=yards.find(x=>String(x.id)===id);
+    if((old<80&&pct>=80)||(old<90&&pct>=90)||(old>=80&&pct<80))
+      addOpsEvent((yard?.name||"Patio")+" al "+pct+"%","Ocupación anterior: "+old+"%",pct>=90?"danger":pct>=80?"warning":"info");
+  });
+  Object.entries(next.dockMap).forEach(([id,d])=>{
+    const old=prev.dockMap[id];if(!old)return;
+    if(old.status!==d.status||old.ship!==d.ship){
+      const dock=docks.find(x=>String(x.id)===id);
+      addOpsEvent("Muelle "+(dock?.code||id)+" actualizado",(old.status||"—")+" → "+(d.status||"—")+(d.ship?" · "+d.ship:""),d.status==="Disponible"?"info":"warning");
+    }
+  });
+  next.alertIds.forEach(id=>{
+    if(!prev.alertIds.includes(id)){
+      const alert=(dashboard?.alerts||[]).find(a=>String(a.id||a.message)===id);
+      if(alert)addOpsEvent("Nueva alerta operativa",alert.message||"Alerta activa",alert.level==="danger"?"danger":"warning");
+    }
+  });
+  opsEventState.snapshot=next;
+}
+function operationalRisk(){
+  const activeAlerts=(dashboard?.alerts||[]).filter(a=>a.active!==false);
+  const danger=activeAlerts.filter(a=>a.level==="danger").length;
+  const warnings=activeAlerts.filter(a=>a.level==="warning").length;
+  const freeDocks=docks.filter(d=>d.status==="Disponible").length;
+  const cranePct=Math.round(cranes.filter(g=>g.status==="Activa").length/Math.max(cranes.length,1)*100);
+  const peakYard=Math.max(0,...yards.map(y=>Math.round(Number(y.occupied||0)/Math.max(Number(y.capacity||0),1)*100)));
+  let score=danger*20+warnings*8;
+  if(freeDocks===0)score+=26;else if(freeDocks===1)score+=12;
+  if(peakYard>=90)score+=22;else if(peakYard>=80)score+=12;
+  if(cranePct<50)score+=18;else if(cranePct<70)score+=9;
+  const waiting=ships.filter(s=>shipStage(s)==="waiting").length;
+  score+=Math.min(waiting*5,15);
+  return {score:Math.max(0,Math.min(100,Math.round(score))),danger,warnings,freeDocks,cranePct,peakYard,waiting};
+}
+function towerRecommendations(risk){
+  const out=[];
+  if(risk.freeDocks===0)out.push({title:"Liberar capacidad de atraque",detail:"No hay muelles disponibles para nuevos arribos.",tag:"MUELLES"});
+  else if(risk.freeDocks===1)out.push({title:"Proteger el último muelle libre",detail:"Reserva capacidad para el siguiente buque con ETA más cercana.",tag:"CAPACIDAD"});
+  if(risk.peakYard>=90)out.push({title:"Descongestionar patios",detail:"La ocupación máxima supera 90%; prioriza despacho o redistribución.",tag:"PATIO"});
+  else if(risk.peakYard>=80)out.push({title:"Preparar redistribución",detail:"Un patio está entrando en zona de alta ocupación.",tag:"PATIO"});
+  if(risk.cranePct<70)out.push({title:"Recuperar equipos STS",detail:"Solo "+risk.cranePct+"% de las grúas están activas.",tag:"GRÚAS"});
+  if(risk.waiting>0)out.push({title:"Reducir cola de espera",detail:risk.waiting+" buque(s) pendientes de progresar en el flujo.",tag:"BUQUES"});
+  if(risk.danger>0)out.push({title:"Atender alertas críticas",detail:risk.danger+" alerta(s) requieren intervención prioritaria.",tag:"ALERTA"});
+  if(!out.length)out.push({title:"Mantener configuración actual",detail:"Capacidad y recursos se encuentran dentro de rangos saludables.",tag:"ESTABLE"});
+  return out.slice(0,4);
+}
+function renderControlTower(){
+  if(!$("berthPipeline")||!dashboard)return;
+  detectOperationalChanges();
+  const counts={arrival:0,waiting:0,berthing:0,operations:0,departure:0};
+  ships.forEach(s=>counts[shipStage(s)]++);
+  $("berthPipeline").innerHTML=BERTH_STAGES.map(stage=>
+    '<div class="berthStage '+(counts[stage.key]?"active":"")+'"><span>'+esc(stage.label)+'</span><strong>'+counts[stage.key]+'</strong><small>'+esc(stage.detail)+'</small></div>'
+  ).join("");
+
+  const ordered=ships.slice().sort((a,b)=>etaMinutes(a.eta)-etaMinutes(b.eta)).slice(0,6);
+  $("berthShipList").innerHTML=ordered.length?ordered.map(s=>{
+    const stage=BERTH_STAGES.find(x=>x.key===shipStage(s));
+    return '<div class="berthShip"><div><strong>'+esc(s.name)+'</strong><small>'+esc(stage.label+' · Muelle '+(s.dock||"—")+' · ETA '+(s.eta||"—"))+'</small><div class="shipProgress"><i style="width:'+shipStageProgress(s)+'%"></i></div></div><button type="button" onclick="focusOpsShip('+Number(s.id)+')">3D</button></div>';
+  }).join(""):'<div class="opsEmpty">No hay buques activos.</div>';
+
+  $("opsEventStream").innerHTML=opsEventState.events.length?opsEventState.events.slice(0,10).map(e=>
+    '<div class="opsEvent '+esc(e.tone)+'"><i class="opsEventDot"></i><div><strong>'+esc(e.title)+'</strong><small>'+esc(e.detail)+'</small></div><time>'+new Date(e.time).toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"})+'</time></div>'
+  ).join(""):'<div class="opsEmpty">Esperando cambios operativos.</div>';
+  $("towerEventCount").textContent=opsEventState.events.length+" eventos";
+
+  const risk=operationalRisk(),recs=towerRecommendations(risk);
+  const level=risk.score>=70?"Riesgo alto":risk.score>=35?"Riesgo medio":"Riesgo bajo";
+  $("towerRiskScore").textContent=risk.score;
+  $("towerRiskDial").style.setProperty("--risk",risk.score+"%");
+  $("towerRiskTitle").textContent=level;
+  $("towerRiskBadge").textContent=level;
+  $("towerRiskText").textContent=risk.score>=70?"La capacidad o los recursos requieren intervención inmediata.":risk.score>=35?"Hay presión operativa moderada; conviene actuar preventivamente.":"La operación mantiene margen suficiente de capacidad.";
+  $("predictiveList").innerHTML=recs.map(r=>'<div class="predictiveItem"><div><strong>'+esc(r.title)+'</strong><small>'+esc(r.detail)+'</small></div><span>'+esc(r.tag)+'</span></div>').join("");
+  $("towerOptimizeBtn").classList.toggle("hidden",!canAccess("optimization"));
+}
+function openOpsModule(section){
+  if(!canAccess(section)){notify("Tu perfil no tiene acceso a este módulo.");return}
+  document.querySelector('nav button[data-section="'+section+'"]')?.click();
+}
+window.openOpsModule=openOpsModule;
+async function runTowerOptimization(){
+  if(!canAccess("optimization")){notify("No tienes permiso para optimizar la operación.");return}
+  addOpsEvent("Optimización solicitada","La torre de control ejecutó una nueva asignación de muelles.","info");
+  await runOptimization();
+  renderControlTower();
+}
+window.runTowerOptimization=runTowerOptimization;
+function contextDecisionHtml(kind,obj){
+  let title="Operación dentro de parámetros",detail="No se requiere intervención inmediata.";
+  if(kind==="yard"){
+    const pct=Math.round(Number(obj.occupied||0)/Math.max(Number(obj.capacity||0),1)*100);
+    if(pct>=90){title="Liberar capacidad ahora";detail="Este patio está en zona crítica. Prioriza despacho o redistribución."}
+    else if(pct>=80){title="Preparar redistribución";detail="La ocupación se acerca al límite operativo recomendado."}
+    else{title="Capacidad disponible";detail="El patio conserva margen para recibir nuevas unidades."}
+  }else if(kind==="crane"){
+    if(obj.status!=="Activa"){title="Recuperar disponibilidad";detail="La grúa no está activa y reduce la capacidad de atención del muelle."}
+    else{title="Mantener equipo asignado";detail="La grúa está disponible para sostener el flujo de carga y descarga."}
+  }else if(kind==="dock"){
+    if(obj.status==="Disponible"){title="Candidato para próximo atraque";detail="Este muelle puede reservarse para el buque con ETA más cercana."}
+    else{title="Muelle comprometido";detail=(obj.ship_name||"Un buque")+" ocupa o condiciona actualmente este recurso."}
+  }else if(kind==="ship"){
+    const stage=shipStage(obj);
+    if(stage==="waiting"){title="Priorizar asignación de muelle";detail="El buque está en espera; revisa capacidad libre y ETA."}
+    else if(stage==="arrival"){title="Preparar ventana de atraque";detail="Valida muelle y recursos antes de su llegada."}
+    else if(stage==="operations"){title="Mantener recursos de operación";detail="Evita retirar grúas o capacidad de patio durante la escala activa."}
+    else{title="Seguimiento de escala";detail="Estado actual: "+(obj.status||"sin estado")+". Mantén sincronizados muelle y patio."}
+  }
+  return '<div class="contextDecision"><span class="decisionLabel">Recomendación de la torre</span><strong>'+esc(title)+'</strong><p>'+esc(detail)+'</p></div>';
+}
 
 function statusTone(value){
   const s=String(value||"").toLowerCase();
