@@ -237,6 +237,11 @@ aside{overflow:hidden}
   #port3dCanvas{height:64vh;min-height:420px}
 }
 
+
+.dashboardMapPanel{width:100%;min-height:calc(100vh - 190px)}
+#dashboardView{width:100%}
+#dashboardView>.dashboardMapPanel{margin:0}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
@@ -346,49 +351,49 @@ aside{overflow:hidden}
     <div id="notice" class="notice hidden"></div>
 
     <section id="dashboardView" class="view">
-      <div class="metrics" id="metrics"></div>
-      <div class="grid">
-        <article class="panel">
-          <div class="panelHeader"><div><div class="eyebrow">OPERACIÓN EN TIEMPO REAL</div><h3>Mapa del puerto</h3></div><span class="live">● Actualizado</span></div>
-          <div class="interactivePortToolbar">
-            <button class="ghost activeView" id="mapCenterBtn">Restablecer vista 3D</button>
-            <button class="ghost" id="mapZoomOutBtn">− Alejar</button>
-            <button class="ghost" id="mapZoomInBtn">+ Acercar</button>
-            <button class="ghost" id="mapFullscreenBtn">⛶ Pantalla completa</button>
-            <button class="ghost" data-map-focus="storage">Almacenamiento</button>
-            <button class="ghost" data-map-focus="docks">Muelles</button>
-            <button class="ghost" data-map-focus="ships">Buques</button>
-            <span class="muted" id="port3dUpdated">Esperando datos…</span>
+      <div class="hidden" aria-hidden="true">
+        <div id="metrics"></div>
+        <div id="arrivals"></div>
+        <div id="dashboardAlerts"></div>
+        <i id="yardBar"></i>
+        <i id="craneBar"></i>
+      </div>
+
+      <article class="panel dashboardMapPanel">
+        <div class="panelHeader">
+          <div>
+            <div class="eyebrow">OPERACIÓN EN TIEMPO REAL</div>
+            <h3>Puerto 3D interactivo</h3>
           </div>
-          <div class="interactivePortLayout">
-            <div id="port3dCanvas">
-              <div class="mapCompass"></div>
-              <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
-              <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
-            </div>
-            <div class="port3dInfo" id="port3dInfo">
-              <div class="eyebrow">CONTROL DIRECTO 3D</div>
-              <h4>Puerto Smart Ports</h4>
-              <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
-              <span class="mapStatusPill">● Escena 3D conectada</span>
-            </div>
-          </div></div>
-        </article>
-        <article class="panel">
-          <div class="eyebrow">AGENDA</div><h3>Próximos arribos</h3>
-          <div class="arrivals" id="arrivals"></div>
-        </article>
-      </div>
-      <div class="bottom">
-        <article class="panel"><div class="eyebrow">MONITOREO</div><h3>Alertas recientes</h3><div id="dashboardAlerts"></div></article>
-        <article class="panel">
-          <div class="eyebrow">RENDIMIENTO</div><h3>Indicadores operativos</h3>
-          <div class="progress">Importación<div class="bar"><i style="width:78%"></i></div></div>
-          <div class="progress">Exportación<div class="bar"><i style="width:62%"></i></div></div>
-          <div class="progress">Disponibilidad de grúas<div class="bar"><i id="craneBar" style="width:0%"></i></div></div>
-          <div class="progress">Eficiencia de patios<div class="bar"><i id="yardBar" style="width:0%"></i></div></div>
-        </article>
-      </div>
+          <span class="live">● Actualizado</span>
+        </div>
+
+        <div class="interactivePortToolbar">
+          <button class="ghost activeView" id="mapCenterBtn">Restablecer vista 3D</button>
+          <button class="ghost" id="mapZoomOutBtn">− Alejar</button>
+          <button class="ghost" id="mapZoomInBtn">+ Acercar</button>
+          <button class="ghost" id="mapFullscreenBtn">⛶ Pantalla completa</button>
+          <button class="ghost" data-map-focus="storage">Almacenamiento</button>
+          <button class="ghost" data-map-focus="docks">Muelles</button>
+          <button class="ghost" data-map-focus="ships">Buques</button>
+          <span class="muted" id="port3dUpdated">Esperando datos…</span>
+        </div>
+
+        <div class="interactivePortLayout">
+          <div id="port3dCanvas">
+            <div class="mapCompass"></div>
+            <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
+            <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
+          </div>
+
+          <div class="port3dInfo" id="port3dInfo">
+            <div class="eyebrow">CONTROL DIRECTO 3D</div>
+            <h4>Puerto Smart Ports</h4>
+            <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
+            <span class="mapStatusPill">● Escena 3D conectada</span>
+          </div>
+        </div>
+      </article>
     </section>
 
     <section id="shipsView" class="view hidden">
