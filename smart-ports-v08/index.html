@@ -1303,6 +1303,45 @@ async function loadRealisticShipAsset(){
   catch(e){port3D.realShipPromise=null;throw e}
 }
 
+
+const REAL_CRANE_URL="https://raw.githubusercontent.com/chencheng666/great-powers-rts/main/assets/third-party/harbor-crane.glb";
+const REAL_TRUCK_URL="https://raw.githubusercontent.com/Ahnuf-Karim-Chowdhury/computerGraphics3js/main/public/models/CesiumMilkTruck.glb";
+
+async function loadNormalizedGLB(url,targetLongest){
+  const Loader=await waitForGLTFLoader(),loader=new Loader();
+  const gltf=await new Promise((resolve,reject)=>loader.load(url,resolve,undefined,reject));
+  const model=gltf.scene;
+  model.traverse(o=>{
+    o.userData={...(o.userData||{}),sharedAsset:true};
+    if(o.isMesh){
+      o.castShadow=true;o.receiveShadow=true;
+      const mats=Array.isArray(o.material)?o.material:[o.material];
+      mats.filter(Boolean).forEach(m=>{if(m.map)m.map.colorSpace=THREE.SRGBColorSpace;if("envMapIntensity" in m)m.envMapIntensity=1.15});
+    }
+  });
+  model.updateMatrixWorld(true);
+  let bb=new THREE.Box3().setFromObject(model),size=bb.getSize(new THREE.Vector3());
+  if(size.z>size.x*1.2)model.rotation.y=Math.PI/2;
+  model.updateMatrixWorld(true);bb=new THREE.Box3().setFromObject(model);size=bb.getSize(new THREE.Vector3());
+  model.scale.setScalar(targetLongest/Math.max(size.x,size.y,size.z,1));
+  model.updateMatrixWorld(true);bb=new THREE.Box3().setFromObject(model);
+  const center=bb.getCenter(new THREE.Vector3());
+  model.position.x-=center.x;model.position.z-=center.z;model.position.y-=bb.min.y;
+  return model;
+}
+async function loadRealisticCraneAsset(){
+  if(port3D.realCraneTemplate)return port3D.realCraneTemplate;
+  if(port3D.realCranePromise)return port3D.realCranePromise;
+  port3D.realCranePromise=loadNormalizedGLB(REAL_CRANE_URL,9.2).then(m=>port3D.realCraneTemplate=m).catch(e=>{port3D.realCranePromise=null;throw e});
+  return port3D.realCranePromise;
+}
+async function loadRealisticTruckAsset(){
+  if(port3D.realTruckTemplate)return port3D.realTruckTemplate;
+  if(port3D.realTruckPromise)return port3D.realTruckPromise;
+  port3D.realTruckPromise=loadNormalizedGLB(REAL_TRUCK_URL,4.3).then(m=>port3D.realTruckTemplate=m).catch(e=>{port3D.realTruckPromise=null;throw e});
+  return port3D.realTruckPromise;
+}
+
 function buildProceduralShipFallback(data,x,z,rotation=0){
   const g=new THREE.Group();
   const hullMat=new THREE.MeshStandardMaterial({color:0x0f5f87,roughness:.42,metalness:.38,emissive:0x031923,emissiveIntensity:.28});
@@ -1342,48 +1381,34 @@ function buildShip(data,x,z,rotation=0){
 }
 
 function buildCrane(data,x,z,rotation=0){
-  const group=new THREE.Group();
-  const active=data.status==="Activa";
-  const craneColor=active?0xf2b43e:0x9b4550;
-  const metal=new THREE.MeshStandardMaterial({color:craneColor,roughness:.4,metalness:.48,emissive:active?0x271900:0x180005,emissiveIntensity:.38});
-  const dark=new THREE.MeshStandardMaterial({color:0x34444b,roughness:.5,metalness:.52});
+  const active=data.status==="Activa",group=new THREE.Group();
+  if(port3D.realCraneTemplate){
+    const model=port3D.realCraneTemplate.clone(true);
+    model.traverse(o=>o.userData={...(o.userData||{}),sharedAsset:true});
+    group.add(model);
+  }else{
+    const craneColor=active?0xf2b43e:0x9b4550;
+    const metal=new THREE.MeshStandardMaterial({color:craneColor,roughness:.4,metalness:.48,emissive:active?0x271900:0x180005,emissiveIntensity:.38});
+    [[-1.35,-.9],[-1.35,.9],[1.35,-.9],[1.35,.9]].forEach(([lx,lz])=>{const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,5.7,.3),metal);leg.position.set(lx,2.85,lz);leg.castShadow=true;group.add(leg)});
+    const top=new THREE.Mesh(new THREE.BoxGeometry(3.1,.3,2.2),metal);top.position.y=5.3;group.add(top);
+    const boom=new THREE.Mesh(new THREE.BoxGeometry(8,.32,.42),metal);boom.position.set(4.05,6.7,0);boom.rotation.z=-.08;group.add(boom);
+  }
 
-  // cuatro patas
-  [[-1.35,-.9],[-1.35,.9],[1.35,-.9],[1.35,.9]].forEach(([lx,lz])=>{
-    const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,5.7,.3),metal);leg.position.set(lx,2.85,lz);leg.castShadow=true;group.add(leg);
-  });
+  const rig=new THREE.Group(),rigMat=new THREE.MeshStandardMaterial({color:0x354b55,metalness:.55,roughness:.35});
+  const trolley=new THREE.Mesh(new THREE.BoxGeometry(.75,.28,.56),rigMat);rig.add(trolley);
+  const cable=new THREE.Mesh(new THREE.BoxGeometry(.055,2.4,.055),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(0,-1.25,0);rig.add(cable);
+  const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.4,.1,.62),rigMat);spreader.position.set(0,-2.45,0);rig.add(spreader);
+  rig.position.set(1.8,5.55,0);
+  rig.userData={type:"craneRig",baseX:1.8,baseY:5.55,range:2.7,drop:.9,phase:(Number(data.id)||0)*.47,cable};
+  group.add(rig);if(active)port3D.animated.push(rig);
 
-  // travesaños y plataforma
-  const cross1=new THREE.Mesh(new THREE.BoxGeometry(3.1,.3,2.2),metal);cross1.position.y=5.3;group.add(cross1);
-  const top=new THREE.Mesh(new THREE.BoxGeometry(2.3,.55,1.8),dark);top.position.y=5.85;group.add(top);
-
-  // pluma principal inclinada hacia el agua
-  const boom=new THREE.Mesh(new THREE.BoxGeometry(8,.32,.42),metal);boom.position.set(4.05,6.7,0);boom.rotation.z=-.08;group.add(boom);
-  const rear=new THREE.Mesh(new THREE.BoxGeometry(3.2,.3,.38),metal);rear.position.set(-2.1,6.55,0);rear.rotation.z=.05;group.add(rear);
-
-  // cabina
-  const cabinMat=new THREE.MeshStandardMaterial({color:0x1b5368,roughness:.28,metalness:.25,transparent:true,opacity:.92});
-  const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.1,.85,1.0),cabinMat);cabin.position.set(.8,5.55,-.95);group.add(cabin);
-
-  // trolley + gancho operando como un conjunto
-  const rig=new THREE.Group();
-  const trolley=new THREE.Mesh(new THREE.BoxGeometry(.8,.32,.62),dark);trolley.position.set(0,0,0);rig.add(trolley);
-  const cable=new THREE.Mesh(new THREE.BoxGeometry(.06,2.8,.06),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(0,-1.45,0);rig.add(cable);
-  const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.55,.12,.7),dark);spreader.position.set(0,-2.82,0);rig.add(spreader);
-  rig.position.set(3.2,6.43,0);
-  rig.userData={type:"craneRig",baseX:3.2,baseY:6.43,range:3.4,drop:1.15,phase:(Number(data.id)||0)*.47,cable};
-  group.add(rig);
-  if(active)port3D.animated.push(rig);
-
-  // luz de estado
   const beaconMat=new THREE.MeshStandardMaterial({color:active?0x32ff9a:0xff4050,emissive:active?0x32ff9a:0xff4050,emissiveIntensity:2.4});
-  const beacon=new THREE.Mesh(new THREE.SphereGeometry(.16,12,8),beaconMat);beacon.position.set(0,6.5,-.95);group.add(beacon);port3D.beacons.push(beacon);
+  const beacon=new THREE.Mesh(new THREE.SphereGeometry(.16,12,8),beaconMat);beacon.position.set(0,6.1,-.9);group.add(beacon);port3D.beacons.push(beacon);
 
   group.position.set(x,0,z);group.rotation.y=rotation;tagObject(group,{kind:"crane",id:data.id});
-  const label=labelSprite(data.code,active?"#ffc047":"#ff6d7b");label.position.set(x,8.1,z);port3D.objects.add(label);
+  const label=labelSprite(data.code,active?"#ffc047":"#ff6d7b");label.position.set(0,7.6,0);group.add(label);
   port3D.objects.add(group);return group;
 }
-
 function createWaterMaterial(){
   port3D.waterUniforms={
     uTime:{value:0},
@@ -1506,23 +1531,24 @@ function buildCityBackdrop(){
 
 function buildYardVehicle(x,z,color=0xf0b744,phase=0){
   const g=new THREE.Group();
-  const cab=box(1.3,1.3,1.1,color,.65,.85,0);g.add(cab);
-  const trailer=box(3.2,.45,1.15,0x35434a,-1.5,.55,0);g.add(trailer);
-  const cargo=box(2.8,1.05,1.0,[0x1b75a9,0xc84d3a,0xe2a130][Math.round(phase*10)%3],-1.4,1.15,0);g.add(cargo);
-  for(const wx of [-2.4,-.6,.65])for(const wz of [-.62,.62]){
-    const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.18,12),new THREE.MeshStandardMaterial({color:0x15191b}));
-    wheel.rotation.x=Math.PI/2;wheel.position.set(wx,.25,wz);g.add(wheel);
+  if(port3D.realTruckTemplate){
+    const model=port3D.realTruckTemplate.clone(true);
+    model.traverse(o=>o.userData={...(o.userData||{}),sharedAsset:true});
+    g.add(model);
+  }else{
+    const cab=box(1.3,1.3,1.1,color,.65,.85,0);g.add(cab);
+    const trailer=box(3.2,.45,1.15,0x35434a,-1.5,.55,0);g.add(trailer);
+    const cargo=box(2.8,1.05,1.0,[0x1b75a9,0xc84d3a,0xe2a130][Math.round(phase*10)%3],-1.4,1.15,0);g.add(cargo);
   }
-  const lamp=new THREE.PointLight(0xfff1bd,1.1,4);lamp.position.set(1.4,.85,0);g.add(lamp);
-  g.position.set(x,0,z);
-  g.userData={type:"yardLoop",cx:3,cz:17,rx:24,rz:5,speed:.018+phase*.004,phase};
+  const lamp=new THREE.PointLight(0xfff1bd,1.05,4);lamp.position.set(1.5,.9,0);g.add(lamp);
+  g.position.set(x,0,z);g.userData={type:"yardLoop",cx:3,cz:17,rx:24,rz:5,speed:.018+phase*.004,phase};
   port3D.animated.push(g);port3D.objects.add(g);
 }
-
 function buildPort3D(){
   if(!port3D.objects)return;
+  clearSelectionHighlight();
   clearPort3DGroup();
-  port3D.beacons=[];port3D.animated=[];port3D.cityWindows=[];port3D.water=null;
+  port3D.beacons=[];port3D.animated=[];port3D.labels=[];port3D.cityWindows=[];port3D.water=null;
 
   // Agua animada con shader
   const waterGeo=new THREE.PlaneGeometry(150,105,90,64);
