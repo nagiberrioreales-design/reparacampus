@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.11 · Sprint 3</title>
+<title>Smart Ports v0.12 · Sprint 3</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -114,7 +114,7 @@ main.workspace{padding:22px;min-width:0}
 .adminTag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#153b54;color:#68c9fb;font-size:10px}
 
 
-/* Smart Ports v0.11 */
+/* Smart Ports v0.12 */
 .authActions{display:grid;gap:9px;margin-top:12px}.authActions button{width:100%}
 #register,#requestSent{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 15%,rgba(0,230,190,.16),transparent 28%),linear-gradient(135deg,#031018,#071d27)}
 .requestCard{width:min(500px,94vw);padding:30px;border:1px solid #1d6370;background:rgba(5,25,34,.96);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.45)}
@@ -127,7 +127,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){.portMap{min-height:360px}.requestCard{padding:22px}}
 
 
-/* Smart Ports v0.11 · 3D + permisos por área */
+/* Smart Ports v0.12 · 3D + permisos por área */
 .port3dToolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .port3dToolbar .ghost.activeView{border-color:#27d7c6;color:#aafff7;background:#0c3a3a}
 .port3dLayout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
@@ -143,7 +143,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){#port3dCanvas{height:380px;min-height:340px}.permissionCell{min-width:320px}.permissionGrid{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.11.1 · mapa interactivo con estética original */
+/* Smart Ports v0.12.1 · mapa interactivo con estética original */
 body{background:
   radial-gradient(circle at 18% 8%,rgba(0,224,210,.11),transparent 26%),
   radial-gradient(circle at 82% 16%,rgba(0,145,255,.10),transparent 28%),
@@ -205,7 +205,7 @@ nav button.active{box-shadow:0 0 18px rgba(35,222,201,.18),inset 0 0 18px rgba(3
 }
 
 
-/* Smart Ports v0.11 · Gemelo digital operativo */
+/* Smart Ports v0.12 · Gemelo digital operativo */
 aside{overflow:hidden}
 #sideNav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1f6177 transparent;padding:2px 0}
 .navScrollControl{width:100%;height:28px;border:1px solid #17475b;background:#0a1f2c;color:#71dcec;border-radius:7px;margin:3px 0;font-weight:900;box-shadow:0 0 12px rgba(54,209,220,.08)}
@@ -244,6 +244,13 @@ aside{overflow:hidden}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+</script>
+<script type="module">
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+window.SP_GLTFLoader = GLTFLoader;
+</script>
 </head>
 <body>
 
@@ -312,7 +319,7 @@ aside{overflow:hidden}
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.11 · Gemelo digital</div>
+    <div class="version">v0.12 · Modelos realistas</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -390,7 +397,7 @@ aside{overflow:hidden}
             <div class="eyebrow">CONTROL DIRECTO 3D</div>
             <h4>Puerto Smart Ports</h4>
             <p class="muted">Selecciona una grúa, patio, muelle o buque. Desde aquí podrás consultar su estado y ejecutar acciones autorizadas.</p>
-            <span class="mapStatusPill">● Escena 3D conectada</span>
+            <span class="mapStatusPill">● Escena 3D conectada</span><div class="muted" style="font-size:10px;margin-top:10px">Modelo de carguero GLB cargado para demostración académica; fallback procedural disponible.</div>
           </div>
         </div>
       </article>
@@ -812,7 +819,7 @@ function showConnectionError(message){$("connectionError").textContent=`No se pu
 
 
 
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,clock:null,beacons:[],animated:[]};
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,clock:null,beacons:[],animated:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -886,6 +893,14 @@ function initPort3D(){
   document.querySelectorAll("[data-map-focus]").forEach(b=>b.addEventListener("click",()=>focusPort3D(b.dataset.mapFocus)));
 
   buildPort3D();
+  loadRealisticShipAsset().then(()=>{
+    buildPort3D();
+    if(port3D.selected?.kind==="ship")showPort3DInfo("ship",port3D.selected.id);
+  }).catch(error=>{
+    console.warn("Modelo realista de buque no disponible. Se mantiene fallback procedural.",error);
+    port3D.realShipFailed=true;
+    $("port3dUpdated").textContent="Puerto 3D · modo compatible";
+  });
   animatePort3D();
 }
 
@@ -935,7 +950,7 @@ function clearPort3DGroup(){
   if(!port3D.objects)return;
   while(port3D.objects.children.length){
     const obj=port3D.objects.children.pop();
-    obj.traverse(o=>{o.geometry?.dispose?.();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose?.());else o.material.dispose?.()}});
+    obj.traverse(o=>{if(o.userData?.sharedAsset)return;o.geometry?.dispose?.();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose?.());else o.material.dispose?.()}});
   }
 }
 function box(w,h,d,color,x,y,z,emissive=0){
@@ -953,7 +968,9 @@ function labelSprite(text,color="#41e6df"){
   const tex=new THREE.CanvasTexture(cv);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true}));s.scale.set(7.2,1.8,1);return s;
 }
 function tagObject(root,data){
-  root.userData=data;root.traverse(o=>o.userData=data);return root;
+  root.userData={...(root.userData||{}),...data};
+  root.traverse(o=>o.userData={...(o.userData||{}),...data});
+  return root;
 }
 function cyl(radius,height,color,x,y,z,rotationZ=0){
   const mat=new THREE.MeshStandardMaterial({color,roughness:.52,metalness:.34});
@@ -1009,38 +1026,101 @@ function makeHullGeometry(){
   geo.translate(0,0,-1.4);
   return geo;
 }
-function buildShip(data,x,z,rotation=0){
+const REAL_SHIP_URL="https://raw.githubusercontent.com/ShubhraneelG-ui/cargoShip3JS/main/assets/big_cargo_ships_with__1031095925_generate.glb";
+
+async function waitForGLTFLoader(){
+  for(let i=0;i<50;i++){
+    if(window.SP_GLTFLoader)return window.SP_GLTFLoader;
+    await new Promise(r=>setTimeout(r,100));
+  }
+  throw new Error("GLTFLoader no cargó.");
+}
+async function loadRealisticShipAsset(){
+  if(port3D.realShipTemplate)return port3D.realShipTemplate;
+  if(port3D.realShipPromise)return port3D.realShipPromise;
+  if(port3D.realShipFailed)throw new Error("Asset marcado como no disponible.");
+
+  $("port3dUpdated").textContent="Cargando carguero realista…";
+  port3D.realShipPromise=(async()=>{
+    const Loader=await waitForGLTFLoader();
+    const loader=new Loader();
+    const gltf=await new Promise((resolve,reject)=>loader.load(REAL_SHIP_URL,resolve,undefined,reject));
+    const model=gltf.scene;
+    model.traverse(o=>{
+      o.userData={...(o.userData||{}),sharedAsset:true};
+      if(o.isMesh){
+        o.castShadow=true;o.receiveShadow=true;
+        const mats=Array.isArray(o.material)?o.material:[o.material];
+        mats.filter(Boolean).forEach(m=>{
+          if(m.map)m.map.colorSpace=THREE.SRGBColorSpace;
+          if("envMapIntensity" in m)m.envMapIntensity=1.15;
+          if("roughness" in m)m.roughness=Math.max(.2,Math.min(.75,m.roughness??.5));
+          m.needsUpdate=true;
+        });
+      }
+    });
+
+    model.updateMatrixWorld(true);
+    let box=new THREE.Box3().setFromObject(model);
+    let size=box.getSize(new THREE.Vector3());
+    if(size.z>size.x*1.15)model.rotation.y=Math.PI/2;
+    model.updateMatrixWorld(true);
+    box=new THREE.Box3().setFromObject(model);size=box.getSize(new THREE.Vector3());
+    const longest=Math.max(size.x,size.z,1);
+    model.scale.setScalar(11.8/longest);
+    model.updateMatrixWorld(true);
+    box=new THREE.Box3().setFromObject(model);
+    const center=box.getCenter(new THREE.Vector3());
+    model.position.x-=center.x;
+    model.position.z-=center.z;
+    model.position.y-=box.min.y;
+    model.updateMatrixWorld(true);
+
+    port3D.realShipTemplate=model;
+    $("port3dUpdated").textContent="Modelos realistas listos";
+    return model;
+  })();
+
+  try{return await port3D.realShipPromise}
+  catch(e){port3D.realShipPromise=null;throw e}
+}
+
+function buildProceduralShipFallback(data,x,z,rotation=0){
   const g=new THREE.Group();
   const hullMat=new THREE.MeshStandardMaterial({color:0x0f5f87,roughness:.42,metalness:.38,emissive:0x031923,emissiveIntensity:.28});
   const hull=new THREE.Mesh(makeHullGeometry(),hullMat);hull.castShadow=true;hull.receiveShadow=true;g.add(hull);
-
   const deck=box(8.2,.18,2.3,0x8f9b9e,-.45,1.08,0);g.add(deck);
-
-  // contenedores sobre cubierta
   const containerColors=[0x1b75a9,0xcf513f,0xe1a338,0x2d986f,0x5c54a5];
-  for(let row=0;row<2;row++){
-    for(let col=0;col<4;col++){
-      addContainer(g,-2.6+col*1.65,1.55,row?-.47:.47,containerColors[(row*4+col)%containerColors.length],.72);
-    }
-  }
-
-  // puente / superestructura
+  for(let row=0;row<2;row++)for(let col=0;col<4;col++)addContainer(g,-2.6+col*1.65,1.55,row?-.47:.47,containerColors[(row*4+col)%containerColors.length],.72);
   const bridge=box(1.55,1.8,2.25,0xe1ecef,-4.15,2.0,0);g.add(bridge);
   const wheel=box(.95,.48,2.32,0x34545f,-3.75,2.83,0);g.add(wheel);
   const mast=cyl(.08,1.7,0xaebfc5,-3.95,3.7,0);g.add(mast);
   const radar=box(.65,.08,.12,0xcff7ff,-3.95,4.5,0,0x77d6e8);g.add(radar);
-  const funnel=cyl(.34,.9,0x303b3e,-2.8,2.1,0);g.add(funnel);
-
-  // luces navegación
-  const redLight=new THREE.PointLight(0xff4242,1.8,5);redLight.position.set(3.8,1.65,-1.25);g.add(redLight);
-  const greenLight=new THREE.PointLight(0x3aff96,1.8,5);greenLight.position.set(3.8,1.65,1.25);g.add(greenLight);
-
   g.position.set(x,0,z);g.rotation.y=rotation;tagObject(g,{kind:"ship",id:data.id});g.userData.type="ship";g.userData.baseY=0;
-  port3D.animated.push(g);
-
-  const label=labelSprite(data.name,"#55c8ff");label.position.set(x,5.2,z);port3D.objects.add(label);
-  port3D.objects.add(g);
+  port3D.animated.push(g);port3D.objects.add(g);
+  return g;
 }
+
+function buildShip(data,x,z,rotation=0){
+  let g;
+  if(port3D.realShipTemplate){
+    g=new THREE.Group();
+    const model=port3D.realShipTemplate.clone(true);
+    model.traverse(o=>o.userData={...(o.userData||{}),sharedAsset:true});
+    g.add(model);
+    g.position.set(x,0,z);
+    g.rotation.y=rotation;
+    tagObject(g,{kind:"ship",id:data.id});
+    g.userData.type="ship";g.userData.baseY=0;
+    port3D.animated.push(g);port3D.objects.add(g);
+  }else{
+    g=buildProceduralShipFallback(data,x,z,rotation);
+  }
+  const label=labelSprite(data.name,port3D.realShipTemplate?"#7de8ff":"#55c8ff");
+  label.position.set(x,5.8,z);port3D.objects.add(label);
+  return g;
+}
+
 function buildCrane(data,x,z,rotation=0){
   const group=new THREE.Group();
   const active=data.status==="Activa";
