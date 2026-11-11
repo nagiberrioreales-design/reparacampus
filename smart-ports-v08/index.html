@@ -1346,6 +1346,150 @@ function notify(message){$("notice").textContent=message;show("notice");setTimeo
 function showConnectionError(message){$("connectionError").textContent=`No se pudo completar la operación: ${message}`;show("connectionError")}
 
 
+let globalSearchState={items:[],filtered:[],selected:0};
+
+function normalizeSearch(value){
+  return String(value==null?"":value).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+}
+function globalModuleItems(){
+  const defs=[
+    ["dashboard","Vista general","Gemelo digital y operación","⌂"],
+    ["ships","Buques","Tráfico marítimo y arribos","⚓"],
+    ["containers","Contenedores","Inventario y carga","▣"],
+    ["cranes","Grúas","Equipos STS y estados","⌁"],
+    ["yards","Almacenamiento / Patios","Capacidad y ocupación","▦"],
+    ["docks","Muelles","Disponibilidad y asignaciones","▥"],
+    ["alerts","Alertas","Incidentes operacionales","⚠"],
+    ["analytics","Analítica","Indicadores y distribución","▥"],
+    ["reports","Reportes","Exportación operativa","▤"],
+    ["optimization","Optimización","Riesgo y asignaciones","✦"],
+    ["notifications","Notificaciones","Centro de avisos","🔔"],
+    ["users","Usuarios y accesos","Administración y permisos","👥"],
+    ["audit","Auditoría","Trazabilidad del sistema","⌕"]
+  ];
+  return defs.filter(function(x){return canAccess(x[0])}).map(function(x){
+    return {type:"Módulo",label:x[1],meta:x[2],icon:x[3],section:x[0]};
+  });
+}
+function buildGlobalSearchIndex(){
+  const items=globalModuleItems();
+  ships.forEach(function(x){items.push({type:"Buque",label:x.name,meta:(x.status||"Sin estado")+" · Muelle "+(x.dock||"—")+" · "+Number(x.containers||0).toLocaleString("es-CO")+" cont.",icon:"⚓",section:"ships",kind:"ship",id:Number(x.id)})});
+  containers.forEach(function(x){items.push({type:"Contenedor",label:x.code,meta:(x.type||"—")+" · "+(x.status||"—")+" · "+(x.ship_name||"Sin buque"),icon:"▣",section:"containers",id:Number(x.id)})});
+  cranes.forEach(function(x){items.push({type:"Grúa",label:x.code,meta:"Estado "+(x.status||"—"),icon:"⌁",section:"cranes",kind:"crane",id:Number(x.id)})});
+  yards.forEach(function(x){items.push({type:"Patio",label:x.name,meta:String(x.percentage==null?0:x.percentage)+"% ocupado · "+Number(x.occupied||0).toLocaleString("es-CO")+" TEU",icon:"▦",section:"yards",kind:"yard",id:Number(x.id)})});
+  docks.forEach(function(x){items.push({type:"Muelle",label:"Muelle "+x.code,meta:(x.status||"—")+" · "+(x.ship_name||"Sin buque asignado"),icon:"▥",section:"docks",kind:"dock",id:Number(x.id)})});
+  alerts.filter(function(x){return x.active}).forEach(function(x){items.push({type:"Alerta",label:x.message,meta:"Nivel "+(x.level||"—")+" · activa",icon:"⚠",section:"alerts",id:Number(x.id)})});
+  if(currentUser&&currentUser.role==="Administrador"){
+    users.forEach(function(x){items.push({type:"Usuario",label:x.name,meta:x.email+" · "+x.role,icon:"👤",section:"users",id:Number(x.id)})});
+  }
+  return items;
+}
+function openGlobalSearch(initial){
+  if(!token)return;
+  globalSearchState.items=buildGlobalSearchIndex();
+  globalSearchState.selected=0;
+  $("globalSearchInput").value=initial||"";
+  $("commandPalette").classList.remove("hidden");
+  $("commandPalette").setAttribute("aria-hidden","false");
+  renderGlobalSearch();
+  requestAnimationFrame(function(){$("globalSearchInput").focus()});
+}
+function closeGlobalSearch(){
+  $("commandPalette").classList.add("hidden");
+  $("commandPalette").setAttribute("aria-hidden","true");
+}
+function renderGlobalSearch(){
+  const raw=$("globalSearchInput").value;
+  const q=normalizeSearch(raw);
+  const words=q.split(/\s+/).filter(Boolean);
+  const source=globalSearchState.items.length?globalSearchState.items:buildGlobalSearchIndex();
+  const ranked=source.map(function(item){
+    const label=normalizeSearch(item.label);
+    const hay=normalizeSearch(item.type+" "+item.label+" "+(item.meta||"")+" "+(item.section||""));
+    let score=0;
+    words.forEach(function(w){
+      if(label.indexOf(w)===0)score+=8;
+      else if(label.indexOf(w)>=0)score+=5;
+      else if(hay.indexOf(w)>=0)score+=2;
+      else score-=20;
+    });
+    if(!q&&item.type==="Módulo")score+=4;
+    return {item:item,score:score};
+  }).filter(function(x){return !q||x.score>-10}).sort(function(a,b){return b.score-a.score}).slice(0,12);
+
+  const results=ranked.map(function(x){return x.item});
+  globalSearchState.filtered=results;
+  globalSearchState.selected=Math.max(0,Math.min(globalSearchState.selected,Math.max(results.length-1,0)));
+  $("commandSearchHint").textContent=q?(results.length+" resultados para “"+raw.trim()+"”"):"Accesos rápidos y entidades de la operación actual.";
+
+  if(!results.length){
+    $("globalSearchResults").innerHTML='<div class="searchEmpty"><strong>Sin coincidencias</strong>Prueba con un código, nombre, estado o módulo.</div>';
+    return;
+  }
+  $("globalSearchResults").innerHTML=results.map(function(r,i){
+    return '<button type="button" class="searchResult '+(i===globalSearchState.selected?'selected':'')+'" data-search-index="'+i+'">'+
+      '<span class="searchResultIcon">'+(r.icon||"◇")+'</span>'+
+      '<span class="searchResultMain"><strong>'+esc(r.label)+'</strong><small>'+esc(r.meta||"Abrir módulo")+'</small></span>'+
+      '<span class="searchResultType">'+esc(r.type)+'</span>'+
+    '</button>';
+  }).join("");
+
+  document.querySelectorAll("[data-search-index]").forEach(function(btn){
+    btn.onclick=function(){runGlobalSearchResult(Number(btn.dataset.searchIndex))};
+  });
+  const selected=document.querySelector(".searchResult.selected");
+  if(selected)selected.scrollIntoView({block:"nearest"});
+}
+function focusDataObject(kind,id){
+  if(!port3D.objects)return false;
+  let root=null;
+  port3D.objects.traverse(function(o){
+    if(!root&&o.userData&&o.userData.kind===kind&&Number(o.userData.id)===Number(id))root=findTaggedRoot(o);
+  });
+  if(!root)return false;
+  focusSelectedObject(root,kind);
+  showPort3DInfo(kind,Number(id));
+  return true;
+}
+function runGlobalSearchResult(index){
+  const r=globalSearchState.filtered[index];
+  if(!r)return;
+  closeGlobalSearch();
+
+  if(r.kind&&canAccess("dashboard")){
+    openSection("dashboard");
+    requestAnimationFrame(function(){
+      initPort3D();
+      buildPort3D();
+      setTimeout(function(){focusDataObject(r.kind,r.id)},100);
+    });
+    return;
+  }
+  const nav=document.querySelector('nav button[data-section="'+r.section+'"]');
+  if(nav)nav.click();else openSection(r.section);
+}
+window.openGlobalSearch=openGlobalSearch;
+window.closeGlobalSearch=closeGlobalSearch;
+
+$("globalSearchBtn").addEventListener("click",function(){openGlobalSearch()});
+$("commandPalette").addEventListener("mousedown",function(e){if(e.target.id==="commandPalette")closeGlobalSearch()});
+$("globalSearchInput").addEventListener("input",function(){globalSearchState.selected=0;renderGlobalSearch()});
+$("globalSearchInput").addEventListener("keydown",function(e){
+  const items=globalSearchState.filtered||[];
+  if(e.key==="ArrowDown"){e.preventDefault();globalSearchState.selected=Math.min(globalSearchState.selected+1,Math.max(items.length-1,0));renderGlobalSearch()}
+  if(e.key==="ArrowUp"){e.preventDefault();globalSearchState.selected=Math.max(globalSearchState.selected-1,0);renderGlobalSearch()}
+  if(e.key==="Enter"){e.preventDefault();runGlobalSearchResult(globalSearchState.selected)}
+  if(e.key==="Escape"){e.preventDefault();closeGlobalSearch()}
+});
+document.addEventListener("keydown",function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
+    e.preventDefault();
+    if($("commandPalette").classList.contains("hidden"))openGlobalSearch();else closeGlobalSearch();
+  }
+  if(e.key==="Escape"&&!$("commandPalette").classList.contains("hidden"))closeGlobalSearch();
+});
+
+
 
 
 let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],labels:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,realCraneTemplate:null,realCranePromise:null,realCraneFailed:false,realTruckTemplate:null,realTruckPromise:null,realTruckFailed:false,city:null,cityWindows:[],animationEnabled:true,qualityHigh:true,focusTween:null,previousView:null,selectionHelper:null,selectedRoot:null,sky:null,pbr:null,pbrPromise:null,reflectionTarget:null,reflectionCamera:null,reflectionFrame:0};
