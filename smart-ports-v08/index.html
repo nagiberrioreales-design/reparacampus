@@ -665,6 +665,22 @@ input:focus,select:focus,textarea:focus{
   .hero{margin:14px;padding:24px!important}
 }
 
+
+/* v0.20 operational content layer */
+.resourceTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.resourceCode{font-size:16px;font-weight:850;color:#edffff;letter-spacing:.04em}
+.resourceKind{font-size:8px;letter-spacing:.12em;color:#5f9baa;font-weight:850;text-transform:uppercase}
+.resourceMetrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}
+.resourceMetric{padding:8px;border:1px solid rgba(73,161,180,.11);background:rgba(4,22,30,.52);border-radius:8px}
+.resourceMetric span{display:block;color:#668c99;font-size:8px;text-transform:uppercase;letter-spacing:.08em}
+.resourceMetric strong{display:block;margin-top:3px;color:#dff7fb;font-size:12px}
+.status-neutral{border-color:rgba(77,170,207,.22)!important;background:#102f3d!important;color:#8dd5e8!important}
+.status-info{border-color:rgba(74,152,255,.24)!important;background:#102944!important;color:#8abfff!important}
+.status-warning{border-color:rgba(255,193,87,.24)!important;background:#3c2d18!important;color:#ffd078!important}
+.status-critical{border-color:rgba(255,103,116,.24)!important;background:#3d1d24!important;color:#ff9ba3!important}
+.status-ok{border-color:rgba(77,220,158,.24)!important;background:#12392d!important;color:#7be4b0!important}
+.tablePrimary{display:flex;align-items:center;gap:8px}.tablePrimary:before{content:"";width:5px;height:5px;border-radius:50%;background:#3bdad2;box-shadow:0 0 8px rgba(59,218,210,.45)}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script type="importmap">
@@ -2319,8 +2335,18 @@ function renderDashboard(){
   `;
 }
 
+
+function statusTone(value){
+  const s=String(value||"").toLowerCase();
+  if(["activa","activo","disponible","resuelta","despachado","completada"].some(x=>s.includes(x)))return "status-ok";
+  if(["mantenimiento","esperando","ocupado","inspección","inspeccion","warning","advertencia"].some(x=>s.includes(x)))return "status-warning";
+  if(["peligro","danger","crítico","critico","fuera","error","rechazada"].some(x=>s.includes(x)))return "status-critical";
+  if(["tránsito","transito","puerto","descargando","descarga","aprobada"].some(x=>s.includes(x)))return "status-info";
+  return "status-neutral";
+}
+
 function renderShips(){
-  $("shipsBody").innerHTML=ships.length?ships.map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${esc(s.eta)}</td><td><span class="badge">${esc(s.dock)}</span></td><td>${esc(s.status)}</td><td>${Number(s.containers).toLocaleString("en-US")}</td></tr>`).join(""):`<tr><td colspan="5" class="empty">No hay buques registrados.</td></tr>`;
+  $("shipsBody").innerHTML=ships.length?ships.map(s=>`<tr><td><div class="tablePrimary"><strong>${esc(s.name)}</strong></div></td><td>${esc(s.eta)}</td><td><span class="badge status-info">${esc(s.dock)}</span></td><td><span class="badge ${statusTone(s.status)}">${esc(s.status)}</span></td><td><strong>${Number(s.containers).toLocaleString("en-US")}</strong></td></tr>`).join(""):`<tr><td colspan="5" class="empty">No hay buques registrados.</td></tr>`;
 }
 function renderShipOptions(){
   const current=$("containerShip").value;
@@ -2330,13 +2356,17 @@ function renderShipOptions(){
 
 function renderContainers(){
   $("containerCount").textContent=`${containers.length} contenedores registrados`;
-  $("containersBody").innerHTML=containers.length?containers.map(c=>`<tr><td><strong>${esc(c.code)}</strong></td><td>${esc(c.type)}</td><td><span class="badge">${esc(c.status)}</span></td><td>${esc(c.ship_name||"Sin asignar")}</td></tr>`).join(""):`<tr><td colspan="4" class="empty">No hay contenedores registrados.</td></tr>`;
+  $("containersBody").innerHTML=containers.length?containers.map(c=>`<tr><td><div class="tablePrimary"><strong>${esc(c.code)}</strong></div></td><td><span class="badge status-neutral">${esc(c.type)}</span></td><td><span class="badge ${statusTone(c.status)}">${esc(c.status)}</span></td><td>${esc(c.ship_name||"Sin asignar")}</td></tr>`).join(""):`<tr><td colspan="4" class="empty">No hay contenedores registrados.</td></tr>`;
 }
 
 function renderCranes(){
   $("cranesGrid").innerHTML=cranes.map(c=>{
     const active=c.status==="Activa";
-    return `<article class="resourceCard"><h4>${esc(c.code)}</h4><p>Estado operativo</p><div class="row"><span class="badge ${active?"status-active":"status-maint"}">${esc(c.status)}</span><button class="ghost" onclick="toggleCrane(${c.id},'${active?"Mantenimiento":"Activa"}')">${active?"Enviar a mantenimiento":"Activar"}</button></div></article>`;
+    return `<article class="resourceCard">
+      <div class="resourceTop"><div><div class="resourceKind">Equipo portuario · STS</div><div class="resourceCode">${esc(c.code)}</div></div><span class="badge ${statusTone(c.status)}">${esc(c.status)}</span></div>
+      <div class="resourceMetrics"><div class="resourceMetric"><span>Disponibilidad</span><strong>${active?"Operativa":"Intervenida"}</strong></div><div class="resourceMetric"><span>Control</span><strong>PostgreSQL</strong></div></div>
+      <div class="row"><span class="muted">Control de estado</span><button class="ghost" onclick="toggleCrane(${c.id},'${active?"Mantenimiento":"Activa"}')">${active?"Enviar a mantenimiento":"Activar equipo"}</button></div>
+    </article>`;
   }).join("");
 }
 
@@ -2352,11 +2382,10 @@ window.toggleCrane=toggleCrane;
 function renderYards(){
   $("yardsGrid").innerHTML=yards.map(y=>`
     <article class="resourceCard">
-      <h4>${esc(y.name)}</h4>
-      <p>Capacidad: ${Number(y.capacity).toLocaleString("en-US")} TEU</p>
-      <p>Ocupación: ${Number(y.occupied).toLocaleString("en-US")} TEU</p>
+      <div class="resourceTop"><div><div class="resourceKind">Terminal · almacenamiento</div><div class="resourceCode">${esc(y.name)}</div></div><span class="badge ${y.percentage>=85?"status-critical":y.percentage>=70?"status-warning":"status-ok"}">${y.percentage}%</span></div>
+      <div class="resourceMetrics"><div class="resourceMetric"><span>Capacidad</span><strong>${Number(y.capacity).toLocaleString("en-US")} TEU</strong></div><div class="resourceMetric"><span>Ocupado</span><strong>${Number(y.occupied).toLocaleString("en-US")} TEU</strong></div></div>
       <div class="yardBar"><i style="width:${y.percentage}%"></i></div>
-      <div class="row"><strong>${y.percentage}%</strong><button class="ghost" onclick="editYard(${y.id},${y.occupied},${y.capacity})">Actualizar ocupación</button></div>
+      <div class="row"><span class="muted">Nivel de utilización</span><button class="ghost" onclick="editYard(${y.id},${y.occupied},${y.capacity})">Actualizar ocupación</button></div>
     </article>`).join("");
 }
 
