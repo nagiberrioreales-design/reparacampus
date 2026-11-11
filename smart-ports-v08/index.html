@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.23 · Operations Intelligence</title>
+<title>Smart Ports v0.24 · Performance Engine</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -918,7 +918,7 @@ select{cursor:pointer}
   .panel{padding:11px!important}
 }
 
-/* Smart Ports v0.23 · Operations Intelligence */
+/* Smart Ports v0.24 · Performance Engine */
 .opsIntelPanel{margin-top:14px;padding:16px!important;border-color:rgba(63,211,216,.28)!important;background:linear-gradient(180deg,rgba(6,29,40,.98),rgba(5,22,32,.98))!important}
 .opsIntelHead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
 .opsIntelHead h3{margin:4px 0 4px;font-size:18px}.opsIntelHead p{margin:0;max-width:720px;font-size:12px}
@@ -948,6 +948,11 @@ select{cursor:pointer}
 .opsEmpty{padding:13px;border:1px dashed #214656;border-radius:8px;color:#718f9c;font-size:10px;text-align:center}
 @media(max-width:1180px){.opsIntelGrid{grid-template-columns:1fr 1fr}.opsHealthBlock{grid-column:1/-1}}
 @media(max-width:760px){.opsIntelHead{flex-direction:column}.opsIntelActions{width:100%;justify-content:flex-start}.opsIntelGrid{grid-template-columns:1fr}.opsHealthBlock{grid-column:auto}.opsArrivalItem{grid-template-columns:minmax(0,1fr) auto}.opsArrivalAction{grid-column:1/-1;width:100%}}
+
+/* Smart Ports v0.24 · Performance Engine */
+body.lowQuality .cityLegend,body.lowQuality .colorLifeLegend{opacity:.78}
+body.lowQuality .hudCard{box-shadow:0 6px 18px rgba(0,0,0,.22)}
+body.lowQuality #port3dCanvas:before{opacity:.62}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -1029,7 +1034,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.23 · Operations Intelligence</div>
+    <div class="version">v0.24 · Performance Engine</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -1077,7 +1082,7 @@ window.SP_GLTFLoader = GLTFLoader;
       <div class="commandTelemetry">
         <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
         <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
-        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.23</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.24</strong></span>
         <span>PERFIL <strong id="commandRole">—</strong></span>
       </div>
     </div>
@@ -1595,21 +1600,33 @@ function applyUser(){
   $("quickShipBtn").classList.toggle("hidden",!canAccess("ships"));
   $("notificationButton").classList.toggle("hidden",!canAccess("notifications"));
 }
+let backgroundLoadStarted=false;
 async function loadAll(){
-  const jobs=[];
-  if(canAccess("dashboard"))jobs.push(loadDashboard(),loadShips(),loadCranes(),loadYards(),loadDocks());
-  if(canAccess("ships")&&!canAccess("dashboard"))jobs.push(loadShips());
-  if(canAccess("containers"))jobs.push(loadContainers());
-  if(canAccess("cranes")&&!canAccess("dashboard"))jobs.push(loadCranes());
-  if(canAccess("yards")&&!canAccess("dashboard"))jobs.push(loadYards());
-  if(canAccess("docks")&&!canAccess("dashboard"))jobs.push(loadDocks());
-  if(canAccess("alerts"))jobs.push(loadAlerts());
-  if(canAccess("analytics"))jobs.push(loadAnalytics());
-  if(canAccess("optimization"))jobs.push(loadOptimization(),loadDocks());
-  if(canAccess("notifications"))jobs.push(loadNotifications());
-  if(currentUser?.role==="Administrador")jobs.push(loadUsers(),loadAccessRequests(),loadPermissionRows(),loadAudit());
-  await Promise.all(jobs);
+  const primary=[];
+  if(canAccess("dashboard"))primary.push(loadDashboard(),loadShips(),loadCranes(),loadYards(),loadDocks());
+  else{
+    if(canAccess("ships"))primary.push(loadShips());
+    if(canAccess("containers"))primary.push(loadContainers());
+    if(canAccess("cranes"))primary.push(loadCranes());
+    if(canAccess("yards"))primary.push(loadYards());
+    if(canAccess("docks"))primary.push(loadDocks());
+  }
+  if(canAccess("containers")&&canAccess("dashboard"))primary.push(loadContainers());
+  await Promise.all(primary);
   hide("connectionError");
+
+  if(backgroundLoadStarted)return;
+  backgroundLoadStarted=true;
+  const secondary=[];
+  if(canAccess("alerts"))secondary.push(loadAlerts());
+  if(canAccess("analytics"))secondary.push(loadAnalytics());
+  if(canAccess("optimization"))secondary.push(loadOptimization());
+  if(canAccess("notifications"))secondary.push(loadNotifications());
+  if(currentUser?.role==="Administrador")secondary.push(loadUsers(),loadAccessRequests(),loadPermissionRows(),loadAudit());
+
+  const loadSecondary=()=>Promise.allSettled(secondary).then(()=>renderOpsIntelligence());
+  if("requestIdleCallback" in window)requestIdleCallback(loadSecondary,{timeout:1800});
+  else setTimeout(loadSecondary,250);
 }
 
 async function loadDashboard(){dashboard=await api("/dashboard");renderDashboard()}
@@ -1748,8 +1765,8 @@ function runGlobalSearchResult(index){
     openSection("dashboard");
     requestAnimationFrame(function(){
       initPort3D();
-      buildPort3D();
-      setTimeout(function(){focusDataObject(r.kind,r.id)},100);
+      buildPort3D(false);
+      setTimeout(function(){focusDataObject(r.kind,r.id)},60);
     });
     return;
   }
@@ -1781,7 +1798,14 @@ document.addEventListener("keydown",function(e){
 
 
 
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],labels:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,realCraneTemplate:null,realCranePromise:null,realCraneFailed:false,realTruckTemplate:null,realTruckPromise:null,realTruckFailed:false,city:null,cityWindows:[],animationEnabled:true,qualityHigh:true,focusTween:null,previousView:null,selectionHelper:null,selectedRoot:null,sky:null,pbr:null,pbrPromise:null,reflectionTarget:null,reflectionCamera:null,reflectionFrame:0};
+function prefersHighQuality3D(){
+  const cores=Number(navigator.hardwareConcurrency||6);
+  const memory=Number(navigator.deviceMemory||8);
+  const narrow=window.matchMedia?.("(max-width:900px)")?.matches;
+  const mobile=/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"");
+  return !narrow&&!mobile&&cores>=6&&memory>=6;
+}
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],labels:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,realCraneTemplate:null,realCranePromise:null,realCraneFailed:false,realTruckTemplate:null,realTruckPromise:null,realTruckFailed:false,city:null,cityWindows:[],animationEnabled:true,qualityHigh:prefersHighQuality3D(),focusTween:null,previousView:null,selectionHelper:null,selectedRoot:null,sky:null,pbr:null,pbrPromise:null,reflectionTarget:null,reflectionCamera:null,reflectionFrame:0,buildSignature:"",lastFrame:0,frameNo:0};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -1791,10 +1815,10 @@ function initPort3D(){
   port3D.scene.background=new THREE.Color(0x071a26);
   port3D.scene.fog=new THREE.Fog(0x08212c,68,128);
   port3D.camera=new THREE.PerspectiveCamera(48,host.clientWidth/host.clientHeight,.1,220);
-  port3D.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});
-  port3D.renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  port3D.renderer=new THREE.WebGLRenderer({antialias:port3D.qualityHigh,powerPreference:"high-performance"});
+  port3D.renderer.setPixelRatio(Math.min(devicePixelRatio,port3D.qualityHigh?1.5:1));
   port3D.renderer.setSize(host.clientWidth,host.clientHeight);
-  port3D.renderer.shadowMap.enabled=true;
+  port3D.renderer.shadowMap.enabled=port3D.qualityHigh;
   port3D.renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   port3D.renderer.outputColorSpace=THREE.SRGBColorSpace;
   port3D.renderer.toneMapping=THREE.ACESFilmicToneMapping;
@@ -1809,7 +1833,7 @@ function initPort3D(){
   port3D.scene.add(port3D.objects);
 
   port3D.scene.add(new THREE.HemisphereLight(0xbcefff,0x17321e,2.15));
-  const key=new THREE.DirectionalLight(0xffe0a8,2.45);key.position.set(30,44,20);key.castShadow=true;port3D.scene.add(key);
+  const key=new THREE.DirectionalLight(0xffe0a8,2.45);key.position.set(30,44,20);key.castShadow=port3D.qualityHigh;port3D.scene.add(key);
   const fill=new THREE.DirectionalLight(0x78cfff,1.25);fill.position.set(-28,24,-18);port3D.scene.add(fill);
   const cyan=new THREE.PointLight(0x2de8df,12,62,2);cyan.position.set(-15,11,8);port3D.scene.add(cyan);
   const blue=new THREE.PointLight(0x2f8dff,10,58,2);blue.position.set(22,10,-10);port3D.scene.add(blue);
@@ -1867,23 +1891,25 @@ function initPort3D(){
   $("mapQualityBtn").onclick=()=>applyQualityMode(!port3D.qualityHigh);
   document.querySelectorAll("[data-map-focus]").forEach(b=>b.addEventListener("click",()=>focusPort3D(b.dataset.mapFocus)));
 
-  buildPort3D();
-  Promise.allSettled([loadRealisticShipAsset(),loadRealisticCraneAsset(),loadRealisticTruckAsset(),loadPortPBRTextures()]).then(results=>{
-    if(results[0].status==="rejected")port3D.realShipFailed=true;
-    if(results[1].status==="rejected")port3D.realCraneFailed=true;
-    if(results[2].status==="rejected")port3D.realTruckFailed=true;
-    buildPort3D();
+  buildPort3D(true);
+  const assetJobs=[loadRealisticShipAsset(),loadRealisticCraneAsset(),loadRealisticTruckAsset()];
+  if(port3D.qualityHigh)assetJobs.push(loadPortPBRTextures());
+  Promise.allSettled(assetJobs).then(results=>{
+    if(results[0]?.status==="rejected")port3D.realShipFailed=true;
+    if(results[1]?.status==="rejected")port3D.realCraneFailed=true;
+    if(results[2]?.status==="rejected")port3D.realTruckFailed=true;
+    buildPort3D(true);
     if(port3D.selected)showPort3DInfo(port3D.selected.kind,port3D.selected.id);
-    $("port3dUpdated").textContent="Modelos realistas listos · "+new Date().toLocaleTimeString("es-CO");
+    $("port3dUpdated").textContent="Recursos 3D listos · "+new Date().toLocaleTimeString("es-CO");
   });
-  applyQualityMode(true);
+  applyQualityMode(port3D.qualityHigh);
   animatePort3D();
 }
 
 
 function buildAtmosphereSky(){
   if(port3D.sky)return;
-  const geo=new THREE.SphereGeometry(175,32,18);
+  const geo=new THREE.SphereGeometry(175,port3D.qualityHigh?24:16,port3D.qualityHigh?14:10);
   const mat=new THREE.ShaderMaterial({
     side:THREE.BackSide,depthWrite:false,
     uniforms:{top:{value:new THREE.Color(0x071b35)},horizon:{value:new THREE.Color(0x4a6378)},warm:{value:new THREE.Color(0xc47a52)}},
@@ -1892,21 +1918,24 @@ function buildAtmosphereSky(){
   });
   const sky=new THREE.Mesh(geo,mat);sky.frustumCulled=false;port3D.sky=sky;port3D.scene.add(sky);
   const starsGeo=new THREE.BufferGeometry(),pts=[];
-  for(let i=0;i<170;i++){const theta=Math.abs(Math.sin(i*12.9898))*Math.PI*2,phi=.18+Math.abs(Math.sin(i*78.233))*1.15,r=145;pts.push(Math.sin(phi)*Math.cos(theta)*r,Math.cos(phi)*r,Math.sin(phi)*Math.sin(theta)*r)}
+  for(let i=0;i<(port3D.qualityHigh?120:70);i++){const theta=Math.abs(Math.sin(i*12.9898))*Math.PI*2,phi=.18+Math.abs(Math.sin(i*78.233))*1.15,r=145;pts.push(Math.sin(phi)*Math.cos(theta)*r,Math.cos(phi)*r,Math.sin(phi)*Math.sin(theta)*r)}
   starsGeo.setAttribute("position",new THREE.Float32BufferAttribute(pts,3));
   port3D.scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xd8efff,size:.42,transparent:true,opacity:.55,sizeAttenuation:true})));
 }
 function applyQualityMode(high){
   port3D.qualityHigh=!!high;
   if(port3D.renderer){
-    port3D.renderer.setPixelRatio(Math.min(devicePixelRatio,high?1.75:1));
+    port3D.renderer.setPixelRatio(Math.min(devicePixelRatio,high?1.5:1));
     port3D.renderer.shadowMap.enabled=!!high;
-    port3D.renderer.toneMappingExposure=high?1.24:1.12;
+    port3D.renderer.toneMappingExposure=high?1.2:1.08;
   }
+  if(port3D.reflectionTarget?.setSize)port3D.reflectionTarget.setSize(high?192:96);
   $("mapQualityBtn").textContent=high?"◆ Calidad alta":"◇ Rendimiento";
   port3D.reflectionFrame=0;
+  port3D.lastFrame=0;
   $("mapQualityBtn").classList.toggle("performance",!high);
   document.body.classList.toggle("lowQuality",!high);
+  if(port3D.ready)buildPort3D(true);
 }
 function updateAdaptiveVisibility(){
   if(!port3D.camera)return;
@@ -1923,7 +1952,7 @@ const PORT_CONCRETE_ROUGH="https://raw.githubusercontent.com/chencheng666/great-
 
 function initPortReflection(){
   if(port3D.reflectionTarget||!port3D.renderer)return;
-  port3D.reflectionTarget=new THREE.WebGLCubeRenderTarget(port3D.qualityHigh?256:128,{
+  port3D.reflectionTarget=new THREE.WebGLCubeRenderTarget(port3D.qualityHigh?192:96,{
     generateMipmaps:true,
     minFilter:THREE.LinearMipmapLinearFilter,
     colorSpace:THREE.SRGBColorSpace
@@ -1937,7 +1966,7 @@ async function loadTexture(url,srgb=false){
   const tex=await new Promise((resolve,reject)=>loader.load(url,resolve,undefined,reject));
   tex.wrapS=tex.wrapT=THREE.RepeatWrapping;
   tex.repeat.set(8,8);
-  tex.anisotropy=Math.min(8,port3D.renderer?.capabilities?.getMaxAnisotropy?.()||4);
+  tex.anisotropy=Math.min(port3D.qualityHigh?4:2,port3D.renderer?.capabilities?.getMaxAnisotropy?.()||2);
   if(srgb)tex.colorSpace=THREE.SRGBColorSpace;
   tex.needsUpdate=true;
   return tex;
@@ -1982,7 +2011,13 @@ function focusPort3D(area){
 }
 function animatePort3D(){
   requestAnimationFrame(animatePort3D);
-  if(!port3D.renderer)return;
+  if(!port3D.renderer||document.hidden)return;
+  if(!document.fullscreenElement&&$("dashboardView")?.classList.contains("hidden"))return;
+  const nowFrame=performance.now();
+  const targetFps=(port3D.drag||port3D.focusTween)?60:(port3D.qualityHigh?45:30);
+  if(nowFrame-port3D.lastFrame<1000/targetFps)return;
+  port3D.lastFrame=nowFrame;
+  port3D.frameNo++;
   const t=port3D.clock?port3D.clock.getElapsedTime():0;
   if(port3D.focusTween){
     const now=performance.now();
@@ -2010,7 +2045,7 @@ function animatePort3D(){
       if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
     });
 
-    port3D.cityWindows.forEach((w,i)=>{
+    if(port3D.frameNo%4===0)port3D.cityWindows.forEach((w,i)=>{
       const flicker=.72+Math.sin(t*.38+i*1.73)*.20;
       if(w.material)w.material.opacity=Math.max(.35,Math.min(1,flicker));
     });
@@ -2080,11 +2115,11 @@ function animatePort3D(){
     });
   }
 
-  updateAdaptiveVisibility();
+  if(port3D.frameNo%6===0)updateAdaptiveVisibility();
   if(port3D.selectionHelper)port3D.selectionHelper.update();
-  if(port3D.reflectionCamera&&port3D.reflectionTarget){
+  if(port3D.reflectionCamera&&port3D.reflectionTarget&&(port3D.animationEnabled||port3D.drag||port3D.focusTween)){
     port3D.reflectionFrame++;
-    const interval=port3D.qualityHigh?18:90;
+    const interval=port3D.qualityHigh?40:180;
     if(port3D.reflectionFrame%interval===0){
       const wasVisible=port3D.water?.visible;
       if(port3D.water)port3D.water.visible=false;
@@ -2492,14 +2527,25 @@ function buildYardVehicle(x,z,color=0xf0b744,phase=0){
   g.position.set(x,0,z);g.userData={type:"yardLoop",cx:3,cz:17,rx:24,rz:5,speed:.018+phase*.004,phase};
   port3D.animated.push(g);port3D.objects.add(g);
 }
-function buildPort3D(){
+function portSceneSignature(){
+  return JSON.stringify({
+    s:ships.slice(0,8).map(x=>[x.id,x.status,x.dock,x.containers]),
+    c:cranes.slice(0,12).map(x=>[x.id,x.status]),
+    y:yards.map(x=>[x.id,x.occupied,x.capacity]),
+    d:docks.map(x=>[x.id,x.status,x.ship_name])
+  });
+}
+function buildPort3D(force=false){
   if(!port3D.objects)return;
+  const signature=portSceneSignature();
+  if(!force&&signature===port3D.buildSignature&&port3D.objects.children.length)return;
+  port3D.buildSignature=signature;
   clearSelectionHighlight();
   clearPort3DGroup();
   port3D.beacons=[];port3D.animated=[];port3D.labels=[];port3D.cityWindows=[];port3D.water=null;
 
   // Agua animada con shader
-  const waterGeo=new THREE.PlaneGeometry(150,105,90,64);
+  const waterGeo=new THREE.PlaneGeometry(150,105,port3D.qualityHigh?56:32,port3D.qualityHigh?40:22);
   const water=new THREE.Mesh(waterGeo,createWaterMaterial());
   water.rotation.x=-Math.PI/2;water.position.y=-.44;water.receiveShadow=true;
   port3D.objects.add(water);port3D.water=water;
@@ -2770,7 +2816,7 @@ function renderDashboard(){
   $("yardBar").style.width=`${m.yardOccupancy}%`;
   const totalCranes=Math.max(cranes.length,22);
   $("craneBar").style.width=`${Math.round((m.activeCranes/totalCranes)*100)}%`;
-  requestAnimationFrame(()=>{initPort3D();buildPort3D()});
+  requestAnimationFrame(()=>{initPort3D();buildPort3D(false)});
 
   const movements=Number(m.movementsToday)||0;
   $("hudMovements").textContent=movements.toLocaleString("es-CO");
@@ -2878,8 +2924,8 @@ function focusOpsShip(id){
   if(!canAccess('dashboard'))return;
   openSection('dashboard');
   requestAnimationFrame(function(){
-    initPort3D();buildPort3D();
-    setTimeout(function(){if(!focusDataObject('ship',id))notify('El buque no está visible en la escena 3D actual.');},100);
+    initPort3D();buildPort3D(false);
+    setTimeout(function(){if(!focusDataObject('ship',id))notify('El buque no está visible en la escena 3D actual.');},60);
   });
 }
 window.focusOpsShip=focusOpsShip;
@@ -3231,8 +3277,8 @@ function formatDate(value){
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
 if(token&&currentUser){hide("landing");hide("login");show("app");loadMyPermissions().then(()=>{applyUser();openDefaultSection();return loadAll()}).catch(e=>showConnectionError(e.message))}
-setInterval(()=>{if(token&&canAccess("notifications"))loadNotifications().catch(()=>{})},8000);
-setInterval(refreshPortRealtime,10000);
+setInterval(()=>{if(token&&!document.hidden&&canAccess("notifications"))loadNotifications().catch(()=>{})},20000);
+setInterval(()=>{if(!document.hidden)refreshPortRealtime()},15000);
 </script>
 </body>
 </html>
