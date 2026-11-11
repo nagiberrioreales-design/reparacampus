@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.12 · Sprint 3</title>
+<title>Smart Ports v0.13 · Sprint 3</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -114,7 +114,7 @@ main.workspace{padding:22px;min-width:0}
 .adminTag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#153b54;color:#68c9fb;font-size:10px}
 
 
-/* Smart Ports v0.12 */
+/* Smart Ports v0.13 */
 .authActions{display:grid;gap:9px;margin-top:12px}.authActions button{width:100%}
 #register,#requestSent{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 15%,rgba(0,230,190,.16),transparent 28%),linear-gradient(135deg,#031018,#071d27)}
 .requestCard{width:min(500px,94vw);padding:30px;border:1px solid #1d6370;background:rgba(5,25,34,.96);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.45)}
@@ -127,7 +127,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){.portMap{min-height:360px}.requestCard{padding:22px}}
 
 
-/* Smart Ports v0.12 · 3D + permisos por área */
+/* Smart Ports v0.13 · 3D + permisos por área */
 .port3dToolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .port3dToolbar .ghost.activeView{border-color:#27d7c6;color:#aafff7;background:#0c3a3a}
 .port3dLayout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
@@ -143,7 +143,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){#port3dCanvas{height:380px;min-height:340px}.permissionCell{min-width:320px}.permissionGrid{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.12.1 · mapa interactivo con estética original */
+/* Smart Ports v0.13.1 · mapa interactivo con estética original */
 body{background:
   radial-gradient(circle at 18% 8%,rgba(0,224,210,.11),transparent 26%),
   radial-gradient(circle at 82% 16%,rgba(0,145,255,.10),transparent 28%),
@@ -205,7 +205,7 @@ nav button.active{box-shadow:0 0 18px rgba(35,222,201,.18),inset 0 0 18px rgba(3
 }
 
 
-/* Smart Ports v0.12 · Gemelo digital operativo */
+/* Smart Ports v0.13 · Gemelo digital operativo */
 aside{overflow:hidden}
 #sideNav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1f6177 transparent;padding:2px 0}
 .navScrollControl{width:100%;height:28px;border:1px solid #17475b;background:#0a1f2c;color:#71dcec;border-radius:7px;margin:3px 0;font-weight:900;box-shadow:0 0 12px rgba(54,209,220,.08)}
@@ -241,6 +241,31 @@ aside{overflow:hidden}
 .dashboardMapPanel{width:100%;min-height:calc(100vh - 190px)}
 #dashboardView{width:100%}
 #dashboardView>.dashboardMapPanel{margin:0}
+
+
+/* Smart Ports v0.13 · puerto urbano realista */
+body{background:
+ radial-gradient(circle at 20% 0%,rgba(0,255,225,.08),transparent 28%),
+ radial-gradient(circle at 85% 0%,rgba(0,140,255,.08),transparent 30%),
+ #031019}
+.topbar{border-color:rgba(44,224,220,.34);box-shadow:0 0 30px rgba(0,229,214,.09),inset 0 -1px rgba(67,221,255,.08)}
+.dashboardMapPanel{box-shadow:0 0 34px rgba(0,220,214,.08),inset 0 0 30px rgba(0,132,166,.05)}
+#port3dCanvas{border-color:#1aa5ad;box-shadow:inset 0 0 80px rgba(0,229,225,.08),0 0 28px rgba(0,199,210,.10)}
+.port3dInfo{border-color:#1b8390!important;box-shadow:0 0 30px rgba(0,222,213,.10)!important}
+.dashboardHud{display:grid;grid-template-columns:1.1fr 1.1fr 1fr 1fr 1.15fr;gap:10px;margin-top:12px}
+.hudCard{border:1px solid #15546a;background:linear-gradient(180deg,rgba(6,31,43,.98),rgba(4,22,31,.96));border-radius:12px;padding:12px;min-height:126px;box-shadow:0 8px 24px rgba(0,0,0,.28),inset 0 1px rgba(74,234,255,.03)}
+.hudCard .eyebrow{margin-bottom:8px}.hudBig{font-size:30px;font-weight:900;letter-spacing:-.04em}
+.hudSub{font-size:11px;color:#83a5b6}
+.hudList{display:grid;gap:6px;margin-top:8px}.hudList>div{display:flex;justify-content:space-between;gap:8px;font-size:11px}
+.hudList strong{color:#dfffff}.hudBar{height:7px;border-radius:999px;background:#0b2b38;overflow:hidden;margin:6px 0}
+.hudBar i{display:block;height:100%;background:linear-gradient(90deg,#24e5bf,#22b8ff);box-shadow:0 0 12px rgba(48,235,215,.28)}
+.hudEquip{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}.hudEquip div{border:1px solid #173f50;background:#071b26;border-radius:8px;padding:8px;text-align:center}.hudEquip strong{display:block;font-size:19px}
+.hudDonut{width:72px;height:72px;border-radius:50%;background:conic-gradient(#2ce6bd var(--p),#164057 0);display:grid;place-items:center;margin:8px auto;box-shadow:0 0 18px rgba(44,230,189,.18)}.hudDonut:after{content:"";width:50px;height:50px;border-radius:50%;background:#071b25;position:absolute}.hudDonut span{position:relative;z-index:2;font-weight:900;font-size:17px}
+.sparkline{width:100%;height:56px;overflow:visible}.sparkline polyline{fill:none;stroke:#36e6bf;stroke-width:3;filter:drop-shadow(0 0 5px rgba(54,230,191,.55))}
+.cityLegend{position:absolute;left:14px;top:76px;z-index:5;padding:6px 9px;border-radius:8px;background:rgba(4,20,29,.72);border:1px solid #1a5568;color:#8cb4c5;font-size:10px;backdrop-filter:blur(6px)}
+@media(max-width:1250px){.dashboardHud{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:850px){.dashboardHud{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.dashboardHud{grid-template-columns:1fr}}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -319,7 +344,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.12 · Modelos realistas</div>
+    <div class="version">v0.13 · Puerto urbano realista</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -389,6 +414,7 @@ window.SP_GLTFLoader = GLTFLoader;
         <div class="interactivePortLayout">
           <div id="port3dCanvas">
             <div class="mapCompass"></div>
+            <div class="cityLegend">Terminal costera · entorno urbano simulado</div>
             <div class="mapHint">Arrastra para rotar · Shift + arrastrar para mover · rueda para zoom · clic en un objeto para control directo</div>
             <div class="mapFullscreenBadge">Puerto 3D operativo · datos PostgreSQL</div>
           </div>
@@ -401,6 +427,33 @@ window.SP_GLTFLoader = GLTFLoader;
           </div>
         </div>
       </article>
+
+      <div class="dashboardHud" id="dashboardHud">
+        <article class="hudCard">
+          <div class="eyebrow">ACTIVIDAD DEL PUERTO</div>
+          <div class="hudBig" id="hudMovements">0</div>
+          <div class="hudSub">movimientos hoy</div>
+          <div class="hudList" id="hudMovementBreakdown"></div>
+        </article>
+        <article class="hudCard">
+          <div class="eyebrow">RENDIMIENTO OPERATIVO</div>
+          <div class="hudList" id="hudPerformance"></div>
+        </article>
+        <article class="hudCard">
+          <div class="eyebrow">ESTADO DE EQUIPOS</div>
+          <div class="hudEquip" id="hudEquipment"></div>
+        </article>
+        <article class="hudCard">
+          <div class="eyebrow">OCUPACIÓN DEL PUERTO</div>
+          <div class="hudDonut" id="hudOccupancyDonut" style="--p:0%"><span id="hudOccupancy">0%</span></div>
+          <div class="hudSub" style="text-align:center">uso promedio de patios</div>
+        </article>
+        <article class="hudCard">
+          <div class="eyebrow">FLUJO DE CONTENEDORES</div>
+          <svg class="sparkline" viewBox="0 0 220 60" preserveAspectRatio="none"><polyline id="hudSparkline" points="0,50 30,44 60,47 90,36 120,39 150,24 180,16 220,22"/></svg>
+          <div class="hudList" id="hudFlowStats"></div>
+        </article>
+      </div>
     </section>
 
     <section id="shipsView" class="view hidden">
@@ -819,7 +872,7 @@ function showConnectionError(message){$("connectionError").textContent=`No se pu
 
 
 
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,clock:null,beacons:[],animated:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false};
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,waterUniforms:null,clock:null,beacons:[],animated:[],realShipTemplate:null,realShipPromise:null,realShipFailed:false,city:null};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -924,10 +977,8 @@ function animatePort3D(){
   );
   port3D.camera.lookAt(port3D.target);
 
-  if(port3D.water){
-    port3D.water.material.opacity=.88+Math.sin(t*.7)*.025;
-    port3D.water.position.y=-.43+Math.sin(t*.55)*.025;
-  }
+  if(port3D.waterUniforms)port3D.waterUniforms.uTime.value=t;
+  if(port3D.water)port3D.water.position.y=-.43+Math.sin(t*.45)*.02;
   port3D.beacons.forEach((b,i)=>{
     const pulse=.55+Math.sin(t*3+i)*.45;
     if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
@@ -1158,18 +1209,120 @@ function buildCrane(data,x,z,rotation=0){
   const label=labelSprite(data.code,active?"#ffc047":"#ff6d7b");label.position.set(x,8.1,z);port3D.objects.add(label);
   port3D.objects.add(group);return group;
 }
+
+function createWaterMaterial(){
+  port3D.waterUniforms={
+    uTime:{value:0},
+    uDeep:{value:new THREE.Color(0x032c43)},
+    uShallow:{value:new THREE.Color(0x0d7890)},
+    uGlow:{value:new THREE.Color(0x2cd9e7)}
+  };
+  return new THREE.ShaderMaterial({
+    uniforms:port3D.waterUniforms,
+    transparent:true,
+    side:THREE.DoubleSide,
+    vertexShader:`
+      uniform float uTime;
+      varying float vWave;
+      varying vec3 vWorld;
+      void main(){
+        vec3 p=position;
+        float w1=sin(p.x*.16+uTime*.8)*.18;
+        float w2=cos(p.y*.11-uTime*.55)*.12;
+        float w3=sin((p.x+p.y)*.07+uTime*.35)*.08;
+        p.z+=w1+w2+w3;
+        vWave=w1+w2+w3;
+        vec4 world=modelMatrix*vec4(p,1.0);
+        vWorld=world.xyz;
+        gl_Position=projectionMatrix*viewMatrix*world;
+      }`,
+    fragmentShader:`
+      uniform vec3 uDeep;
+      uniform vec3 uShallow;
+      uniform vec3 uGlow;
+      varying float vWave;
+      varying vec3 vWorld;
+      void main(){
+        float f=clamp(.48+vWave*1.7,0.0,1.0);
+        vec3 col=mix(uDeep,uShallow,f);
+        float bands=.5+.5*sin((vWorld.x+vWorld.z)*.33);
+        col+=uGlow*bands*.045;
+        gl_FragColor=vec4(col,.94);
+      }`
+  });
+}
+
+function buildCityBackdrop(){
+  const city=new THREE.Group();
+  const rand=(n)=>Math.abs(Math.sin(n*12.9898+78.233))*43758.5453%1;
+  const baseZ=47;
+  for(let i=0;i<34;i++){
+    const x=-48+i*3.2;
+    const h=4+rand(i)*16;
+    const w=1.6+rand(i+20)*2.6;
+    const d=2.0+rand(i+40)*3.2;
+    const mat=new THREE.MeshStandardMaterial({
+      color:new THREE.Color().setHSL(.55,.18,.15+rand(i+5)*.08),
+      roughness:.72,metalness:.18,
+      emissive:new THREE.Color(0x07252c),emissiveIntensity:.32
+    });
+    const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+    b.position.set(x,h/2+.6,baseZ+rand(i+70)*7);
+    b.castShadow=false;b.receiveShadow=true;
+    city.add(b);
+
+    const rows=Math.max(2,Math.floor(h/2.1));
+    const cols=Math.max(1,Math.floor(w/.9));
+    for(let r=0;r<rows;r++)for(let cc=0;cc<cols;cc++){
+      if(rand(i*31+r*7+cc)>.42){
+        const wm=new THREE.MeshBasicMaterial({color:rand(i+r+cc)>.52?0xffcf76:0x76dfff});
+        const win=new THREE.Mesh(new THREE.PlaneGeometry(.28,.18),wm);
+        win.position.set(x-w/2+.45+cc*.62,1.4+r*1.65,baseZ-d/2+rand(i+70)*7-.011);
+        win.rotation.y=Math.PI;
+        city.add(win);
+      }
+    }
+  }
+
+  // torres altas de skyline
+  [[-22,24],[0,31],[18,27],[32,21]].forEach(([x,h],i)=>{
+    const tower=box(4,h,4,0x203742,x,h/2+.5,53+i*.7,0x062a31);city.add(tower);
+    const crown=new THREE.PointLight(0x48dfff,2.5,14);crown.position.set(x,h+1,53+i*.7);city.add(crown);
+  });
+
+  // avenida costera iluminada
+  const road=box(110,.08,5,0x1b292f,0,.2,39);city.add(road);
+  for(let x=-52;x<=52;x+=5){
+    const lamp=new THREE.PointLight(0xffd98a,1.1,6,2);lamp.position.set(x,1.4,37);city.add(lamp);
+  }
+
+  port3D.city=city;
+  port3D.objects.add(city);
+}
+
+function buildYardVehicle(x,z,color=0xf0b744){
+  const g=new THREE.Group();
+  const cab=box(1.3,1.3,1.1,color,.65,.85,0);g.add(cab);
+  const trailer=box(3.2,.45,1.15,0x35434a,-1.5,.55,0);g.add(trailer);
+  for(const wx of [-2.4,-.6,.65])for(const wz of [-.62,.62]){
+    const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.18,12),new THREE.MeshStandardMaterial({color:0x15191b}));
+    wheel.rotation.x=Math.PI/2;wheel.position.set(wx,.25,wz);g.add(wheel);
+  }
+  g.position.set(x,0,z);port3D.objects.add(g);
+}
+
 function buildPort3D(){
   if(!port3D.objects)return;
   clearPort3DGroup();
   port3D.beacons=[];port3D.animated=[];port3D.water=null;
 
-  // Agua amplia con material físico
-  const waterMat=new THREE.MeshPhysicalMaterial({
-    color:0x06475e,roughness:.18,metalness:.08,transparent:true,opacity:.9,
-    clearcoat:.55,clearcoatRoughness:.18,emissive:0x02131a,emissiveIntensity:.24
-  });
-  const water=new THREE.Mesh(new THREE.PlaneGeometry(150,105,12,12),waterMat);
-  water.rotation.x=-Math.PI/2;water.position.y=-.44;water.receiveShadow=true;port3D.objects.add(water);port3D.water=water;
+  // Agua animada con shader
+  const waterGeo=new THREE.PlaneGeometry(150,105,90,64);
+  const water=new THREE.Mesh(waterGeo,createWaterMaterial());
+  water.rotation.x=-Math.PI/2;water.position.y=-.44;water.receiveShadow=true;
+  port3D.objects.add(water);port3D.water=water;
+
+  buildCityBackdrop();
 
   // Terminal principal
   const terminal=box(62,.9,36,0x1a3a35,4,.02,9,0x03120e);port3D.objects.add(terminal);
@@ -1192,6 +1345,10 @@ function buildPort3D(){
   // Calles laterales
   const road1=box(58,.10,4,0x26363c,3,.62,24);port3D.objects.add(road1);
   const road2=box(5,.10,30,0x26363c,-25,.62,8);port3D.objects.add(road2);
+  buildYardVehicle(-18,18,0xf0b744);
+  buildYardVehicle(-2,18,0x31b5e7);
+  buildYardVehicle(13,20,0xe66848);
+  buildYardVehicle(23,14,0xf0b744);
 
   // Patios con densidad proporcional
   const yardPos=[[-12,9],[4,9],[20,9]];
@@ -1338,6 +1495,42 @@ function renderDashboard(){
   const totalCranes=Math.max(cranes.length,22);
   $("craneBar").style.width=`${Math.round((m.activeCranes/totalCranes)*100)}%`;
   requestAnimationFrame(()=>{initPort3D();buildPort3D()});
+
+  const movements=Number(m.movementsToday)||0;
+  $("hudMovements").textContent=movements.toLocaleString("es-CO");
+  const movementParts=[
+    ["Carga",Math.round(movements*.27)],
+    ["Descarga",Math.round(movements*.25)],
+    ["Transbordo",Math.round(movements*.23)],
+    ["Despacho",Math.max(0,movements-Math.round(movements*.27)-Math.round(movements*.25)-Math.round(movements*.23))]
+  ];
+  $("hudMovementBreakdown").innerHTML=movementParts.map(x=>`<div><span>${x[0]}</span><strong>${x[1].toLocaleString("es-CO")}</strong></div>`).join("");
+
+  const yardPct=Number(m.yardOccupancy)||0;
+  const cranePct=Math.round((Number(m.activeCranes)||0)/Math.max(cranes.length,1)*100);
+  $("hudPerformance").innerHTML=[
+    ["Grúas",cranePct+"%"],
+    ["Patios",yardPct+"%"],
+    ["Despacho",Math.max(40,100-Math.round(Number(m.averageDispatchHours||0)*7))+"%"],
+    ["Disponibilidad",Math.min(100,Math.round((Number(m.shipsInPort||0)+Number(m.activeCranes||0))/Math.max(1,cranes.length)*70))+"%"]
+  ].map(x=>`<div><span>${x[0]}</span><strong>${x[1]}</strong></div><div class="hudBar"><i style="width:${parseInt(x[1])||0}%"></i></div>`).join("");
+
+  $("hudEquipment").innerHTML=[
+    ["Grúas",cranes.length],
+    ["Activas",m.activeCranes],
+    ["Muelles",docks.length],
+    ["Patios",yards.length]
+  ].map(x=>`<div><strong>${x[1]}</strong><span class="hudSub">${x[0]}</span></div>`).join("");
+
+  $("hudOccupancy").textContent=yardPct+"%";
+  $("hudOccupancyDonut").style.setProperty("--p",yardPct+"%");
+
+  const totalContainers=containers.length;
+  const activeShips=ships.filter(s=>s.status!=="Finalizado").length;
+  $("hudFlowStats").innerHTML=`
+    <div><span>Contenedores registrados</span><strong>${totalContainers}</strong></div>
+    <div><span>Buques activos</span><strong>${activeShips}</strong></div>
+  `;
 }
 
 function renderShips(){
