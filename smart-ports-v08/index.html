@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.18 · Sprint 3</title>
+<title>Smart Ports v0.20 · Sprint 3</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -114,7 +114,7 @@ main.workspace{padding:22px;min-width:0}
 .adminTag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#153b54;color:#68c9fb;font-size:10px}
 
 
-/* Smart Ports v0.18 */
+/* Smart Ports v0.20 */
 .authActions{display:grid;gap:9px;margin-top:12px}.authActions button{width:100%}
 #register,#requestSent{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 15%,rgba(0,230,190,.16),transparent 28%),linear-gradient(135deg,#031018,#071d27)}
 .requestCard{width:min(500px,94vw);padding:30px;border:1px solid #1d6370;background:rgba(5,25,34,.96);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.45)}
@@ -127,7 +127,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){.portMap{min-height:360px}.requestCard{padding:22px}}
 
 
-/* Smart Ports v0.18 · 3D + permisos por área */
+/* Smart Ports v0.20 · 3D + permisos por área */
 .port3dToolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .port3dToolbar .ghost.activeView{border-color:#27d7c6;color:#aafff7;background:#0c3a3a}
 .port3dLayout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
@@ -143,7 +143,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){#port3dCanvas{height:380px;min-height:340px}.permissionCell{min-width:320px}.permissionGrid{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.18.1 · mapa interactivo con estética original */
+/* Smart Ports v0.20.1 · mapa interactivo con estética original */
 body{background:
   radial-gradient(circle at 18% 8%,rgba(0,224,210,.11),transparent 26%),
   radial-gradient(circle at 82% 16%,rgba(0,145,255,.10),transparent 28%),
@@ -205,7 +205,7 @@ nav button.active{box-shadow:0 0 18px rgba(35,222,201,.18),inset 0 0 18px rgba(3
 }
 
 
-/* Smart Ports v0.18 · Gemelo digital operativo */
+/* Smart Ports v0.20 · Gemelo digital operativo */
 aside{overflow:hidden}
 #sideNav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1f6177 transparent;padding:2px 0}
 .navScrollControl{width:100%;height:28px;border:1px solid #17475b;background:#0a1f2c;color:#71dcec;border-radius:7px;margin:3px 0;font-weight:900;box-shadow:0 0 12px rgba(54,209,220,.08)}
@@ -243,7 +243,7 @@ aside{overflow:hidden}
 #dashboardView>.dashboardMapPanel{margin:0}
 
 
-/* Smart Ports v0.18 · puerto urbano realista */
+/* Smart Ports v0.20 · puerto urbano realista */
 body{background:
  radial-gradient(circle at 20% 0%,rgba(0,255,225,.08),transparent 28%),
  radial-gradient(circle at 85% 0%,rgba(0,140,255,.08),transparent 30%),
@@ -268,7 +268,7 @@ body{background:
 @media(max-width:600px){.dashboardHud{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.18 · puerto vivo */
+/* Smart Ports v0.20 · puerto vivo */
 .animationToggle{min-width:138px}
 .animationToggle.paused{border-color:#7b5360!important;color:#ffc0c6!important;background:#2a171d!important;box-shadow:none!important}
 #port3dCanvas:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:
@@ -283,7 +283,7 @@ body.motionPaused .portActivityBadge i{animation:none;background:#ff7784;box-sha
 .hudCard:hover{transform:translateY(-2px);border-color:#21738a;box-shadow:0 10px 30px rgba(0,0,0,.30),0 0 20px rgba(0,199,210,.06)}
 
 
-/* Smart Ports v0.18 · Color & vida */
+/* Smart Ports v0.20 · Color & vida */
 :root{--cyan:#39e6e1;--aqua:#28c7de;--lime:#52e19c;--amber:#ffc45d;--coral:#ff766f;--violet:#8b7dff}
 body{
   background:
@@ -329,12 +329,341 @@ nav button.active{background:linear-gradient(90deg,rgba(24,104,124,.72),rgba(15,
 .colorLifeLegend .l-yard{border-color:#2d8b69;color:#75e7b4}.colorLifeLegend .l-dock{border-color:#2b7fa4;color:#82dfff}.colorLifeLegend .l-crane{border-color:#8a6a2c;color:#ffd06e}.colorLifeLegend .l-city{border-color:#7c5e88;color:#e2b9ef}
 
 
-/* Smart Ports v0.18 · realismo y cámara inteligente */
+/* Smart Ports v0.20 · realismo y cámara inteligente */
 #mapQualityBtn.performance{border-color:#705e36;color:#ffd67a;background:#2b2417;box-shadow:none}
 .selectionFocusNote{margin-top:10px;padding:8px 9px;border-radius:8px;border:1px solid #1f5f70;background:#082532;color:#9edbe4;font-size:10px}
 .focusBack{margin-top:8px;width:100%}
 .smartCameraBadge{position:absolute;right:14px;top:46px;z-index:8;padding:5px 8px;border-radius:999px;background:rgba(4,23,31,.78);border:1px solid #28556a;color:#8cc6d9;font-size:9px;font-weight:800;backdrop-filter:blur(8px)}
 body.lowQuality #port3dCanvas{box-shadow:inset 0 0 36px rgba(0,229,225,.05),0 0 18px rgba(0,199,210,.06)}
+
+
+/* Smart Ports v0.20 · Command Center */
+:root{
+  --sp-bg:#041019;
+  --sp-bg2:#071720;
+  --sp-surface:rgba(8,29,40,.92);
+  --sp-surface-2:rgba(10,37,49,.92);
+  --sp-surface-3:#0c2632;
+  --sp-line:rgba(89,185,205,.18);
+  --sp-line-strong:rgba(71,218,220,.34);
+  --sp-text:#edfaff;
+  --sp-muted:#87a8b6;
+  --sp-cyan:#42e2df;
+  --sp-blue:#43a8ff;
+  --sp-green:#59dfa2;
+  --sp-amber:#ffc260;
+  --sp-red:#ff707a;
+  --sp-violet:#a493ff;
+  --sp-shadow:0 18px 48px rgba(0,0,0,.28);
+}
+html{background:var(--sp-bg)}
+body{
+  color:var(--sp-text);
+  background:
+    radial-gradient(circle at 82% -8%,rgba(38,132,185,.12),transparent 32%),
+    radial-gradient(circle at 5% 96%,rgba(38,185,145,.07),transparent 28%),
+    linear-gradient(180deg,#041019,#06141d 48%,#041019);
+}
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.17;
+  background-image:linear-gradient(rgba(74,198,219,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(74,198,219,.035) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+*{scrollbar-width:thin;scrollbar-color:#245a6b #061620}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:#061620}
+*::-webkit-scrollbar-thumb{background:#245a6b;border-radius:999px}
+::selection{background:rgba(63,224,220,.24);color:#fff}
+
+#app{background:transparent}
+aside{
+  background:
+    linear-gradient(180deg,rgba(6,29,40,.98),rgba(4,19,28,.99)),
+    radial-gradient(circle at 50% 0%,rgba(52,205,218,.08),transparent 32%);
+  border-right:1px solid var(--sp-line-strong);
+  box-shadow:12px 0 34px rgba(0,0,0,.20);
+}
+.brand{
+  padding:18px 14px 6px;
+  font-size:17px;letter-spacing:.055em;
+  color:#f2ffff;
+}
+.brand:after{
+  content:"PORT OPERATIONS PLATFORM";display:block;margin:5px 0 0 29px;
+  font-size:8px;letter-spacing:.18em;font-weight:800;color:#5da9bb;
+}
+.version{
+  margin:4px 14px 10px;padding:6px 8px;border-radius:7px;
+  border:1px solid rgba(66,226,223,.14);
+  background:rgba(10,43,54,.45);color:#72c6d1;font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+}
+nav{padding:4px 8px}
+nav button{
+  min-height:39px;margin:2px 0;padding:9px 11px;border-radius:8px;
+  color:#a9c2cc;font-size:12px;font-weight:680;
+  border:1px solid transparent;border-left:2px solid transparent;
+  background:transparent;
+}
+nav button:hover{
+  color:#eaffff;background:rgba(19,69,82,.48);
+  border-color:rgba(73,198,215,.12);border-left-color:#2ba8c8;
+}
+nav button.active{
+  color:#efffff;
+  background:linear-gradient(90deg,rgba(18,105,121,.72),rgba(10,48,62,.52));
+  border:1px solid rgba(74,221,219,.24);border-left:3px solid var(--sp-cyan);
+  box-shadow:inset 0 0 18px rgba(48,208,214,.035),0 0 15px rgba(0,0,0,.08);
+}
+.navScrollControl{
+  background:#071d28!important;border:1px solid #163e4d!important;color:#70afbd!important;
+  border-radius:7px!important;margin:2px 10px!important;
+}
+.userBox{
+  margin:8px 10px 12px;padding:11px;border:1px solid var(--sp-line);border-radius:10px;
+  background:linear-gradient(180deg,rgba(9,39,51,.78),rgba(6,27,37,.78));
+}
+.userBox strong{font-size:12px}.userBox small{color:#75a8b7}
+#logoutBtn{border-color:#4d3038!important;background:#25171b!important;color:#eeb6bb!important}
+
+.workspace{background:transparent}
+.topbar{
+  position:sticky;top:0;z-index:30;
+  min-height:70px;
+  background:linear-gradient(180deg,rgba(6,27,38,.94),rgba(5,22,31,.88));
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--sp-line-strong);
+  box-shadow:0 12px 35px rgba(0,0,0,.16);
+}
+.topbar h2{font-size:22px;letter-spacing:-.025em;margin-top:2px}
+.topbar .eyebrow{color:#63c9d6}
+.topActions{gap:9px}
+.live{
+  border:1px solid rgba(76,221,160,.20);
+  background:rgba(21,75,57,.30);color:#82edb9;
+  padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;
+}
+.notificationButton{
+  border:1px solid var(--sp-line)!important;background:#082431!important;
+  color:#bdebf1!important;box-shadow:none!important;
+}
+.commandStrip{
+  min-height:36px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:6px 18px;
+  border-bottom:1px solid rgba(72,180,199,.13);
+  background:rgba(5,22,31,.74);backdrop-filter:blur(12px);
+  color:#7597a4;font-size:9px;letter-spacing:.08em;
+}
+.commandContext,.commandTelemetry,.commandTelemetry span{display:flex;align-items:center;gap:7px}
+.commandContext strong,.commandTelemetry strong{color:#cae8ee;font-size:9px}
+.commandDot,.telemetryDot{display:inline-block;width:6px;height:6px;border-radius:50%}
+.commandDot{background:var(--sp-cyan);box-shadow:0 0 10px var(--sp-cyan)}
+.telemetryDot.ok{background:var(--sp-green);box-shadow:0 0 8px var(--sp-green)}
+.telemetryDot.db{background:var(--sp-blue);box-shadow:0 0 8px var(--sp-blue)}
+.telemetryDot.twin{background:var(--sp-violet);box-shadow:0 0 8px var(--sp-violet)}
+.commandTelemetry{gap:16px}
+
+.view{padding:16px 18px 22px}
+.view:not(.hidden){animation:spViewIn .18s ease-out}
+@keyframes spViewIn{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.pageToolbar,.panelHeader{
+  min-height:55px;
+  padding:0 2px 10px;
+  margin-bottom:10px;
+  border-bottom:1px solid rgba(75,170,188,.11);
+}
+.pageToolbar h3,.panelHeader h3{margin:2px 0 0;font-size:18px;letter-spacing:-.015em}
+.pageToolbar .eyebrow,.panelHeader .eyebrow{color:#63cbd8}
+.pageToolbar>div:first-child:before,.panelHeader>div:first-child:before{
+  content:"";display:inline-block;width:18px;height:2px;margin:0 7px 3px 0;
+  background:linear-gradient(90deg,var(--sp-cyan),transparent);
+}
+
+.panel,.resourceCard,.dockCard,.reportCard,.recommendation,.card{
+  border:1px solid var(--sp-line)!important;
+  background:
+    linear-gradient(180deg,rgba(9,34,46,.94),rgba(6,25,35,.96))!important;
+  box-shadow:var(--sp-shadow);
+}
+.panel{border-radius:12px!important;padding:14px!important}
+.panel:hover{border-color:rgba(69,197,211,.23)!important}
+.resourceCard,.dockCard,.reportCard,.recommendation,.card{
+  border-radius:11px!important;
+  position:relative;overflow:hidden;
+}
+.resourceCard:before,.dockCard:before,.card:before{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,var(--sp-cyan),rgba(63,171,255,.55),transparent 70%);
+  opacity:.65;
+}
+.resourceCard{padding:14px!important}
+.resourceCard h4,.dockCard strong{font-size:15px;letter-spacing:.02em}
+.resourceCard p,.dockCard p{color:#8caab5;font-size:11px}
+.resourceCard .row{padding-top:10px;border-top:1px solid rgba(76,170,188,.10)}
+.cardsGrid{gap:12px!important}
+
+table{
+  width:100%;border-collapse:separate!important;border-spacing:0!important;
+  color:#cfe5ea;font-size:11px;
+}
+.tableWrap{
+  border:1px solid rgba(74,170,190,.13);border-radius:10px;overflow:auto;
+  background:rgba(4,20,28,.38);
+}
+thead th{
+  position:sticky;top:0;z-index:2;
+  padding:11px 12px!important;
+  background:#0b2936!important;
+  color:#74bdca!important;
+  font-size:9px!important;font-weight:850!important;letter-spacing:.10em;text-transform:uppercase;
+  border-bottom:1px solid rgba(75,195,209,.18)!important;
+}
+tbody td{
+  padding:11px 12px!important;border-bottom:1px solid rgba(68,145,162,.085)!important;
+}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:rgba(25,84,98,.24)}
+tbody tr:last-child td{border-bottom:0!important}
+td strong{color:#efffff;font-weight:760}
+
+.inlineForm,.formGrid{
+  padding:12px!important;margin-bottom:12px!important;
+  border:1px solid rgba(72,181,198,.14);
+  border-radius:10px;background:rgba(5,24,33,.62);
+}
+label{
+  color:#789aa8!important;font-size:9px!important;font-weight:800!important;letter-spacing:.075em;text-transform:uppercase;
+}
+input,select,textarea{
+  border:1px solid #1b4657!important;
+  background:#061d28!important;color:#e9faff!important;
+  border-radius:8px!important;min-height:38px;
+  outline:none;transition:border-color .15s,box-shadow .15s,background .15s;
+}
+input::placeholder,textarea::placeholder{color:#547683}
+input:focus,select:focus,textarea:focus{
+  border-color:#2bb5c7!important;background:#082633!important;
+  box-shadow:0 0 0 3px rgba(43,181,199,.09)!important;
+}
+
+.primary{
+  border:1px solid rgba(104,196,255,.22)!important;
+  background:linear-gradient(135deg,#168dcc,#1b6ce7 58%,#455de7)!important;
+  box-shadow:0 6px 18px rgba(22,109,201,.18)!important;
+  border-radius:8px!important;letter-spacing:.015em;
+}
+.primary:hover{filter:brightness(1.09);transform:translateY(-1px)}
+.ghost{
+  border:1px solid #1b4758!important;background:#08212d!important;color:#bcd7df!important;
+  border-radius:8px!important;box-shadow:none!important;
+}
+.ghost:hover{border-color:#2e8093!important;background:#0b2a37!important;color:#efffff!important}
+.dangerBtn{border-radius:8px!important}
+
+.badge{
+  border:1px solid rgba(70,176,207,.20);
+  background:#0c3140;color:#78d0e0;font-size:10px;font-weight:800;
+}
+.status-active{border-color:rgba(76,213,152,.23)!important;background:#11392d!important;color:#76e2ac!important}
+.status-maint{border-color:rgba(247,184,83,.24)!important;background:#3b2d18!important;color:#ffd078!important}
+.status-danger{border-color:rgba(255,105,117,.24)!important;background:#3d1d24!important;color:#ff9aa2!important}
+.pendingCount,.notificationBadge{box-shadow:0 0 0 3px rgba(255,102,115,.08)}
+
+.chartTrack,.yardBar,.storageGauge{
+  background:#092631!important;border:1px solid rgba(65,154,171,.11)!important;
+}
+.chartTrack i,.yardBar i,.storageGauge i{
+  background:linear-gradient(90deg,#25cdb8,#3bbce5)!important;
+  box-shadow:0 0 12px rgba(42,205,195,.18);
+}
+.chartRow{padding:7px 0;border-bottom:1px solid rgba(68,145,162,.07)}
+.chartRow:last-child{border-bottom:0}
+
+.alertRow,.notificationItem{
+  border:1px solid rgba(81,170,186,.13)!important;
+  border-radius:10px!important;background:rgba(6,27,37,.72)!important;
+  margin-bottom:8px!important;
+}
+.alertRow:hover,.notificationItem:hover{border-color:rgba(83,202,211,.22)!important;background:rgba(8,37,49,.86)!important}
+.alert{border-radius:8px!important}
+
+.empty{
+  padding:28px!important;text-align:center!important;color:#668994!important;
+  background:linear-gradient(180deg,rgba(7,30,40,.32),rgba(5,23,31,.18));
+  border-radius:8px;
+}
+.empty:before{content:"◇";display:block;color:#3d7988;font-size:19px;margin-bottom:5px}
+
+.notice,.connectionError{
+  border-radius:9px!important;box-shadow:0 12px 30px rgba(0,0,0,.26)!important;
+  backdrop-filter:blur(12px);
+}
+.notice{border:1px solid rgba(68,220,159,.28)!important;background:rgba(13,61,46,.93)!important;color:#b9f5d7!important}
+.connectionError{border:1px solid rgba(255,102,114,.28)!important;background:rgba(67,25,31,.94)!important;color:#ffc5ca!important}
+
+#modal{
+  background:rgba(1,9,14,.78)!important;backdrop-filter:blur(9px);
+}
+.modalCard,.loginCard,.requestCard{
+  border:1px solid rgba(69,203,215,.24)!important;
+  background:
+    linear-gradient(180deg,rgba(8,34,46,.97),rgba(5,22,31,.98))!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.52),0 0 40px rgba(20,169,194,.06)!important;
+}
+.modalCard{border-radius:14px!important}
+.modalHead{padding-bottom:10px;border-bottom:1px solid rgba(72,173,191,.12)}
+.close{background:#122f3b!important;color:#acd8df!important;border:1px solid #245569!important}
+
+#landing{
+  position:relative;overflow:hidden;
+  background-image:
+    linear-gradient(90deg,rgba(2,11,17,.95),rgba(2,14,21,.72),rgba(2,14,21,.46)),
+    url("data:image/webp;base64,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");
+  background-size:cover!important;background-position:center!important;
+}
+#landing:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(rgba(59,185,205,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(59,185,205,.045) 1px,transparent 1px);
+  background-size:42px 42px;mask-image:linear-gradient(90deg,#000,transparent 72%);
+}
+.hero{
+  position:relative;z-index:2;max-width:760px;padding:36px!important;
+  border:1px solid rgba(78,210,219,.20);border-radius:18px;
+  background:linear-gradient(135deg,rgba(4,22,31,.88),rgba(5,27,37,.62));
+  backdrop-filter:blur(12px);box-shadow:0 30px 90px rgba(0,0,0,.38);
+}
+.hero h1{letter-spacing:-.045em;text-shadow:0 0 25px rgba(67,216,220,.08)}
+.hero .sub{color:#b2cbd4}
+.logoBox,.loginIcon{
+  border:1px solid rgba(71,211,216,.27)!important;
+  background:linear-gradient(145deg,#0d5265,#0a2d3b)!important;
+  box-shadow:0 0 28px rgba(58,210,214,.09)!important;
+}
+#login,#register,#requestSent{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(35,154,188,.10),transparent 30%),
+    linear-gradient(180deg,#041019,#06151f)!important;
+}
+.loginCard,.requestCard{border-radius:16px!important}
+.demo,.requestBadge{
+  border:1px solid rgba(68,158,177,.13)!important;background:rgba(7,29,39,.7)!important;
+}
+
+.riskCircle{filter:drop-shadow(0 0 18px rgba(255,175,75,.07))}
+.severity{font-size:9px!important;letter-spacing:.08em;text-transform:uppercase}
+.reportCard{transition:transform .15s,border-color .15s}
+.reportCard:hover{transform:translateY(-2px);border-color:rgba(71,202,211,.27)!important}
+
+@media(max-width:1050px){
+  .commandStrip{align-items:flex-start;flex-direction:column}
+  .commandTelemetry{flex-wrap:wrap;gap:8px 14px}
+}
+@media(max-width:700px){
+  .view{padding:12px}
+  .topbar{position:relative}
+  .commandStrip{padding:7px 12px}
+  .hero{margin:14px;padding:24px!important}
+}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -413,7 +742,7 @@ window.SP_GLTFLoader = GLTFLoader;
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.18 · PBR & Operación realista</div>
+    <div class="version">v0.20 · Command Center</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -447,6 +776,20 @@ window.SP_GLTFLoader = GLTFLoader;
         <button class="primary small" id="quickShipBtn">+ Registrar buque</button>
       </div>
     </header>
+
+    <div class="commandStrip">
+      <div class="commandContext">
+        <span class="commandDot"></span>
+        <span>OPERACIÓN</span>
+        <strong id="commandModule">Vista general</strong>
+      </div>
+      <div class="commandTelemetry">
+        <span><i class="telemetryDot ok"></i>API <strong>ONLINE</strong></span>
+        <span><i class="telemetryDot db"></i>DB <strong>POSTGRESQL</strong></span>
+        <span><i class="telemetryDot twin"></i>DIGITAL TWIN <strong>v0.20</strong></span>
+        <span>PERFIL <strong id="commandRole">—</strong></span>
+      </div>
+    </div>
 
     <div id="connectionError" class="connectionError hidden"></div>
     <div id="notice" class="notice hidden"></div>
@@ -772,6 +1115,7 @@ document.querySelectorAll("nav button[data-section]").forEach(btn=>{
       notifications:"Notificaciones",users:"Usuarios y accesos",audit:"Auditoría"
     };
     $("pageTitle").textContent=titles[section]||"Smart Ports";
+    if($("commandModule"))$("commandModule").textContent=(titles[section]||"Smart Ports").toUpperCase();
     try{
       if(section==="dashboard")await loadDashboard();
       if(section==="ships")await loadShips();
@@ -872,6 +1216,7 @@ function openSection(section){
     notifications:"Notificaciones",users:"Usuarios y accesos",audit:"Auditoría"
   };
   $("pageTitle").textContent=titles[section]||"Smart Ports";
+  if($("commandModule"))$("commandModule").textContent=(titles[section]||"Smart Ports").toUpperCase();
 }
 
 function canAccess(section){
@@ -896,6 +1241,7 @@ function openDefaultSection(){
 function applyUser(){
   $("userName").textContent=currentUser?.name||"Usuario";
   $("userRole").textContent=currentUser?.role==="Administrador"?"Administrador · acceso total":(currentUser?.role||"");
+  if($("commandRole"))$("commandRole").textContent=(currentUser?.role||"Usuario").toUpperCase();
   document.querySelectorAll(".adminOnly").forEach(el=>el.classList.toggle("hidden", currentUser?.role!=="Administrador"));
   document.querySelectorAll("nav button[data-section]").forEach(btn=>{
     const section=btn.dataset.section;
