@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Smart Ports v0.10 · Sprint 3</title>
+<title>Smart Ports v0.11 · Sprint 3</title>
 <style>
 :root{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -114,7 +114,7 @@ main.workspace{padding:22px;min-width:0}
 .adminTag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#153b54;color:#68c9fb;font-size:10px}
 
 
-/* Smart Ports v0.10 */
+/* Smart Ports v0.11 */
 .authActions{display:grid;gap:9px;margin-top:12px}.authActions button{width:100%}
 #register,#requestSent{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 15%,rgba(0,230,190,.16),transparent 28%),linear-gradient(135deg,#031018,#071d27)}
 .requestCard{width:min(500px,94vw);padding:30px;border:1px solid #1d6370;background:rgba(5,25,34,.96);border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.45)}
@@ -127,7 +127,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){.portMap{min-height:360px}.requestCard{padding:22px}}
 
 
-/* Smart Ports v0.10 · 3D + permisos por área */
+/* Smart Ports v0.11 · 3D + permisos por área */
 .port3dToolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .port3dToolbar .ghost.activeView{border-color:#27d7c6;color:#aafff7;background:#0c3a3a}
 .port3dLayout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
@@ -143,7 +143,7 @@ main.workspace{padding:22px;min-width:0}
 @media(max-width:700px){#port3dCanvas{height:380px;min-height:340px}.permissionCell{min-width:320px}.permissionGrid{grid-template-columns:1fr}}
 
 
-/* Smart Ports v0.10.1 · mapa interactivo con estética original */
+/* Smart Ports v0.11.1 · mapa interactivo con estética original */
 body{background:
   radial-gradient(circle at 18% 8%,rgba(0,224,210,.11),transparent 26%),
   radial-gradient(circle at 82% 16%,rgba(0,145,255,.10),transparent 28%),
@@ -205,7 +205,7 @@ nav button.active{box-shadow:0 0 18px rgba(35,222,201,.18),inset 0 0 18px rgba(3
 }
 
 
-/* Smart Ports v0.10 · Puerto 3D operativo */
+/* Smart Ports v0.11 · Gemelo digital operativo */
 aside{overflow:hidden}
 #sideNav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1f6177 transparent;padding:2px 0}
 .navScrollControl{width:100%;height:28px;border:1px solid #17475b;background:#0a1f2c;color:#71dcec;border-radius:7px;margin:3px 0;font-weight:900;box-shadow:0 0 12px rgba(54,209,220,.08)}
@@ -312,7 +312,7 @@ aside{overflow:hidden}
 <section id="app" class="hidden">
   <aside>
     <div class="brand">⚓ <span>SMART PORTS</span></div>
-    <div class="version">v0.10 · Puerto 3D</div>
+    <div class="version">v0.11 · Gemelo digital</div>
     <button class="navScrollControl" id="navScrollUp" type="button" title="Subir menú">▲</button>
     <nav id="sideNav">
       <button class="active" data-section="dashboard">⌂ Vista general</button>
@@ -812,7 +812,7 @@ function showConnectionError(message){$("connectionError").textContent=`No se pu
 
 
 
-let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false};
+let port3D={scene:null,camera:null,renderer:null,objects:null,raycaster:null,pointer:null,target:null,yaw:.72,pitch:.52,distance:58,drag:false,mode:"orbit",lastX:0,lastY:0,moved:false,selected:null,ready:false,water:null,clock:null,beacons:[],animated:[]};
 
 function initPort3D(){
   const host=$("port3dCanvas");
@@ -827,6 +827,10 @@ function initPort3D(){
   port3D.renderer.setSize(host.clientWidth,host.clientHeight);
   port3D.renderer.shadowMap.enabled=true;
   port3D.renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  port3D.renderer.outputColorSpace=THREE.SRGBColorSpace;
+  port3D.renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  port3D.renderer.toneMappingExposure=1.15;
+  port3D.clock=new THREE.Clock();
   host.prepend(port3D.renderer.domElement);
 
   port3D.target=new THREE.Vector3(0,2,2);
@@ -896,6 +900,7 @@ function focusPort3D(area){
 function animatePort3D(){
   requestAnimationFrame(animatePort3D);
   if(!port3D.renderer)return;
+  const t=port3D.clock?port3D.clock.getElapsedTime():0;
   const cp=Math.cos(port3D.pitch),sp=Math.sin(port3D.pitch);
   port3D.camera.position.set(
     port3D.target.x+Math.sin(port3D.yaw)*cp*port3D.distance,
@@ -903,6 +908,26 @@ function animatePort3D(){
     port3D.target.z+Math.cos(port3D.yaw)*cp*port3D.distance
   );
   port3D.camera.lookAt(port3D.target);
+
+  if(port3D.water){
+    port3D.water.material.opacity=.88+Math.sin(t*.7)*.025;
+    port3D.water.position.y=-.43+Math.sin(t*.55)*.025;
+  }
+  port3D.beacons.forEach((b,i)=>{
+    const pulse=.55+Math.sin(t*3+i)*.45;
+    if(b.material)b.material.emissiveIntensity=1.2+pulse*2.2;
+  });
+  port3D.animated.forEach((a,i)=>{
+    if(a.userData?.type==="ship"){
+      a.position.y=(a.userData.baseY||0)+Math.sin(t*.65+i)*.045;
+      a.rotation.z=Math.sin(t*.45+i)*.004;
+    }
+    if(a.userData?.type==="trolley"){
+      const range=a.userData.range||2.6;
+      a.position.x=(a.userData.baseX||0)+Math.sin(t*.35+i)*range;
+    }
+  });
+
   port3D.renderer.render(port3D.scene,port3D.camera);
 }
 
@@ -930,87 +955,223 @@ function labelSprite(text,color="#41e6df"){
 function tagObject(root,data){
   root.userData=data;root.traverse(o=>o.userData=data);return root;
 }
-function addContainerStack(group,x,z,count=14){
-  const colors=[0x1678ba,0xcf543f,0xf0a632,0x2aa47b,0x774fb5];
-  for(let i=0;i<count;i++){
-    const col=i%7,row=Math.floor(i/7),level=(i%3===0?1:0);
-    const m=box(1.4,.75,.72,colors[i%colors.length],x+col*1.52,.48+level*.8,z+row*.9);
-    group.add(m);
+function cyl(radius,height,color,x,y,z,rotationZ=0){
+  const mat=new THREE.MeshStandardMaterial({color,roughness:.52,metalness:.34});
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height,16),mat);
+  m.position.set(x,y,z);m.rotation.z=rotationZ;m.castShadow=true;m.receiveShadow=true;return m;
+}
+function addContainer(group,x,y,z,color=0x1c79b7,scale=1){
+  const mat=new THREE.MeshStandardMaterial({color,roughness:.62,metalness:.18});
+  const body=new THREE.Mesh(new THREE.BoxGeometry(1.9*scale,.86*scale,.82*scale),mat);
+  body.position.set(x,y,z);body.castShadow=true;body.receiveShadow=true;group.add(body);
+  const edge=new THREE.LineSegments(new THREE.EdgesGeometry(body.geometry),new THREE.LineBasicMaterial({color:0xaed9e4,transparent:true,opacity:.22}));
+  edge.position.copy(body.position);group.add(edge);
+  return body;
+}
+function addContainerStack(group,x,z,count=24){
+  const colors=[0x176fa6,0xc84d3a,0xe2a130,0x27916c,0x6b4aa1,0x335c78,0xb36b26];
+  const cols=6,rows=2,levels=Math.max(1,Math.ceil(count/(cols*rows)));
+  let n=0;
+  for(let level=0;level<levels;level++){
+    for(let row=0;row<rows;row++){
+      for(let col=0;col<cols&&n<count;col++,n++){
+        addContainer(group,x+col*2.02,.55+level*.92,z+row*.92,colors[n%colors.length],.92);
+      }
+    }
   }
+}
+function buildStreetLight(x,z){
+  const g=new THREE.Group();
+  const pole=cyl(.06,3.6,0x596b73,0,1.8,0);g.add(pole);
+  const lamp=box(.38,.14,.18,0xd4f8ff,.18,3.55,0,0xbaf7ff);g.add(lamp);
+  const light=new THREE.PointLight(0x9eefff,2.6,8,2);light.position.set(.18,3.45,0);g.add(light);
+  g.position.set(x,0,z);port3D.objects.add(g);
+}
+function buildWarehouse(x,z,w=9,d=5,h=3.2){
+  const g=new THREE.Group();
+  const body=box(w,h,d,0x263d43,0,h/2,0);g.add(body);
+  const roof=new THREE.Mesh(new THREE.CylinderGeometry(d*.68,d*.68,w,4,1,false,Math.PI/4),new THREE.MeshStandardMaterial({color:0x354f55,roughness:.76,metalness:.15}));
+  roof.rotation.z=Math.PI/2;roof.scale.z=.48;roof.position.y=h+.45;g.add(roof);
+  for(let i=-2;i<=2;i++){
+    const door=box(1.25,1.9,.12,0x17313a,i*1.55,.95,d/2+.07);g.add(door);
+  }
+  g.position.set(x,0,z);port3D.objects.add(g);
+}
+function makeHullGeometry(){
+  const shape=new THREE.Shape();
+  shape.moveTo(-5.4,-.55);
+  shape.lineTo(3.8,-.55);
+  shape.lineTo(5.7,.05);
+  shape.lineTo(4.0,.9);
+  shape.lineTo(-5.4,.9);
+  shape.lineTo(-5.4,-.55);
+  const geo=new THREE.ExtrudeGeometry(shape,{depth:2.8,bevelEnabled:true,bevelSize:.12,bevelThickness:.12,bevelSegments:2});
+  geo.translate(0,0,-1.4);
+  return geo;
+}
+function buildShip(data,x,z,rotation=0){
+  const g=new THREE.Group();
+  const hullMat=new THREE.MeshStandardMaterial({color:0x0f5f87,roughness:.42,metalness:.38,emissive:0x031923,emissiveIntensity:.28});
+  const hull=new THREE.Mesh(makeHullGeometry(),hullMat);hull.castShadow=true;hull.receiveShadow=true;g.add(hull);
+
+  const deck=box(8.2,.18,2.3,0x8f9b9e,-.45,1.08,0);g.add(deck);
+
+  // contenedores sobre cubierta
+  const containerColors=[0x1b75a9,0xcf513f,0xe1a338,0x2d986f,0x5c54a5];
+  for(let row=0;row<2;row++){
+    for(let col=0;col<4;col++){
+      addContainer(g,-2.6+col*1.65,1.55,row?-.47:.47,containerColors[(row*4+col)%containerColors.length],.72);
+    }
+  }
+
+  // puente / superestructura
+  const bridge=box(1.55,1.8,2.25,0xe1ecef,-4.15,2.0,0);g.add(bridge);
+  const wheel=box(.95,.48,2.32,0x34545f,-3.75,2.83,0);g.add(wheel);
+  const mast=cyl(.08,1.7,0xaebfc5,-3.95,3.7,0);g.add(mast);
+  const radar=box(.65,.08,.12,0xcff7ff,-3.95,4.5,0,0x77d6e8);g.add(radar);
+  const funnel=cyl(.34,.9,0x303b3e,-2.8,2.1,0);g.add(funnel);
+
+  // luces navegación
+  const redLight=new THREE.PointLight(0xff4242,1.8,5);redLight.position.set(3.8,1.65,-1.25);g.add(redLight);
+  const greenLight=new THREE.PointLight(0x3aff96,1.8,5);greenLight.position.set(3.8,1.65,1.25);g.add(greenLight);
+
+  g.position.set(x,0,z);g.rotation.y=rotation;tagObject(g,{kind:"ship",id:data.id});g.userData.type="ship";g.userData.baseY=0;
+  port3D.animated.push(g);
+
+  const label=labelSprite(data.name,"#55c8ff");label.position.set(x,5.2,z);port3D.objects.add(label);
+  port3D.objects.add(g);
 }
 function buildCrane(data,x,z,rotation=0){
   const group=new THREE.Group();
   const active=data.status==="Activa";
-  const color=active?0xffc047:0xb14b59;
-  const mat=new THREE.MeshStandardMaterial({color,roughness:.45,metalness:.38,emissive:active?0x3a2300:0x250006,emissiveIntensity:.45});
-  const post=new THREE.Mesh(new THREE.BoxGeometry(.55,6,.55),mat);post.position.y=3;group.add(post);
-  const arm=new THREE.Mesh(new THREE.BoxGeometry(5.2,.34,.34),mat);arm.position.set(2.15,5.65,0);group.add(arm);
-  const back=new THREE.Mesh(new THREE.BoxGeometry(1.4,.55,.9),mat);back.position.set(-.45,4.9,0);group.add(back);
-  const cable=new THREE.Mesh(new THREE.BoxGeometry(.08,2,.08),new THREE.MeshStandardMaterial({color:0xa7d9e2}));cable.position.set(3.8,4.45,0);group.add(cable);
+  const craneColor=active?0xf2b43e:0x9b4550;
+  const metal=new THREE.MeshStandardMaterial({color:craneColor,roughness:.4,metalness:.48,emissive:active?0x271900:0x180005,emissiveIntensity:.38});
+  const dark=new THREE.MeshStandardMaterial({color:0x34444b,roughness:.5,metalness:.52});
+
+  // cuatro patas
+  [[-1.35,-.9],[-1.35,.9],[1.35,-.9],[1.35,.9]].forEach(([lx,lz])=>{
+    const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,5.7,.3),metal);leg.position.set(lx,2.85,lz);leg.castShadow=true;group.add(leg);
+  });
+
+  // travesaños y plataforma
+  const cross1=new THREE.Mesh(new THREE.BoxGeometry(3.1,.3,2.2),metal);cross1.position.y=5.3;group.add(cross1);
+  const top=new THREE.Mesh(new THREE.BoxGeometry(2.3,.55,1.8),dark);top.position.y=5.85;group.add(top);
+
+  // pluma principal inclinada hacia el agua
+  const boom=new THREE.Mesh(new THREE.BoxGeometry(8,.32,.42),metal);boom.position.set(4.05,6.7,0);boom.rotation.z=-.08;group.add(boom);
+  const rear=new THREE.Mesh(new THREE.BoxGeometry(3.2,.3,.38),metal);rear.position.set(-2.1,6.55,0);rear.rotation.z=.05;group.add(rear);
+
+  // cabina
+  const cabinMat=new THREE.MeshStandardMaterial({color:0x1b5368,roughness:.28,metalness:.25,transparent:true,opacity:.92});
+  const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.1,.85,1.0),cabinMat);cabin.position.set(.8,5.55,-.95);group.add(cabin);
+
+  // trolley móvil
+  const trolley=new THREE.Mesh(new THREE.BoxGeometry(.8,.32,.62),dark);trolley.position.set(3.2,6.43,0);trolley.userData={type:"trolley",baseX:3.2,range:1.9};group.add(trolley);port3D.animated.push(trolley);
+  const cable=new THREE.Mesh(new THREE.BoxGeometry(.06,3.0,.06),new THREE.MeshStandardMaterial({color:0xb7c9cc}));cable.position.set(3.2,4.85,0);group.add(cable);
+  const spreader=new THREE.Mesh(new THREE.BoxGeometry(1.55,.12,.7),dark);spreader.position.set(3.2,3.35,0);group.add(spreader);
+
+  // luz de estado
+  const beaconMat=new THREE.MeshStandardMaterial({color:active?0x32ff9a:0xff4050,emissive:active?0x32ff9a:0xff4050,emissiveIntensity:2.4});
+  const beacon=new THREE.Mesh(new THREE.SphereGeometry(.16,12,8),beaconMat);beacon.position.set(0,6.5,-.95);group.add(beacon);port3D.beacons.push(beacon);
+
   group.position.set(x,0,z);group.rotation.y=rotation;tagObject(group,{kind:"crane",id:data.id});
-  const label=labelSprite(data.code,active?"#ffc047":"#ff6d7b");label.position.set(x,7.2,z);port3D.objects.add(label);
+  const label=labelSprite(data.code,active?"#ffc047":"#ff6d7b");label.position.set(x,8.1,z);port3D.objects.add(label);
   port3D.objects.add(group);return group;
-}
-function buildShip(data,x,z,rotation=0){
-  const g=new THREE.Group();
-  const hull=box(7,1.1,2.4,0x166a9b,0,.75,0,0x06243a);g.add(hull);
-  const deck=box(4.6,.65,1.7,0xd7e9ef,.0,1.55,0);g.add(deck);
-  const bridge=box(1.2,.85,1.4,0xe6f3f7,-1.8,2.25,0);g.add(bridge);
-  g.position.set(x,0,z);g.rotation.y=rotation;tagObject(g,{kind:"ship",id:data.id});
-  const label=labelSprite(data.name,"#55c8ff");label.position.set(x,4,z);port3D.objects.add(label);
-  port3D.objects.add(g);
 }
 function buildPort3D(){
   if(!port3D.objects)return;
   clearPort3DGroup();
+  port3D.beacons=[];port3D.animated=[];port3D.water=null;
 
-  // Agua
-  const water=new THREE.Mesh(new THREE.PlaneGeometry(120,90),new THREE.MeshStandardMaterial({color:0x06445c,roughness:.28,metalness:.22,emissive:0x021923,emissiveIntensity:.35}));
-  water.rotation.x=-Math.PI/2;water.position.y=-.42;water.receiveShadow=true;port3D.objects.add(water);
+  // Agua amplia con material físico
+  const waterMat=new THREE.MeshPhysicalMaterial({
+    color:0x06475e,roughness:.18,metalness:.08,transparent:true,opacity:.9,
+    clearcoat:.55,clearcoatRoughness:.18,emissive:0x02131a,emissiveIntensity:.24
+  });
+  const water=new THREE.Mesh(new THREE.PlaneGeometry(150,105,12,12),waterMat);
+  water.rotation.x=-Math.PI/2;water.position.y=-.44;water.receiveShadow=true;port3D.objects.add(water);port3D.water=water;
 
-  // Isla / terminal
-  const terminal=box(56,.9,32,0x173d36,3,.05,7,0x04140f);port3D.objects.add(terminal);addEdges(terminal,0x20e2d0);
-  const apron=box(51,.28,12,0x263c43,-1,.62,-4);port3D.objects.add(apron);
+  // Terminal principal
+  const terminal=box(62,.9,36,0x1a3a35,4,.02,9,0x03120e);port3D.objects.add(terminal);
+  const edgeWalk=box(59,.22,4.2,0x343f42,2,.64,-8);port3D.objects.add(edgeWalk);
 
-  // Vías iluminadas
+  // Muros de muelle, defensas y bolardos
+  for(let i=-27;i<=27;i+=3){
+    const fender=box(.35,1.1,.45,0x161b1d,i,.7,-10.15);port3D.objects.add(fender);
+    const bollard=cyl(.12,.34,0x11191c,i+.9,.95,-9.8);port3D.objects.add(bollard);
+  }
+
+  // Vías internas y marcas
   for(let i=-2;i<=2;i++){
-    const road=box(46,.05,.16,0x15313a,4,.83,8+i*4,0x19bfae);port3D.objects.add(road);
+    const road=box(50,.045,.18,0x526067,5,.57,10+i*4);port3D.objects.add(road);
   }
-  for(let i=0;i<5;i++){
-    const lane=box(.12,.06,26,0x1f4a50,-18+i*9,.84,8,0x0ccac1);port3D.objects.add(lane);
+  for(let i=-18;i<=22;i+=8){
+    const lane=box(.12,.05,28,0xd4c24b,i,.58,9);port3D.objects.add(lane);
   }
 
-  // Patios y contenedores
-  const yardPos=[[-12,8],[3,8],[18,8]];
+  // Calles laterales
+  const road1=box(58,.10,4,0x26363c,3,.62,24);port3D.objects.add(road1);
+  const road2=box(5,.10,30,0x26363c,-25,.62,8);port3D.objects.add(road2);
+
+  // Patios con densidad proporcional
+  const yardPos=[[-12,9],[4,9],[20,9]];
   yards.forEach((y,i)=>{
-    const [x,z]=yardPos[i%yardPos.length];const pct=Math.round((Number(y.occupied)/Math.max(Number(y.capacity),1))*100);
-    const baseColor=pct>=85?0x7a252d:pct>=70?0x735b20:0x174c3c;
-    const group=new THREE.Group();const base=box(12,.38,8,baseColor,0,.9,0);group.add(base);addContainerStack(group,-5,0,18);
+    const [x,z]=yardPos[i%yardPos.length];
+    const pct=Math.round((Number(y.occupied)/Math.max(Number(y.capacity),1))*100);
+    const baseColor=pct>=85?0x5f292f:pct>=70?0x5b4b25:0x1b493b;
+    const group=new THREE.Group();
+    const base=box(13,.3,9,baseColor,0,.72,0);group.add(base);
+    const count=Math.max(10,Math.round(10+pct*.28));
+    addContainerStack(group,-5.4,-.8,count);
     group.position.set(x,0,z);tagObject(group,{kind:"yard",id:y.id});port3D.objects.add(group);
-    const label=labelSprite(`${y.name} · ${pct}%`,pct>=85?"#ff6570":pct>=70?"#ffc04b":"#45e7b8");label.position.set(x,5,z);port3D.objects.add(label);
+    const label=labelSprite(`${y.name} · ${pct}%`,pct>=85?"#ff6570":pct>=70?"#ffc04b":"#45e7b8");label.position.set(x,5.3,z);port3D.objects.add(label);
   });
 
-  // Muelles
+  // Almacenes / edificios logísticos
+  buildWarehouse(-12,21,10,5.5,3.4);
+  buildWarehouse(3,21,10,5.5,3.4);
+  buildWarehouse(18,21,10,5.5,3.4);
+
+  // Alumbrado de terminal
+  for(let x=-23;x<=25;x+=8){buildStreetLight(x,-6.3);buildStreetLight(x,23.2)}
+
+  // Muelles detallados
   docks.forEach((d,i)=>{
-    const x=-23+(i%6)*9.1,z=-8-Math.floor(i/6)*6;
-    const color=d.status==="Disponible"?0x1b745e:d.status==="Ocupado"?0x8b6421:0x75303a;
-    const mesh=box(7,.5,4,color,x,.75,z);tagObject(mesh,{kind:"dock",id:d.id});port3D.objects.add(mesh);addEdges(mesh,0x42dfe4);
-    const label=labelSprite("Muelle "+d.code,"#6ce8f4");label.scale.set(5,1.25,1);label.position.set(x,2,z);port3D.objects.add(label);
+    const x=-24+(i%6)*9.5,z=-8-Math.floor(i/6)*6.3;
+    const color=d.status==="Disponible"?0x285b50:d.status==="Ocupado"?0x6c552a:0x64353c;
+    const pier=box(7.6,.48,4.4,color,x,.72,z);tagObject(pier,{kind:"dock",id:d.id});port3D.objects.add(pier);
+    addEdges(pier,0x4acfd7);
+    // luces de borde
+    [-3,0,3].forEach(dx=>{
+      const lamp=new THREE.PointLight(0x8eefff,1.2,5,2);lamp.position.set(x+dx,1.3,z-1.7);port3D.objects.add(lamp);
+    });
+    const label=labelSprite("Muelle "+d.code,"#6ce8f4");label.scale.set(5,1.25,1);label.position.set(x,2.2,z);port3D.objects.add(label);
   });
 
-  // Buques
-  const shipPos=[[-20,-16],[-8,-17],[4,-17],[16,-16],[-18,-25],[-4,-25],[10,-25],[22,-24]];
-  ships.slice(0,8).forEach((s,i)=>buildShip(s,shipPos[i][0],shipPos[i][1],.08));
+  // Buques más grandes y espaciados
+  const shipPos=[[-22,-18],[-9,-18],[5,-18],[19,-18],[-19,-29],[-4,-29],[11,-29],[26,-28]];
+  ships.slice(0,8).forEach((s,i)=>buildShip(s,shipPos[i][0],shipPos[i][1],.04));
 
-  // Grúas alrededor del muelle
-  const cranePos=[[-22,-5],[-17,-5],[-12,-5],[-7,-5],[-2,-5],[3,-5],[8,-5],[13,-5],[18,-5],[23,-5],[-14,-11],[6,-11]];
+  // Grúas STS junto al borde del muelle
+  const cranePos=[[-23,-5.8],[-18,-5.8],[-13,-5.8],[-8,-5.8],[-3,-5.8],[2,-5.8],[7,-5.8],[12,-5.8],[17,-5.8],[22,-5.8],[-14,-12],[7,-12]];
   cranes.slice(0,12).forEach((g,i)=>buildCrane(g,cranePos[i][0],cranePos[i][1],0));
 
-  // Edificio central
-  const hq=box(10,4.5,7,0x0c3444,4,3.0,20,0x003949);port3D.objects.add(hq);addEdges(hq,0x22d9df);
-  const tower=box(3,7,3,0x1a4652,-5,4.2,20,0x003849);port3D.objects.add(tower);addEdges(tower,0x2bd8dc);
+  // Edificio administrativo y torre de control
+  const hq=box(11,4.8,7.5,0x163844,6,3.0,28,0x00343b);port3D.objects.add(hq);addEdges(hq,0x22d9df);
+  const glass=new THREE.MeshStandardMaterial({color:0x145a70,roughness:.16,metalness:.35,emissive:0x0b4a5b,emissiveIntensity:.75});
+  for(let r=0;r<3;r++)for(let col=0;col<5;col++){
+    const w=new THREE.Mesh(new THREE.BoxGeometry(1.45,.38,.08),glass);w.position.set(2.9+col*1.6,2.0+r*.85,24.18);port3D.objects.add(w);
+  }
+  const tower=box(3.2,7.8,3.2,0x274e58,-6,4.4,27,0x003a46);port3D.objects.add(tower);addEdges(tower,0x2bd8dc);
+  const controlTop=box(5.2,1.5,5.2,0x1c5a6c,-6,8.6,27,0x07505c);port3D.objects.add(controlTop);
 
-  $("port3dUpdated").textContent="3D actualizado "+new Date().toLocaleTimeString("es-CO");
+  // faros / balizas
+  for(let x=-27;x<=27;x+=9){
+    const beaconMat=new THREE.MeshStandardMaterial({color:0x32ffd1,emissive:0x32ffd1,emissiveIntensity:2});
+    const b=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),beaconMat);b.position.set(x,1.15,-9.6);port3D.objects.add(b);port3D.beacons.push(b);
+  }
+
+  $("port3dUpdated").textContent="Puerto 3D actualizado "+new Date().toLocaleTimeString("es-CO");
 }
 function pickPort3D(e){
   const rect=port3D.renderer.domElement.getBoundingClientRect();
